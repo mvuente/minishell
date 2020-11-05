@@ -12,7 +12,11 @@ typedef	struct	s_set
 
 void	read_error(void);
 void	malloc_error(void);
+void	command_error(void);
 void	shell(t_set **set);
+char	*textpars(char **line, char *tmp);
+char	*cqpars(char *tmp, char symb);
+char    *backpars(char *tmp);
 t_set	**parser(char *line);
 size_t	gnl(int fd, char **line);
 

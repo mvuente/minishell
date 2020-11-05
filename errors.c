@@ -12,3 +12,9 @@ void	malloc_error(void)
 	exit(1);
 }
 
+void	command_error(void)
+{
+	write(1, "wrong command\n", 14);
+	exit(1);
+}
+

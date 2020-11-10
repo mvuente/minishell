@@ -26,9 +26,9 @@ t_env	*ft_lstnew_env(char *content)
     newlist->content = content;
     while (content[i] != '=')
       i++;
-    newlist->name = ft_calloc(sizeof(char), i);
-    ft_memcpy(newlist->name, content, i);
-	newlist->next = NULL;
+    newlist->name = ft_calloc(sizeof(char), i + 1);
+    ft_strlcpy(newlist->name, content, i + 1);
+   	newlist->next = NULL;
 	return (newlist);
 }
 
@@ -66,16 +66,12 @@ int main(int argc, char *argv[], char *env[])
 
     while (bufenv->next)
     {
-       
-        //myenv->name = ft_strdup(
-           //=  ft_strrchr(bufenv->content, '=');
-
         printf("name  %s\n", bufenv->name);
         printf("data  %s\n", bufenv->data);
-          printf("data  %s\n", bufenv->content);
+        printf("cont  %s\n", bufenv->content);
     
-        //printf("%s\n", bufenv->content);
-      bufenv = bufenv->next;
+        
+        bufenv = bufenv->next;
 
       
     }

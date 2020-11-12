@@ -57,29 +57,41 @@ void    ft_creat_export(char *env[], t_env	**bufenv)
         ft_lstadd_back_env(bufenv, ft_lstnew_env(env[t]));
 }
 
-/*void ft_change_data(char *name, char *str, t_env *bufenv, int i)
-{  
 
-   // printf("%d\n", i);
-    //printf("%s\n", name);
-   while (bufenv->next)
-   {
-        if (ft_strncmp(bufenv->name, name, i) == 0 && i == ft_strlen(bufenv->name))
-        {
-           free(bufenv->data);
-           bufenv->data = ft_strdup((ft_strchr(str, '=') + 1));
-          // printf("%s\n", name);
-        }
-        bufenv = bufenv->next;
-   }
-   if (ft_strncmp(bufenv->name, name, i) == 0 && i == ft_strlen(bufenv->name))
-        {
-           free(bufenv->data);
-           //bufenv->data = ft_strdup((ft_strchr(str, '=') + 1));
-           //printf("%s\n", name);
-            //printf("%s\n", bufenv->data);
-        }
-}*/
+char	*ft_strjoin_export(char const *s1, char const *s2, char const *s3)
+{
+	char	*str;
+	size_t	lens1;
+	size_t	lens2;
+    size_t	lens3;
+
+	lens1 = ft_strlen((char*)s1);
+	lens2 = ft_strlen((char*)s2);
+    lens3 = ft_strlen((char*)s3);
+	str = (char*)malloc(lens1 + lens2 + lens3+ 1);
+	if (str == NULL)
+		return (NULL);
+	ft_strlcpy(str, s1, lens1 + 1);
+	ft_strlcat(str, s2, lens2 + lens1 + 1);
+    ft_strlcat(str, s3, lens3 + lens2 + lens1 + 1);
+	return (str);
+}
+
+
+
+void ft_change_data(t_env *tmp, int *flag, char *str)
+{  
+           *flag = 1;
+           free(tmp->data);
+           tmp->data = NULL;
+           tmp->data = ft_strdup((ft_strchr(str, '=') + 1));
+           /*if (tmp->content)
+            free(tmp->content);
+           tmp->content = NULL;
+           tmp->content = ft_strjoin_export(tmp->name, "=", tmp->data);
+           printf("content %s\n", tmp->content);*/
+      
+}
 
 
 void ft_add_export(char *str, t_env	**bufenv)
@@ -100,10 +112,11 @@ void ft_add_export(char *str, t_env	**bufenv)
    {
         if (ft_strncmp(tmp->name, name, i) == 0 && i == ft_strlen(tmp->name))
         {
-           flag = 1;
-           free(tmp->data);
-           tmp->data = NULL;
-           tmp->data = ft_strdup((ft_strchr(str, '=') + 1));    
+           ft_change_data(tmp, &flag, str);
+           //flag = 1;
+           //free(tmp->data);
+           //tmp->data = NULL;
+           //tmp->data = ft_strdup((ft_strchr(str, '=') + 1));    
         }
         tmp = tmp->next;
    }
@@ -152,18 +165,113 @@ void ft_write_export(t_env	*bufenv, int fd)
     }
 }
 
-int main(int argc, char *argv[], char *env[])
+char **ft_creat_arr_export(t_env *bufenv, int size)
+{
+   char **arr;
+   int i;
+   char *content;
+
+   i = 0;
+   arr = (char**)malloc(sizeof(char*) * (size + 1));
+   if (!arr)
+        return(0); //free malloc
+    while (bufenv)
+	{
+		content = ft_strjoin_export(bufenv->name, "=", bufenv->data);
+        arr[i] = (char*)malloc(sizeof(char) * (ft_strlen(content) + 1));
+		if (!arr[i])
+			return(0); //free maloc
+		ft_memcpy(arr[i], content, ft_strlen(content) + 1);
+		bufenv = bufenv->next;
+		i++;
+	}
+	arr[i] = NULL;
+
+    
+
+
+    return (arr);
+}
+
+int ft_lstsize_env(t_env *lst)
+{
+    int i;
+
+	if (!lst)
+		return (0);
+	i = 1;
+	while (lst->next)
+	{
+		i++;
+		lst = lst->next;
+	}
+	return (i);
+}
+
+
+void ft_syscall(t_env *bufenv, char **arr, char *comanda, char **argv)
+{
+
+    int pipefd[2];
+    pid_t cpid;
+
+    if (pipe(pipefd) == -1) 
+    {
+        perror("pipe");
+        exit(EXIT_FAILURE);
+    }
+
+    cpid = fork();
+    if (cpid == -1) {
+        perror("fork");
+        exit(EXIT_FAILURE);
+    }
+
+    if (cpid == 0) {    /* Потомок читает из канала */
+       close(pipefd[1]);          /* Закрывает неиспользуемый конец для записи */
+      
+       execve(comanda, argv, arr);
+       
+       close(pipefd[0]);
+       _exit(EXIT_SUCCESS);
+    } else {            /* Родитель пишет значение argv[1] в канал */
+        close(pipefd[0]);          /* Закрывает неиспользуемый конец для чтения */
+        printf("parents\n");
+        close(pipefd[1]);          /* Читатель видит EOF */
+        wait(NULL);                /* Ожидание потомка */
+        exit(EXIT_SUCCESS);
+    }
+
+
+
+}
+
+
+int main(int argc, char *argv[],  char *env[])
 {
    
     t_env *bufenv;
+    char **arr;
+
+    char **arv;
         
     ft_creat_export(env, &bufenv);
     ft_add_export("hello=111", &bufenv); //проверить на регистры и невалидные значения
     ft_add_export("hello=222", &bufenv);
   
     ft_add_export("hello2=poka2", &bufenv);
-    ft_delete_export("hello", bufenv);
-    ft_write_export(bufenv, 1);
+    //ft_delete_export("hello", bufenv);
+    //ft_write_export(bufenv, 1);
+    arr = ft_creat_arr_export(bufenv, ft_lstsize_env(bufenv));
+    /*int a = -1;
+    while (arr[++a])
+        printf("    %s\n", arr[a]);*/
+    
+    arv = ft_split("ls -la", ' ');
+    /*int a = -1;
+    while (arv[++a])
+        printf("    %s\n", arv[a]);*/
+    ft_syscall(bufenv, arr, "/bin/ls", arv);
       
     return 0;
 }

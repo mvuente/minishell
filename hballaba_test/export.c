@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include "libft.h"
 
+#define FD_0
+#define FD_1 
 
 
 typedef struct	s_env
@@ -212,14 +214,14 @@ int ft_lstsize_env(t_env *lst)
 void ft_syscall(t_env *bufenv, char **arr, char *comanda, char **argv)
 {
 
-    int pipefd[2];
+   // int pipefd[2];
     pid_t cpid;
 
-    if (pipe(pipefd) == -1) 
+    /*if (pipe(pipefd) == -1) 
     {
         perror("pipe");
         exit(EXIT_FAILURE);
-    }
+    }*/
 
     cpid = fork();
     if (cpid == -1) {
@@ -228,13 +230,74 @@ void ft_syscall(t_env *bufenv, char **arr, char *comanda, char **argv)
     }
 
     if (cpid == 0) {    /* Потомок читает из канала */
-       close(pipefd[1]);          /* Закрывает неиспользуемый конец для записи */
+       //close(pipefd[1]);          /* Закрывает неиспользуемый конец для записи */
       
        execve(comanda, argv, arr);
        
-       close(pipefd[0]);
+       //close(pipefd[0]);
        _exit(EXIT_SUCCESS);
     } else {            /* Родитель пишет значение argv[1] в канал */
+        //close(pipefd[0]);          /* Закрывает неиспользуемый конец для чтения */
+        printf("parents\n");
+        //close(pipefd[1]);          /* Читатель видит EOF */
+        wait(NULL);                /* Ожидание потомка */
+        exit(EXIT_SUCCESS);
+    }
+}
+
+void    ft_exe_function(char **arr_comand)
+{
+    //здесь надо сделать парсинг для обработки строк с командами
+    // после обработки сделать условие для вызова системных или самописных файлов
+}
+
+void ft_pipe(char **arr_comand, int num_comand, char **env)
+{
+    int pipefd[2];
+    pid_t cpid;
+    int flag;
+
+    flag = 0;
+
+    if (pipe(pipefd) == -1) 
+    {
+        perror("pipe");
+        exit(EXIT_FAILURE);
+    }
+    cpid = fork();
+    if (cpid == -1) 
+    {
+        perror("fork");
+        exit(EXIT_FAILURE);
+    }
+
+    if (cpid == 0) {    /* Потомок читает из канала 0 */
+       
+       while (num_comand > 0)
+       {
+            if (flag = 0) //значит заходим первый раз и надо подменить фд1
+            {
+                dup2(1, pipefd[1]); 
+            }
+                //close(pipefd[1]);          /* Закрывает неиспользуемый конец для записи */
+                // подменяем  фд 1  стдаут на новый фд для команды после пайпа
+                ft_exe_function(arr_comand); // ту вызывается функция которая вызовет или системную или самописную
+
+
+                dup2(0, pipefd[0]); //подменяем фд 0 стдин на новый фд чтобы команда считала из нового фд
+                //close(pipefd[0]);
+
+                flag = 1; // для того чтобы понимать что уже были в цикле
+                if (num_comand == 1) // значит что это последня команда и надо вернуть fd в первоначально состояние, чтобы ушло в стдаут терминал
+                {
+                    // берем их из глобальных переменных FD_0 FD_1
+                
+                }
+       }
+       _exit(EXIT_SUCCESS);
+    } 
+    else 
+    {            /* Родитель пишет в канал 1 */
         close(pipefd[0]);          /* Закрывает неиспользуемый конец для чтения */
         printf("parents\n");
         close(pipefd[1]);          /* Читатель видит EOF */
@@ -251,9 +314,15 @@ int main(int argc, char *argv[],  char *env[])
 {
    
     t_env *bufenv;
+
     char **arr;
 
     char **arv;
+    int num_comand;
+    char **arr_comand;
+
+    FD_0 = dup(0);
+    FD_1 = dup(1);
         
     ft_creat_export(env, &bufenv);
     ft_add_export("hello=111", &bufenv); //проверить на регистры и невалидные значения
@@ -272,6 +341,8 @@ int main(int argc, char *argv[],  char *env[])
     while (arv[++a])
         printf("    %s\n", arv[a]);*/
     ft_syscall(bufenv, arr, "/bin/ls", arv);
+
+    ft_pipe(arr_comand, num_comand, env);
       
     return 0;
 }

@@ -163,7 +163,7 @@ void ft_add_env(char *str, t_env	*bufenv)
           {
             flag++;
             if (ft_strchr(str, '='))
-                ft_change_data(tmp, flag, str); 
+                ft_change_data(tmp, flag, str);
           }
         tmp = tmp->next;
    }
@@ -436,10 +436,36 @@ char *ft_get_value(t_env *myenv, char *name)
                 return (myenv->data);
             myenv = myenv->next;
         }
-
-
-
     return(NULL);
+}
+
+void    ft_change_oldpwd(t_env *myenv, char *pwd, char *oldpwd, char *path)
+{
+    char *tmp;
+    int i;
+    char *tmp_pwd;
+
+    //i = ft_strlen()
+
+    while (myenv)
+        {
+            if (ft_strncmp(myenv->name, "PWD", 4) == 0 && ft_strlen(myenv->name) == 3 && myenv->data)
+            {
+                tmp = myenv->data;
+                myenv->data = ft_strdup(path);
+                free(tmp);
+            }
+             if (ft_strncmp(myenv->name, "OLDPWD", 7) == 0 && ft_strlen(myenv->name) == 6 && myenv->data)
+            {
+                tmp = myenv->data;
+                myenv->data = ft_strdup(pwd);
+                free(tmp);
+            }
+            myenv = myenv->next;
+        }
+
+
+
 }
 
 int ft_cd(t_env *myenv, char *path, int fd)
@@ -448,15 +474,13 @@ int ft_cd(t_env *myenv, char *path, int fd)
     char *home;
     char *oldpwd;
     char *pwd;
-
+   
     pwd = ft_get_value(myenv, "PWD");
     oldpwd = ft_get_value(myenv, "OLDPWD");
     home = ft_get_value(myenv, "HOME");
-
-    printf ("%s\n", pwd);
-    printf ("%s\n", oldpwd);
-    printf ("%s\n", home);
-
+   
+    if (!path)
+        path = home;
     result = chdir(path); //return 1 or 0
     if(result != 0)
     {
@@ -465,10 +489,10 @@ int ft_cd(t_env *myenv, char *path, int fd)
       return (1);
     }
       else
-    {
-        
+      {
+        ft_change_oldpwd(myenv, pwd, oldpwd, path);
         printf("Текущим стал каталог %s\n", path); // потом надо добавить замену PWD и OLDPWD
-    }
+       }
 
 
 
@@ -511,13 +535,16 @@ int main(int argc, char *argv[],  char *env[])
     
     //ft_delete_env("hello", bufenv);
 
-    //ft_write_env(&all.myenv, 1);
+    char *path = ft_strdup("");
+
+    ft_cd(&all.myenv, NULL, 1); // если путь не указан думаю path = NULL
+
+
+    ft_write_env(&all.myenv, 1);
 
    // ft_write_export(&all.myenv, 1, ft_lstsize_env(&all.myenv));
 
-    char *path = ft_strdup("/bin");
-
-    ft_cd(&all.myenv, path, 1); // если путь не указан думаю path = NULL
+    
 
 
 

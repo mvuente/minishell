@@ -1,6 +1,10 @@
 
 #include <stdio.h>
 #include "libft.h"
+# include <fcntl.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+#include <sys/errno.h>
 
 
 typedef struct	s_env
@@ -17,11 +21,19 @@ typedef struct s_all
 {
     int fd_0;
     int fd_1;
-    //char *path;
-    //char *home;
     t_env myenv;
+    int error;
+    char *home;
+    char **path;
+}            t_all;
 
-}               t_all;
+typedef	struct	s_set
+{
+    char   			*builtin;//comanda
+    char			*word;//только эхо
+	char			*spec;// спецификатор 
+	char			consq;
+}				t_set;
 
 t_env	*ft_lstnew_env(char *content)
 {
@@ -47,6 +59,20 @@ t_env	*ft_lstnew_env(char *content)
 	return (newlist);
 }
 
+char *ft_get_value(t_env *myenv, char *name)
+{
+    int i; 
+
+    i = ft_strlen(name);
+    while (myenv)
+        {
+            if (ft_strncmp(myenv->name, name, i) == 0 && ft_strlen(myenv->name) == i && myenv->data)
+                return (myenv->data);
+            myenv = myenv->next;
+        }
+    return(NULL);
+}
+
 void	ft_lstadd_back_env(t_env **lst, t_env *new)
 {
 	t_env	*buffer;
@@ -63,6 +89,16 @@ void	ft_lstadd_back_env(t_env **lst, t_env *new)
 	else
 		*lst = new;
 }
+
+void    ft_free_arr(char **arr)
+{
+    int i;
+
+    i = -1;
+    while (arr[++i])
+       free(arr[i]);
+    free(arr);   
+    }
 
 void    ft_creat_env(char *env[], t_env	**bufenv)
 {
@@ -239,9 +275,7 @@ void ft_write_export(t_env	*bufenv, int fd, int num)
     arr = ft_creat_arr_export(bufenv, num);
 
     ft_sort(bufenv, arr, num-1);
-
     i = -1;
-   
     while(arr[++i])
     {
         j = 0;
@@ -257,24 +291,7 @@ void ft_write_export(t_env	*bufenv, int fd, int num)
         }
         ft_putchar_fd('\n', fd);
     }
-
-       
-
-
-   
-    /*while (bufenv)   // тут возможно надо вернуть одной строкой для перенаправления через pipe
-    {   
-        ft_putstr_fd("declare -x ", fd);
-        ft_putstr_fd(bufenv->name, fd);
-        if (bufenv->data)
-            {
-                ft_putstr_fd("=\"", fd);
-                ft_putstr_fd(bufenv->data, fd);
-                ft_putchar_fd('\"', fd);
-            }
-        ft_putchar_fd('\n', fd);
-        bufenv = bufenv->next;
-    }*/
+    ft_free_arr(arr);
 }
 
 void ft_write_env(t_env	*bufenv, int fd)
@@ -309,17 +326,14 @@ int ft_lstsize_env(t_env *lst)
 }
 
 
-void ft_syscall(t_env *bufenv, char **arr, char *comanda, char **argv)
+void ft_syscall1(t_env *bufenv, char **arr, char *comanda, char **argv)
 {
 
-   // int pipefd[2];
     pid_t cpid;
+    int status;
+    char **path;
 
-    /*if (pipe(pipefd) == -1) 
-    {
-        perror("pipe");
-        exit(EXIT_FAILURE);
-    }*/
+    //ft_ckeck_syscall()    
 
     cpid = fork();
     if (cpid == -1) {
@@ -330,7 +344,7 @@ void ft_syscall(t_env *bufenv, char **arr, char *comanda, char **argv)
     if (cpid == 0) {    /* Потомок читает из канала */
        //close(pipefd[1]);          /* Закрывает неиспользуемый конец для записи */
       
-       execve(comanda, argv, arr);
+       status = execve(comanda, argv, arr);
        
        //close(pipefd[0]);
        _exit(EXIT_SUCCESS);
@@ -410,96 +424,189 @@ void    ft_exe_function(char **arr_comand)
 
 void ft_init_all(t_all *all, char **env, t_env *bufenv)
 {
-    
     all->fd_0 = dup(0);
     all->fd_1 = dup(1);
     ft_creat_env(env, &bufenv);
     all->myenv = *bufenv;
-   /* while (all->myenv.next)
-    {   
-        if (ft_strncmp(all->myenv.name, "HOME", 5) == 0)
-            all->home = all->myenv.data;
-        if (ft_strncmp(all->myenv.name, "PATH", 5) == 0)
-            all->path = all->myenv.data;    
-       all->myenv = *all->myenv.next;        
-    }*/
+    all->error = 0;
+    all->home = getcwd(NULL, 0);
 }
 
-char *ft_get_value(t_env *myenv, char *name)
-{
-    int i; 
 
-    i = ft_strlen(name);
-    while (myenv)
-        {
-            if (ft_strncmp(myenv->name, name, i) == 0 && ft_strlen(myenv->name) == i && myenv->data)
-                return (myenv->data);
-            myenv = myenv->next;
-        }
-    return(NULL);
-}
 
 void    ft_change_oldpwd(t_env *myenv, char *pwd, char *oldpwd, char *path)
 {
     char *tmp;
     int i;
-    char *tmp_pwd;
-
-    //i = ft_strlen()
-
+   
+    oldpwd = ft_get_value(myenv, "OLDPWD");
     while (myenv)
+    {
+        if (ft_strncmp(myenv->name, "PWD", 4) == 0 && ft_strlen(myenv->name) == 3 && myenv->data)
         {
-            if (ft_strncmp(myenv->name, "PWD", 4) == 0 && ft_strlen(myenv->name) == 3 && myenv->data)
-            {
-                tmp = myenv->data;
-                myenv->data = ft_strdup(path);
-                free(tmp);
-            }
-             if (ft_strncmp(myenv->name, "OLDPWD", 7) == 0 && ft_strlen(myenv->name) == 6 && myenv->data)
-            {
-                tmp = myenv->data;
-                myenv->data = ft_strdup(pwd);
-                free(tmp);
-            }
-            myenv = myenv->next;
+            tmp = myenv->data;
+            myenv->data = getcwd(NULL, 0);
+            free(tmp);
         }
-
-
-
+        if (ft_strncmp(myenv->name, "OLDPWD", 7) == 0 && ft_strlen(myenv->name) == 6 && myenv->data)
+        {
+            tmp = myenv->data;
+            myenv->data = ft_strdup(pwd);
+            free(tmp);
+            free(pwd);
+        }
+        myenv = myenv->next;
+    }
 }
 
-int ft_cd(t_env *myenv, char *path, int fd)
+char *ft_work_tilda(t_all *all, char *path, char *home)
+{
+    char *tmp;
+    
+    tmp = path;
+    if (path[1] != '/')
+    {
+        path = home;
+        if (!path)
+          path = all->home;
+        printf("1%s\n", path);
+    }
+    else
+    {
+        if (!home)
+            path = ft_strjoin(all->home, path +1);
+        else
+            path = ft_strjoin(home, path +1);
+      printf("2%s\n", path);
+    }
+     printf("3%s\n", path);
+    free(tmp);
+    return (path);
+}
+
+int ft_cd(t_env *myenv, char *path, int fd, t_all *all)
 {
     int result;
     char *home;
-    char *oldpwd;
+   // char *oldpwd;
     char *pwd;
    
-    pwd = ft_get_value(myenv, "PWD");
-    oldpwd = ft_get_value(myenv, "OLDPWD");
+    pwd = getcwd(NULL, 0);
+    //oldpwd = ft_get_value(myenv, "OLDPWD");
     home = ft_get_value(myenv, "HOME");
    
     if (!path)
+    {      
         path = home;
-    result = chdir(path); //return 1 or 0
-    if(result != 0)
+        if (!path)
+          path = all->home;
+    }
+    if (path[0] == '~')//возможно не надо отрабатывать
+       path = ft_work_tilda(all, path, home);
+     //printf("%s\n", path);
+    if ((chdir(path)) != 0) //return 1 or 0
     {
-      write(fd, "cd: no such file or directory: ", 31);
+      write(fd, "cd: ", 4);
       write(fd, path, ft_strlen(path));
+      ft_putendl_fd(": No such file or directory", fd);
       return (1);
     }
       else
-      {
-        ft_change_oldpwd(myenv, pwd, oldpwd, path);
-        printf("Текущим стал каталог %s\n", path); // потом надо добавить замену PWD и OLDPWD
-       }
-
-
-
+        ft_change_oldpwd(myenv, pwd, NULL, path);
     return (0);
 }
 
+char *ft_ckeck_syscall(t_env *bufenv, t_set *set,char **arr, char *comanda)
+{
+    char *path;
+    int fd;
+    int a;
 
+    fd = 0;
+    path = ft_get_value(bufenv, "PATH");
+    arr = ft_split(ft_get_value(bufenv, "PATH"), ':');
+    free(path);
+    if (ft_strchr(set->builtin, '/'))
+        comanda = set->builtin;
+    //printf("    %s\n", path);
+    a = -1;
+    while (arr[++a] && !ft_strchr(set->builtin, '/'))
+        {
+            //printf("    %s\n", arr[a]);
+            path = ft_strjoin_export(arr[a], "/", set->builtin);
+            //printf("    %s\n", path);
+            if ((fd = open(path, O_RDONLY)) > 0)
+            {
+                comanda = ft_strdup(path);
+                close(fd);
+                break ;
+            }
+            free(path);
+        }
+    return (comanda);
+}
+
+void ft_write_error(t_all *all, t_set *set, int fd)
+{
+    all->error = 1;
+   // ft_putstr_fd()
+
+
+}
+
+char **ft_creat_arr_comanda(char *comanda, t_set *set)
+{
+    char *tmp;
+    char **arr;
+
+    tmp = ft_strjoin_export(comanda, "!", set->spec);
+    arr = ft_split(tmp, '!');
+
+   /* int a = -1;
+    while (arr[++a])
+        printf("%s\n", arr[a]);*/
+
+
+    free(tmp);
+
+    return (arr);
+}
+
+void ft_syscall(t_all *all, t_set *set, t_env *bufenv, int fd)
+{
+    pid_t cpid;
+    int status;
+    char *comanda; //с путем
+    char **env;
+    char **arr;
+
+    comanda = NULL;
+    env = ft_creat_arr_export(bufenv, ft_lstsize_env(bufenv));
+    if (!(comanda = ft_ckeck_syscall(bufenv, set, arr, comanda)))
+          ft_write_error(all, set, fd);
+    else 
+        arr = ft_creat_arr_comanda(comanda, set);
+
+ printf("%s\n", comanda);
+
+    cpid = fork();
+    if (cpid == -1) 
+    {
+        perror("fork");
+        exit(EXIT_FAILURE);
+    }
+
+    if (cpid == 0) {    // Потомок читает из канала
+      
+       status = execve(comanda, arr, env);   ///bin/ls, env, ls -la массив 
+       printf ("status  %d\n", status);
+       printf ("errno  %d\n", errno);
+       _exit(EXIT_SUCCESS);
+    } else {            // Родитель пишет значение argv[1] в канал 
+        wait(NULL);                // Ожидание потомка 
+        exit(EXIT_SUCCESS);
+    }
+}
 
 int main(int argc, char *argv[],  char *env[])
 {
@@ -515,6 +622,12 @@ int main(int argc, char *argv[],  char *env[])
     ft_init_all(&all, env, bufenv);
     //int a = -1;
     //while (all.path[++a])
+    
+     t_set set;
+        set.builtin = ft_strdup("lgs");
+        set.spec = ft_strdup("-la");
+        ft_syscall(&all, &set, &all.myenv, 1);
+   
     /*char *str = ft_strdup("a");
     ft_add_env(str, &all.myenv); //проверить на регистры и невалидные значения
    
@@ -533,16 +646,16 @@ int main(int argc, char *argv[],  char *env[])
     str = ft_strdup("a="); 
     ft_add_env(str, &all.myenv);*/
     
-    //ft_delete_env("hello", bufenv);
+   // ft_delete_env("HOME", &all.myenv);
 
-    char *path = ft_strdup("");
+    //char *path = ft_strdup("~/Desctop");
 
-    ft_cd(&all.myenv, NULL, 1); // если путь не указан думаю path = NULL
+    //ft_cd(&all.myenv, path, 1, &all); // если путь не указан думаю path = NULL
 
 
-    ft_write_env(&all.myenv, 1);
+    //ft_write_env(&all.myenv, 1);
 
-   // ft_write_export(&all.myenv, 1, ft_lstsize_env(&all.myenv));
+    //ft_write_export(&all.myenv, 1, ft_lstsize_env(&all.myenv));
 
     
 
@@ -559,7 +672,9 @@ int main(int argc, char *argv[],  char *env[])
         printf("    %s\n", arv[a]);*/
 
     //arr_comand = ft_split("ls -la,gpep a", ',');
-    //ft_syscall(bufenv, arr, "/bin/ls", arv);
+   // ft_syscall(&all.myenv, arr, "/bin/ls", arv);
+        
+       
 
     //ft_pipe(arr_comand, num_comand, env);
       

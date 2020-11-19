@@ -7,6 +7,7 @@
 #include <sys/errno.h>
 
 
+
 typedef struct	s_env
 {
 	char *name;
@@ -15,6 +16,8 @@ typedef struct	s_env
 	struct s_env	*next;
 
 }				t_env;
+
+
 
 
 typedef struct s_all
@@ -34,6 +37,18 @@ typedef	struct	s_set
 	char			*spec;// спецификатор 
 	char			consq;
 }				t_set;
+
+
+typedef	struct	s_genlist
+{
+	t_set				*set;
+	struct	s_genlist	*next;
+}				t_genlist;
+
+
+char *ft_get_value(t_env *myenv, char *name);
+
+
 
 t_env	*ft_lstnew_env(char *content)
 {
@@ -59,19 +74,6 @@ t_env	*ft_lstnew_env(char *content)
 	return (newlist);
 }
 
-char *ft_get_value(t_env *myenv, char *name)
-{
-    int i; 
-
-    i = ft_strlen(name);
-    while (myenv)
-        {
-            if (ft_strncmp(myenv->name, name, i) == 0 && ft_strlen(myenv->name) == i && myenv->data)
-                return (myenv->data);
-            myenv = myenv->next;
-        }
-    return(NULL);
-}
 
 void	ft_lstadd_back_env(t_env **lst, t_env *new)
 {
@@ -325,6 +327,20 @@ int ft_lstsize_env(t_env *lst)
 	return (i);
 }
 
+int ft_lstsize_pipes(t_genlist *lst)
+{
+    int i;
+
+	if (!lst)
+		return (0);
+	i = 1;
+	while (lst->next)
+	{
+		i++;
+		lst = lst->next;
+	}
+	return (i);
+}
 
 void ft_syscall1(t_env *bufenv, char **arr, char *comanda, char **argv)
 {
@@ -357,69 +373,9 @@ void ft_syscall1(t_env *bufenv, char **arr, char *comanda, char **argv)
     }
 }
 
-void    ft_exe_function(char **arr_comand)
-{
-    //здесь надо сделать парсинг для обработки строк с командами
-    // после обработки сделать условие для вызова системных или самописных файлов
-}
-
-/*oid ft_pipe(char **arr_comand, int num_comand, char **env)
-{
-    int pipefd[2];
-    pid_t cpid;
-    int flag;
-
-    flag = 0;
-
-    if (pipe(pipefd) == -1) 
-    {
-        perror("pipe");
-        exit(EXIT_FAILURE);
-    }
-    cpid = fork();
-    if (cpid == -1) 
-    {
-        perror("fork");
-        exit(EXIT_FAILURE);
-    }
-
-    if (cpid == 0) {    // Потомок читает из канала 0 
-       
-       while (num_comand > 0)
-       {
-            if (flag = 0) //значит заходим первый раз и надо подменить фд1
-            {
-                dup2(1, pipefd[1]); 
-            }
-                //close(pipefd[1]);          // Закрывает неиспользуемый конец для записи 
-                // подменяем  фд 1  стдаут на новый фд для команды после пайпа
-                ft_exe_function(arr_comand); // ту вызывается функция которая вызовет или системную или самописную
-
-
-                dup2(0, pipefd[0]); //подменяем фд 0 стдин на новый фд чтобы команда считала из нового фд
-                //close(pipefd[0]);
-
-                flag = 1; // для того чтобы понимать что уже были в цикле
-                if (num_comand == 1) // значит что это последня команда и надо вернуть fd в первоначально состояние, чтобы ушло в стдаут терминал
-                {
-                    // берем их из глобальных переменных FD_0 FD_1
-                
-                }
-       }
-       _exit(EXIT_SUCCESS);
-    } 
-    else 
-    {            // Родитель пишет в канал 1 
-        close(pipefd[0]);          // Закрывает неиспользуемый конец для чтения 
-        printf("parents\n");
-        close(pipefd[1]);          // Читатель видит EOF 
-        wait(NULL);                // Ожидание потомка 
-        exit(EXIT_SUCCESS);
-    }
 
 
 
-}*/
 
 
 void ft_init_all(t_all *all, char **env, t_env *bufenv)
@@ -484,72 +440,13 @@ char *ft_work_tilda(t_all *all, char *path, char *home)
     return (path);
 }
 
-int ft_cd(t_env *myenv, char *path, int fd, t_all *all)
-{
-    int result;
-    char *home;
-   // char *oldpwd;
-    char *pwd;
-   
-    pwd = getcwd(NULL, 0);
-    //oldpwd = ft_get_value(myenv, "OLDPWD");
-    home = ft_get_value(myenv, "HOME");
-   
-    if (!path)
-    {      
-        path = home;
-        if (!path)
-          path = all->home;
-    }
-    if (path[0] == '~')//возможно не надо отрабатывать
-       path = ft_work_tilda(all, path, home);
-     //printf("%s\n", path);
-    if ((chdir(path)) != 0) //return 1 or 0
-    {
-      write(fd, "cd: ", 4);
-      write(fd, path, ft_strlen(path));
-      ft_putendl_fd(": No such file or directory", fd);
-      return (1);
-    }
-      else
-        ft_change_oldpwd(myenv, pwd, NULL, path);
-    return (0);
-}
 
-char *ft_ckeck_syscall(t_env *bufenv, t_set *set,char **arr, char *comanda)
-{
-    char *path;
-    int fd;
-    int a;
-
-    fd = 0;
-    path = ft_get_value(bufenv, "PATH");
-    arr = ft_split(ft_get_value(bufenv, "PATH"), ':');
-    free(path);
-    if (ft_strchr(set->builtin, '/'))
-        comanda = set->builtin;
-    //printf("    %s\n", path);
-    a = -1;
-    while (arr[++a] && !ft_strchr(set->builtin, '/'))
-        {
-            //printf("    %s\n", arr[a]);
-            path = ft_strjoin_export(arr[a], "/", set->builtin);
-            //printf("    %s\n", path);
-            if ((fd = open(path, O_RDONLY)) > 0)
-            {
-                comanda = ft_strdup(path);
-                close(fd);
-                break ;
-            }
-            free(path);
-        }
-    return (comanda);
-}
 
 void ft_write_error(t_all *all, t_set *set, int fd)
 {
     all->error = 1;
    // ft_putstr_fd()
+    printf("ошибка!!!");
 
 
 }
@@ -572,14 +469,102 @@ char **ft_creat_arr_comanda(char *comanda, t_set *set)
     return (arr);
 }
 
-void ft_syscall(t_all *all, t_set *set, t_env *bufenv, int fd)
+int ft_exit(t_all *all, t_set *set, int fd)
+{
+   char **arr;
+    int i;
+
+    if (ft_strchr(set->builtin, '|'))
+        return (0);
+    arr = ft_split(set->builtin, ' ');
+    i = -1;
+    while(arr[0][++i])
+    {
+       if (!ft_isdigit(arr[0][i]))
+       {     
+            ft_putstr_fd("bash: exit: ", fd);
+            ft_putstr_fd(set->builtin, fd);
+            ft_putstr_fd(": numeric argument required", fd);//выходит
+            ft_free_arr(arr);
+            exit(255);
+       }
+    }
+   if (arr[1])
+    {
+        ft_putendl_fd("bash: exit: too many arguments", fd);// не выходит
+        all->error = 1;
+        ft_free_arr(arr);
+    }
+    if (set->builtin)
+        all->error = ft_atoi(set->builtin);
+    exit(all->error);
+}
+
+char *ft_get_value(t_env *myenv, char *name)
+{
+    int i; 
+
+    i = ft_strlen(name);
+    while (myenv)
+        {
+            if (ft_strncmp(myenv->name, name, i) == 0 && ft_strlen(myenv->name) == i && myenv->data)
+              {
+                //printf("\n get_v  %s\n", myenv->data);
+                return (myenv->data);
+              }
+            myenv = myenv->next;
+        }
+    return(NULL);
+}
+
+
+char *ft_ckeck_syscall(t_env *bufenv, t_set *set, char **arr, char *comanda)
+{
+    char *path;
+    int fd;
+    int a;
+
+    fd = 0;
+
+    path = ft_get_value(bufenv, "PATH");
+
+    arr = ft_split(path, ':');
+    free(path);
+
+   /* int i = -1;
+    while (arr[++i])
+        printf(" arr   %s\n", arr[i]);*/
+
+
+    if (ft_strchr(set->builtin, '/'))
+        comanda = set->builtin;
+    //printf("path    %s\n", path);
+    a = -1;
+    while (arr[++a] && !ft_strchr(set->builtin, '/'))
+        {
+            //printf("    %s\n", arr[a]);
+            path = ft_strjoin_export(arr[a], "/", set->builtin);
+            //printf("    %s\n", path);
+            if ((fd = open(path, O_RDONLY)) > 0)
+            {
+                comanda = ft_strdup(path);
+                close(fd);
+                break ;
+            }
+            free(path);
+        }
+       // printf("\ncom    %s\n\n", comanda);
+    return (comanda);
+}
+
+int ft_syscall(t_all *all, t_set *set, t_env *bufenv, int fd)
 {
     pid_t cpid;
     int status;
     char *comanda; //с путем
     char **env;
     char **arr;
-
+    
     comanda = NULL;
     env = ft_creat_arr_export(bufenv, ft_lstsize_env(bufenv));
     if (!(comanda = ft_ckeck_syscall(bufenv, set, arr, comanda)))
@@ -587,26 +572,125 @@ void ft_syscall(t_all *all, t_set *set, t_env *bufenv, int fd)
     else 
         arr = ft_creat_arr_comanda(comanda, set);
 
- printf("%s\n", comanda);
-
     cpid = fork();
     if (cpid == -1) 
-    {
-        perror("fork");
-        exit(EXIT_FAILURE);
-    }
+        return (1);
 
-    if (cpid == 0) {    // Потомок читает из канала
-      
+    if (cpid == 0) 
+    {    // Потомок читает из канала
+     // printf("\ncom    %s\n\n", comanda);
+       ft_putstr_fd("hello", 8);
        status = execve(comanda, arr, env);   ///bin/ls, env, ls -la массив 
-       printf ("status  %d\n", status);
-       printf ("errno  %d\n", errno);
+       
+       //printf ("status  %d\n", status);
+       //printf ("errno  %d\n", errno);
+       //return (0);
        _exit(EXIT_SUCCESS);
-    } else {            // Родитель пишет значение argv[1] в канал 
+    } else 
+    {            // Родитель пишет значение argv[1] в канал 
         wait(NULL);                // Ожидание потомка 
+        //return (0);
         exit(EXIT_SUCCESS);
     }
+    return (0);
 }
+
+
+void    ft_exe_function(t_genlist *pipes, t_all *all, int fd)
+{
+   // printf("\n%s\n", pipes->set->builtin);
+     //printf("%d\n", fd);
+    ft_syscall(all, pipes->set, &all->myenv, fd);
+   
+    
+    //здесь надо сделать парсинг для обработки строк с командами
+    // после обработки сделать условие для вызова системных или самописных файлов
+}
+
+int **ft_init_pipefd(int size)
+{
+    
+    int **pipefd = (int**)malloc(sizeof(int*) * size + 1);
+    while (size >= 0)
+    {
+        pipefd[size] = (int*)malloc(sizeof(int) * 2);
+        if (pipe(pipefd[size]) == -1)
+            return (0);
+       // printf("%d\n", size);
+        size--;
+    }
+
+    return (pipefd);
+}
+
+
+
+int ft_work_pipe(t_all *all, t_genlist *pipes, int size, int **pipefd)
+{
+    pid_t cpid;
+    int status;
+    int flag;
+
+    flag = 0;     
+     if ((cpid = fork())== -1)
+        return(1);
+        
+        if (cpid == 0) 
+        { // Потомок читает из канала 0 
+           close(pipefd[size][0]); 
+           //if (flag == 0)
+            dup2(pipefd[size][1], 1); 
+           //else 
+             //  dup2(pipefd[size][1], pipefd[size+1][1]); 
+            flag = 1;
+           
+           ft_exe_function(pipes, all, 1); // ту вызывается функция которая вызовет или системную или самописную
+        } 
+        else 
+        {   
+            close(pipefd[size][1]);         
+            dup2(pipefd[size][0], 0);
+            waitpid(cpid, &status, WUNTRACED);
+           //printf("%d\n", size);
+           if (size < 1) // значит что это последня команда и надо вернуть fd в первоначально состояние, чтобы ушло в стдаут терминал
+              {
+                    dup2(all->fd_1, 1);
+            }
+           // else
+             //  dup2(pipefd[size-1][1], pipefd[size][0]);
+            pipes = pipes->next;
+            if (size < 1)
+               {
+                    ft_exe_function(pipes, all, 1);
+                     dup2(all->fd_0, 0);
+               } 
+        }
+    return (0);
+}
+
+
+int ft_pipe(t_all *all, t_genlist *pipes, int size)
+{
+    int **pipefd;
+    pid_t cpid;
+    int flag;
+    int status;
+     
+    if (!(pipefd = ft_init_pipefd(--size)))
+        return (1);
+    while (size >= 0)
+    {
+            printf("size = %d\n", size);
+            ft_work_pipe(all, pipes, size, pipefd);
+        
+        size--;
+        pipes = pipes->next;
+    }
+   return (0);
+}
+
+
+
 
 int main(int argc, char *argv[],  char *env[])
 {
@@ -615,26 +699,74 @@ int main(int argc, char *argv[],  char *env[])
     t_all  all;
 
     char **arr;
+    int fd = 1;
 
     char **arv;
     int num_comand;
     char **arr_comand;
+    t_genlist *pipes;
+    t_genlist *pipes2;
+    t_genlist *pipes3;
+    t_genlist *pipes4;
+
     ft_init_all(&all, env, bufenv);
+   // printf("%d\n", all.fd_1);
+    //printf("%d\n", all.fd_0);
+    
     //int a = -1;
     //while (all.path[++a])
     
-     t_set set;
-        set.builtin = ft_strdup("lgs");
-        set.spec = ft_strdup("-la");
-        ft_syscall(&all, &set, &all.myenv, 1);
+     /*t_set set;
+     set.builtin = ft_strdup("ls");
+     set.spec = ft_strdup("-la");
+       // ft_syscall(&all, &set, &all.myenv, 1);*/
+
+    /*pipes = (t_genlist*)malloc(sizeof(t_genlist));
+    pipes->set = (t_set*)malloc(sizeof(t_set));
+    pipes->set->builtin = ft_strdup("ls");
+    pipes->set->spec = ft_strdup("");
+
+
+    pipes2 = (t_genlist*)malloc(sizeof(t_genlist));
+    pipes2->set = (t_set*)malloc(sizeof(t_set));
+    pipes2->set->builtin = ft_strdup("cat");
+    pipes2->set->spec = ft_strdup("-e");
+
+    pipes->next = pipes2;
+
+
+    pipes3 = (t_genlist*)malloc(sizeof(t_genlist));
+    pipes3->set = (t_set*)malloc(sizeof(t_set));
+    pipes3->set->builtin = ft_strdup("cat");
+    pipes3->set->spec = ft_strdup("-e");
+    pipes3->next = NULL;
+
+    pipes2->next = pipes3;
+
+
+    pipes4 = (t_genlist*)malloc(sizeof(t_genlist));
+    pipes4->set = (t_set*)malloc(sizeof(t_set));
+    pipes4->set->builtin = ft_strdup("cat");
+    pipes4->set->spec = ft_strdup("-e");
+    pipes4->next = NULL;
+
+    pipes3->next = pipes4;
    
-    /*char *str = ft_strdup("a");
+
+    ft_pipe(&all, pipes, (ft_lstsize_pipes(pipes)) - 1);*/
+    
+    
+   // ft_exit(&all, &set, fd);
+   
+    // char *str = ft_strdup("");
+
+    char *str = ft_strdup("a");
     ft_add_env(str, &all.myenv); //проверить на регистры и невалидные значения
    
-    str = ft_strdup("a="); 
+    str = ft_strdup("b="); 
     ft_add_env(str, &all.myenv);
 
-    str = ft_strdup("a"); 
+    str = ft_strdup("c= asd"); 
     ft_add_env(str, &all.myenv);
     
     str = ft_strdup("A"); 
@@ -644,7 +776,7 @@ int main(int argc, char *argv[],  char *env[])
     ft_add_env(str, &all.myenv);
 
     str = ft_strdup("a="); 
-    ft_add_env(str, &all.myenv);*/
+    ft_add_env(str, &all.myenv);
     
    // ft_delete_env("HOME", &all.myenv);
 
@@ -655,7 +787,7 @@ int main(int argc, char *argv[],  char *env[])
 
     //ft_write_env(&all.myenv, 1);
 
-    //ft_write_export(&all.myenv, 1, ft_lstsize_env(&all.myenv));
+    ft_write_export(&all.myenv, 1, ft_lstsize_env(&all.myenv));
 
     
 
@@ -673,10 +805,9 @@ int main(int argc, char *argv[],  char *env[])
 
     //arr_comand = ft_split("ls -la,gpep a", ',');
    // ft_syscall(&all.myenv, arr, "/bin/ls", arv);
-        
-       
+    
 
-    //ft_pipe(arr_comand, num_comand, env);
+    
       
-    return 0;
+    return (0);
 }

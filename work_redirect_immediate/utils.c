@@ -1,6 +1,14 @@
 #include "minishell.h"
 
+void    ft_free_arr(char **arr)
+{
+    int i;
 
+    i = -1;
+    while (arr[++i])
+       free(arr[i]);
+    free(arr);   
+}
 
 t_set	*initial_set(void)
 {
@@ -42,6 +50,7 @@ char	*low(char *item)
 char	*itemcrtr(char **line, char *tmp)
 {
 	char	*item;
+	char	*dollar;
 
 	if (!(item = ft_calloc(tmp - *line + 1, sizeof(char))))
 		malloc_error();

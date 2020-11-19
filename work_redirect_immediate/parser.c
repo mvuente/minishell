@@ -21,7 +21,7 @@ char	*cqpars(char *tmp, char symb) //check for \ in ""
 	return (finish - 1);	
 }
 
-void	reader(char *line) //par of this func could be a parser function
+void	reader(char *line, t_all all) //par of this func could be a parser function
 {
     char		*tmp;
 	char		*delimiters;
@@ -44,6 +44,8 @@ void	reader(char *line) //par of this func could be a parser function
 		printf("line is %p\n", line);
 		if (ft_strchr(quot, *tmp))
 			tmp = cqpars(tmp, *tmp);
+		else if (*tmp == 0x24)
+			tmp = dollarpars(&line, tmp, all); // write this! to return ptr before delimiter
 		else if (ft_strchr(delimiters, *tmp))
 			tmp = tokencrtr(&line, tmp, &genlist, &fd); // to proceed the token and shift line pointer
 		else
@@ -54,6 +56,7 @@ void	reader(char *line) //par of this func could be a parser function
 
 	}
 	tokencrtr(&line, tmp, &genlist, &fd);
-	executer(genlist, &fd);
+	printf("OK?\n");
+	executer(genlist, &fd, &all);
 	
 }

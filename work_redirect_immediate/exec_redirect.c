@@ -8,10 +8,15 @@ int     **dir_exec(int **fd, char *operator, char *operand)
     else if (*(*fd + 1) != 1 && *operator == 0x3e)
         close(*(*fd+ 1));
     if (*operator == 0x3c)
-        **fd = open(operand, O_RDONLY);
+    	if ((**fd = open(operand, O_RDONLY)) == -1)
+			{
+				**fd = 0;
+				write(1, "No such file or directory", 25); // нужен ошибка и minishell()
+			}
     else if (!ft_memcmp(">", operator, 2))
-        *(*fd + 1) = open(operand, O_RDWR | O_CREAT);
+        *(*fd + 1) = open(operand, O_RDWR | O_CREAT, S_IRWXU);
     else
-        *(*fd + 1) = open(operand, O_RDWR | O_CREAT| O_APPEND);
-    return (fd);
+        *(*fd + 1) = open(operand, O_RDWR | O_CREAT| O_APPEND, S_IRWXU);
+   	printf("dir execute finished\n");
+	return (fd);
 }

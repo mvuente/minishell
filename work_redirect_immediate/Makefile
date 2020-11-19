@@ -15,7 +15,7 @@ LIBFT = libft.a
 
 SRC =   direct.c errors.c gnl.c list_operations.c minishell.c \
 		parser.c process.c record.c token.c utils.c execute.c pwd.c \
-		exec_redirect.c 
+		exec_redirect.c dollar.c hballaba.c environ.c utils2.c 
 
 SRC_LIB_DIR = libft/
 

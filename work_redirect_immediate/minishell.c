@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int     minishell(void)
+int     minishell(t_all all)
 {
     size_t  ret;
 	char	*line;
@@ -9,7 +9,7 @@ int     minishell(void)
     while ((ret = gnl(0, &line)) > 0)
     {  
         
-        reader(line);// line came back cause of \n
+        reader(line, all);// line came back cause of \n
 		free(line);
     }
     if (ret == 0)// (it's if CTRL+D push)

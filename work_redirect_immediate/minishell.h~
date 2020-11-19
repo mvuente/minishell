@@ -53,14 +53,11 @@ void	executer(t_genlist *genlist, int **fd, t_all *all);
 void	reader(char *line, t_all all);
 void	genlstadd(char *delim, t_genlist **genlist);
 
-void    ft_free_arr(char **arr);
 void	ft_init_all(t_all *all, char **env, t_env *bufenv);
 void    ft_creat_env(char *env[], t_env	**bufenv);
 void	ft_lstadd_back_env(t_env **lst, t_env *new);
 t_env	*ft_lstnew_env(char *content);
 int	ft_lstsize_env(t_env *lst);
-char	**ft_creat_arr_export(t_env *bufenv, int size);
-
 
 
 

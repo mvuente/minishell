@@ -25,5 +25,12 @@ int			ft_tolower(int c);
 char		*ft_strjoin(char const *s1, char const *s2);
 void		*ft_calloc(size_t nmemb, size_t size);
 void		*ft_memcpy(void *dest, const void *src, size_t n);
+int         ft_isalnum(int  c);
+char		*ft_strdup(char const *s);
+size_t		ft_strlcpy(char *dst, const char *src, size_t size);
+size_t		ft_strlcat(char *dst, const char *src, size_t size);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+void        ft_putstr_fd(char *c, int fd);
+void	    ft_putchar_fd(char c, int fd);
 
 #endif

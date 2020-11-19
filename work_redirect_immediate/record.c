@@ -32,7 +32,7 @@ t_set	builtinrcrdr(char *item, t_set set)
 				free(item);
 			}
 		else
-			set.word = item;
+			set.word = lstaddback(set.word, item);
 	}
 	else 
 		set.word = lstaddback(set.word, item);

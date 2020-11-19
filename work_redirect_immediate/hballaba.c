@@ -34,7 +34,7 @@ void	ft_init_all(t_all *all, char **env, t_env *bufenv)
     all->fd_0 = dup(0);
     all->fd_1 = dup(1);
     ft_creat_env(env, &bufenv);
-    all->myenv = *bufenv;
+    all->myenv = bufenv;
 	return ;
 }
 

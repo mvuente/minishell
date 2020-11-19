@@ -1,24 +1,32 @@
 #include "minishell.h"
 
-void	echo_executer(t_set *set, int **fd)
+void	echo_executer(t_set *set, int **fd, t_all *all)
 {
-	int descr;
+	int 	descr;
+    t_list  *tmp;
 
     printf("builtin is %s\n", set->builtin);
     printf("word is %s\n", set->word);
-    //if (*fd[1])
-      //  descr = 1;
-    //else
-      //  descr = *fd[1];
     printf("descrioptor is %i\n", *(*fd + 1));
-    write(*(*fd + 1), set->word, ft_strlen(set->word));  // echo 123>file    TO DO!!!
+    tmp = set->word;
+	if (tmp)
+	{
+		write(*(*fd + 1), tmp->word, ft_strlen(tmp->word));
+		tmp = tmp->next;
+	}
+	while (tmp)
+	{
+		write(*(*fd + 1), " ", 1);
+		write(*(*fd + 1), tmp->word, ft_strlen(tmp->word));
+		tmp = tmp->next;  // echo 123>file    TO DO!!!
+	}
     if (!set->spec)
         write(*(*fd + 1), "\n", 1);
     if (*(*fd + 1) != 1)
         close(*(*fd + 1));
     *(*fd + 1) = 1;
     write(1, "\n", 1);
-    minishell();
+    minishell(*all);
 }
 
 void    executer(t_genlist *genlist, int **fd, t_all *all)
@@ -29,19 +37,19 @@ void    executer(t_genlist *genlist, int **fd, t_all *all)
     if (!tmp->set->builtin)
         {
             write(1, "\n", 1);
-            minishell();
+            minishell(*all);
         }
     else if (!ft_memcmp(tmp->set->builtin, "pwd", 4))
-        ft_pwd();
+        ft_pwd(all);
     else if (!ft_memcmp(tmp->set->builtin, "echo", 5))
-        echo_executer(tmp->set, fd);
+        echo_executer(tmp->set, fd, all);
     else if (!ft_memcmp(tmp->set->builtin, "export", 7))
-        export_executer(tmp->set, fd, all)
+        export_executer(tmp->set, fd, all);
     else
     {
         write(1, "e-bash!: wrong command! try again.", 34);
         write(1, "\n", 1);
-        minishell();
+        minishell(*all);
     }
     return ;
     

@@ -7,9 +7,9 @@ char	*replace(char **line, char *start, char *finish, char *value)
 	char	*newline;
 	
 	if (value)
-		delta = ft_strlen(value) - (tmp - ptr);
+		delta = ft_strlen(value) - (finish - start);
 	else
-		delta = ptr - tmp;
+		delta = start - finish;
 	if (!(newline = (char*)ft_calloc(ft_strlen(*line) + delta + 1, sizeof(char))))
 		malloc_error();
 	newline = ft_memmove(newline, *line, start + 1 - *line);
@@ -19,7 +19,7 @@ char	*replace(char **line, char *start, char *finish, char *value)
 		tmpline = ft_memmove(tmpline, value, ft_strlen(value));
 		tmpline = tmpline + ft_strlen(value);
 	}
-	tmpline = ft_memmove(tmpline, finish, ft_strlen(finish);
+	tmpline = ft_memmove(tmpline, finish, ft_strlen(finish));
 	free(*line);
 	*line = newline;
 	return (tmpline);
@@ -37,6 +37,6 @@ char	*dollarpars(char **line, char *ptr, t_all all)
 		tmp++;
 	var = itemcrtr(&ptr, tmp); //получил имя перменной окружения
 	ptr = ptr - ft_strlen(var) - 1; // вернул указатель на место
-	value = ft_get_value(all->myenv, var);//взять значение переменной
+	value = ft_get_value(all.myenv, var);//взять значение переменной
 	return (replace(line, ptr, tmp, value));// заменить кусок строки от ptr до tmp на это значение
 }

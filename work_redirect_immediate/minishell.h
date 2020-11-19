@@ -30,7 +30,7 @@ typedef struct s_all
     int fd_1;
     //char *path;
     //char *home;
-    t_env myenv;
+    t_env *myenv;
 
 }               t_all;
 
@@ -53,7 +53,7 @@ int     **dir_exec(int **fd, char *operator, char *operand);
 void	read_error(void);
 void	malloc_error(void);
 void	command_error(void);
-void	ft_pwd(void);
+void	ft_pwd(t_all *all);
 void 	ft_echo(char *name, char *line, char option, char direct);
 void	export_executer(t_set *set, int **fd, t_all *all);
 void	executer(t_genlist *genlist, int **fd, t_all *all);
@@ -64,8 +64,10 @@ void    ft_free_arr(char **arr);
 void	ft_init_all(t_all *all, char **env, t_env *bufenv);
 void    ft_creat_env(char *env[], t_env	**bufenv);
 void	ft_lstadd_back_env(t_env **lst, t_env *new);
+void	ft_change_data(t_env *tmp, int flag, char *str);
+void	ft_sort(t_env *bufenv, char **arr, int num);
 t_env	*ft_lstnew_env(char *content);
-int	ft_lstsize_env(t_env *lst);
+int	    ft_lstsize_env(t_env *lst);
 char	**ft_creat_arr_export(t_env *bufenv, int size);
 
 

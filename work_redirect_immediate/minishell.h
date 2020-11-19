@@ -8,6 +8,13 @@
 # include <stdio.h>
 # include "libft/libft.h"
 
+typedef struct s_list
+{
+    char            *word;
+    struct s_list   *next;
+}               t_list;
+
+
 typedef struct	s_env
 {
 	char *name;
@@ -30,7 +37,7 @@ typedef struct s_all
 typedef	struct	s_set
 {
     char   			*builtin;
-    char			*word;
+    t_list			*word;
 	char			spec;
 	char			consq;
 }				t_set;
@@ -80,8 +87,8 @@ char	*dirpars(char **line, char *start, int **fd);
 t_set	builtinrcrdr(char *item, t_set set);
 t_genlist	*initial_genlist(void);
 //t_set	**parser(char *line);
-//t_list	*ft_create_item(char *data);
-//t_list	*lstaddfront(t_list *word, char *item);
+t_list	*ft_create_item(char *data);
+t_list	*lstaddback(t_list *word, char *item);
 size_t	gnl(int fd, char **line);
 
 # endif

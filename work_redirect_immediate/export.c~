@@ -34,10 +34,10 @@ void	ft_write_export(t_env *bufenv, int fd, int num)
     int i;
     int j;
     char **arr;
-
     arr = ft_creat_arr_export(bufenv, num);
-	ft_sort(bufenv, arr, num-1);
-	i = -1;
+
+    ft_sort(bufenv, arr, num-1);
+    i = -1;
     while(arr[++i])
     {
         j = 0;
@@ -59,8 +59,10 @@ void	ft_write_export(t_env *bufenv, int fd, int num)
 void	export_executer(t_set *set, int **fd, t_all *all)
 {
 	if (!set->word)
-		ft_write_export(all->myenv, *fd[1], ft_lstsize_env(all->myenv));
+		ft_write_export(all->myenv, *fd[1], int num);
 	else
-	//	ft_add_env(set->word, all->myenv);
-        return ;
+	{
+		ft_add_env(set->word, t_env	*bufenv);
+	}
+	
 }

@@ -13,7 +13,7 @@ char	*dirpars(char **line, char *start, int **fd)
 	while (*start == 0x3c || *start == 0x3e)
 		start++;
 	direct = itemcrtr(line, start);
-	printf("%s\n", direct);
+	//printf("%s\n", direct);
 	if (ft_memcmp("<", direct, 2) && ft_memcmp(">", direct, 2) && ft_memcmp(">>", direct, 3))
 		command_error();
 	tmp = start;

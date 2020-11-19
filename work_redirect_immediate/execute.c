@@ -5,9 +5,9 @@ void	echo_executer(t_set *set, int **fd, t_all *all)
 	int 	descr;
     t_list  *tmp;
 
-    printf("builtin is %s\n", set->builtin);
-    printf("word is %s\n", set->word);
-    printf("descrioptor is %i\n", *(*fd + 1));
+    //printf("builtin is %s\n", set->builtin);
+    //printf("word is %s\n", set->word);
+    //printf("descrioptor is %i\n", *(*fd + 1));
     tmp = set->word;
 	if (tmp)
 	{

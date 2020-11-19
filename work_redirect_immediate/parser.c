@@ -37,11 +37,11 @@ void	reader(char *line, t_all all) //par of this func could be a parser function
 		malloc_error();
 	fd[0] = 0;
 	fd[1] = 1;
-	printf("fd started %i\n", fd[1]);
+	//printf("fd started %i\n", fd[1]);
 	while (*tmp != 0x0)// tokenazing starts
 	{ 
-		printf("tmp is %p\n", tmp);
-		printf("line is %p\n", line);
+		//printf("tmp is %p\n", tmp);
+		//printf("line is %p\n", line);
 		if (ft_strchr(quot, *tmp))
 			tmp = cqpars(tmp, *tmp);
 		else if (*tmp == 0x24)
@@ -56,7 +56,7 @@ void	reader(char *line, t_all all) //par of this func could be a parser function
 
 	}
 	tokencrtr(&line, tmp, &genlist, &fd);
-	printf("OK?\n");
+	//printf("OK?\n");
 	executer(genlist, &fd, &all);
 	
 }

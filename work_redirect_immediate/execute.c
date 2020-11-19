@@ -40,7 +40,7 @@ void    executer(t_genlist *genlist, int **fd, t_all *all)
             minishell(*all);
         }
     else if (!ft_memcmp(tmp->set->builtin, "pwd", 4))
-        ft_pwd(all);
+        ft_pwd(fd, all);
     else if (!ft_memcmp(tmp->set->builtin, "echo", 5))
         echo_executer(tmp->set, fd, all);
     else if (!ft_memcmp(tmp->set->builtin, "export", 7))

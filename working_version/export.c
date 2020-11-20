@@ -34,7 +34,7 @@ void	ft_write_export(t_env *bufenv, int fd, int num)
     int i;
     int j;
     char **arr;
-
+    //printf("%d\n", num);
     arr = ft_creat_arr_export(bufenv, num);
 	ft_sort(bufenv, arr, num-1);
 	i = -1;
@@ -86,12 +86,35 @@ void (ft_no_valid_word(char *word))
     ft_putstr_fd("': not a valid identifier\n", 1);
 }
 
+static int		ft_check_258(t_set *set, t_all *all)
+{
+    while(set->word)
+    {
+        if (ft_strchr(set->word->word, '('))
+        {
+            ft_putendl_fd("bash: syntax error near unexpected token `('", 1);
+            return (0);
+        }
+        if (ft_strchr(set->word->word, ')'))
+        {
+            ft_putendl_fd("bash: syntax error near unexpected token `)'", 1);
+            all->error = 258;
+            return (0);
+        }
+        set->word = set->word->next;
+    }
+       return (1);
+}
+
 void	export_executer(t_set *set, int **fd, t_all *all)
 {
 	int check;
-    
+
+     if (!ft_check_258(set, all))
+    	return ;
+	   //return (258);
     if (!set->word)
-		ft_write_export(all->myenv, *fd[1], ft_lstsize_env(all->myenv));
+		ft_write_export(all->myenv, 1, ft_lstsize_env(all->myenv));
 	else
 		{
          while(set->word)

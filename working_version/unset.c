@@ -1,4 +1,4 @@
-  #include "minishell.h"
+#include "minishell.h"
 
 void (ft_no_valid_word_unset(char *word))
 {
@@ -51,26 +51,27 @@ int ft_check_word_unset(char *word)
         c = word[i];
         if ((c >= '*' && c <= '/') || (c >= ':' && c <= '@') || (c >= '{' && c <= '~'))
             return (1);
+    }
     return (0);
 }
 
-int		ft_check_258(t_set *set, t_all *all)
+static int		ft_check_258(t_set *set, t_all *all)
 {
     while(set->word)
-       {
-            if (ft_strncmp(word->word, '('))
-            {
-               ft_putendl_fd("bash: syntax error near unexpected token `('", fd);
-               return (0);
-            }
-            if (ft_strncmp(word->word, ')'))
-            {
-               ft_putendl_fd("bash: syntax error near unexpected token `)'", fd);
-               all->error = 258;
-               return (0);
-            }
-            set->word = set->word->next;
-       }
+    {
+        if (ft_strchr(set->word->word, '('))
+        {
+            ft_putendl_fd("bash: syntax error near unexpected token `('", 1);
+            return (0);
+        }
+        if (ft_strchr(set->word->word, ')'))
+        {
+            ft_putendl_fd("bash: syntax error near unexpected token `)'", 1);
+            all->error = 258;
+            return (0);
+        }
+        set->word = set->word->next;
+    }
        return (1);
 }
 
@@ -85,7 +86,7 @@ void	unset_executer(t_set *set, int **fd, t_all *all) // FD НЕ НУЖЕН???
 	   //return (258);
     while(set->word)
     {
-       	check = ft_check_word_enset(set->word->word);
+       	check = ft_check_word_unset(set->word->word);
        	if (check == 1)
         {
             ft_no_valid_word_unset(set->word->word);

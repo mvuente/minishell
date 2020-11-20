@@ -60,7 +60,7 @@ void	ft_sort(t_env *bufenv, char **arr, int num)
     }
 }
 
-char	**ft_creat_arr_export(t_env *bufenv, int size)
+char	**ft_creat_arr_export(t_env *bufenv, int size) // скорее всего здесь утечка
 {
    char **arr;
    int i;
@@ -80,6 +80,7 @@ char	**ft_creat_arr_export(t_env *bufenv, int size)
 		ft_memcpy(arr[i], content, ft_strlen(content) + 1);
 		bufenv = bufenv->next;
 		i++;
+        free(content);
 	}
 	arr[i] = NULL;
     return (arr);

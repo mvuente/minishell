@@ -30,7 +30,7 @@ typedef struct s_all
     int 			fd_1;
 	int				error;
     //char *path;
-    //char *home;
+    char            *home;
     t_env 			*myenv;
 
 }               t_all;

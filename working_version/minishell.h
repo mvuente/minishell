@@ -26,11 +26,12 @@ typedef struct	s_env
 
 typedef struct s_all
 {
-    int fd_0;
-    int fd_1; 
+    int 			fd_0;
+    int 			fd_1;
+	int				error;
     //char *path;
     //char *home;
-    t_env *myenv;
+    t_env 			*myenv;
 
 }               t_all;
 
@@ -70,6 +71,7 @@ void	ft_sort(t_env *bufenv, char **arr, int num);
 void    ft_change_oldpwd(t_env *myenv, char *pwd, char *oldpwd, char *path);
 void	env_executer(t_set *set, int **fd, t_all *all);
 void	unset_executer(t_set *set, int **fd, t_all *all);
+void	ft_exit(t_all *all, t_set *set, int **fd);
 t_env	*ft_lstnew_env(char *content);
 int	    ft_lstsize_env(t_env *lst);
 char	**ft_creat_arr_export(t_env *bufenv, int size);

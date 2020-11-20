@@ -48,6 +48,8 @@ void    executer(t_genlist *genlist, int **fd, t_all *all)
         env_executer(tmp->set, fd, all);
     else if (!ft_memcmp(tmp->set->builtin, "unset", 6))
         unset_executer(tmp->set, fd, all);
+	else if (!ft_memcmp(tmp->set->builtin, "exit", 5))
+		ft_exit(all, tmp->set, fd);
     else
     {
         write(1, "e-bash!: wrong command! try again.", 34);

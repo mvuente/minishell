@@ -55,23 +55,33 @@ int ft_check_word_unset(char *word)
     return (0);
 }
 
-static int		ft_check_258(t_set *set, t_all *all)
+static int		ft_check_258(t_set *set, t_all *all) /// ee можно добавить в общие ее использует unset
 {
-    while(set->word)
+    t_list *tmp;
+    tmp = set->word;
+
+    while(tmp)
     {
-        if (ft_strchr(set->word->word, '('))
+        if (ft_strchr(tmp->word, '(') || ft_strchr(tmp->word, ')'))
         {
-            ft_putendl_fd("bash: syntax error near unexpected token `('", 1);
-            return (0);
-        }
-        if (ft_strchr(set->word->word, ')'))
-        {
-            ft_putendl_fd("bash: syntax error near unexpected token `)'", 1);
+            if (tmp->word[0] == '(' && !tmp->word[1])
+                ft_putendl_fd("bash: syntax error near unexpected token `newline'", 1);
+            else if (tmp->word[0] == '(' && tmp->word[1])
+            {
+                ft_putstr_fd("bash: syntax error near unexpected token `", 1);
+                ft_putstr_fd(++tmp->word, 1);
+                ft_putendl_fd("'", 1);
+            }
+            else if (ft_strchr(tmp->word, '('))
+                ft_putendl_fd("bash: syntax error near unexpected token `('", 1);
+            else if (ft_strchr(tmp->word, ')'))
+                ft_putendl_fd("bash: syntax error near unexpected token `)'", 1);
             all->error = 258;
             return (0);
         }
-        set->word = set->word->next;
+        tmp = tmp->next;
     }
+
        return (1);
 }
 

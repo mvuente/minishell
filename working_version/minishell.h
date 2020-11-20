@@ -68,6 +68,7 @@ void	ft_lstadd_back_env(t_env **lst, t_env *new);
 void	ft_change_data(t_env *tmp, int flag, char *str);
 void	ft_sort(t_env *bufenv, char **arr, int num);
 void    ft_change_oldpwd(t_env *myenv, char *pwd, char *oldpwd, char *path);
+void	env_executer(t_set *set, int **fd, t_all *all);
 t_env	*ft_lstnew_env(char *content);
 int	    ft_lstsize_env(t_env *lst);
 char	**ft_creat_arr_export(t_env *bufenv, int size);

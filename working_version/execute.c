@@ -43,7 +43,7 @@ void    executer(t_genlist *genlist, int **fd, t_all *all)
     else if (!ft_memcmp(tmp->set->builtin, "export", 7))
         export_executer(tmp->set, fd, all);
 	else if (!ft_memcmp(tmp->set->builtin, "cd", 3))
-        ft_cd(all, tmp->set->word->word);
+        ft_cd(all, tmp->set);
     else if (!ft_memcmp(tmp->set->builtin, "env", 4))
         env_executer(tmp->set, fd, all);
     else if (!ft_memcmp(tmp->set->builtin, "unset", 6))

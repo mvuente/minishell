@@ -61,7 +61,7 @@ void	executer(t_genlist *genlist, int **fd, t_all *all);
 void	reader(char *line, t_all all);
 void	genlstadd(char *delim, t_genlist **genlist);
 
-void	ft_cd(t_all *all, char *path);
+void	ft_cd(t_all *all, t_set *set);
 void    ft_free_arr(char **arr);
 void	ft_init_all(t_all *all, char **env, t_env *bufenv);
 void    ft_creat_env(char *env[], t_env	**bufenv);

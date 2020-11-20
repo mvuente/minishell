@@ -26,7 +26,7 @@ void	echo_executer(t_set *set, int **fd, t_all *all)
         close(*(*fd + 1));
     *(*fd + 1) = 1;
     write(1, "\n", 1);
-    minishell(*all);
+    //minishell(*all);
 }
 
 void    executer(t_genlist *genlist, int **fd, t_all *all)
@@ -52,8 +52,7 @@ void    executer(t_genlist *genlist, int **fd, t_all *all)
     {
         write(1, "e-bash!: wrong command! try again.", 34);
         write(1, "\n", 1);
-        minishell(*all);
+       // minishell(*all);
     }
     return ;
-    
 }

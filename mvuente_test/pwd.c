@@ -13,5 +13,5 @@ void ft_pwd(int **fd, t_all *all)
         *(*fd + 1) = 1;
     }
     write(1, "\n", 1);
-    minishell(*all);   
+   // minishell(*all);   
 }

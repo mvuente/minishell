@@ -26,9 +26,9 @@ size_t			gnl(int fd, char **line)
 		malloc_error();
 	*tmp = '\0';
 	*line = tmp;
+	write(1, "e_bash!", 7); // CURRENT FOLDER BEFORE IS NEEDED
 	while ((ret = read(0, buf, 1) > 0))
 	{
-		//printf("test\n");
 		if (buf[0] != '\n')
 		{
 			tmp = bufrecorder(tmp, buf[0]);

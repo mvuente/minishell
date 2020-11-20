@@ -52,6 +52,5 @@ void ft_cd(t_all *all, char *path)
 		write(1, all->myenv->data, ft_strlen(all->myenv->data));
     }
 	write(1, "\n", 1);
-	minishell(*all);
     return ;
 }

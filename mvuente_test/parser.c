@@ -58,5 +58,4 @@ void	reader(char *line, t_all all) //par of this func could be a parser function
 	tokencrtr(&line, tmp, &genlist, &fd);
 	//printf("OK?\n");
 	executer(genlist, &fd, &all);
-	
 }

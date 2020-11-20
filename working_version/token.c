@@ -39,4 +39,5 @@ char	*tokencrtr(char **line, char *delim, t_genlist **genlist, int **fd)
 		return (*line += 1);
 	else if (*delim == 0x0)
 		return (NULL);
+	return (0);
 }

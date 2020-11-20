@@ -52,7 +52,9 @@ void    executer(t_genlist *genlist, int **fd, t_all *all)
 		ft_exit(all, tmp->set, fd);
     else
     {
-        write(1, "e-bash!: wrong command! try again.", 34);
+        write(1, "e-bash!: ", 9); 
+        write(1, tmp->set->builtin, ft_strlen(tmp->set->builtin));
+        write(1, ": command not found", 19);
         write(1, "\n", 1);
         //minishell(*all);
     }

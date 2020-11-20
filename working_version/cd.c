@@ -6,7 +6,7 @@ void    ft_change_oldpwd(t_env *myenv, char *pwd, char *oldpwd, char *path)
     int i;
     char *tmp_pwd;
 
-    printf("pwd = %s\n", pwd);
+  //  printf("pwd = %s\n", pwd);
 
     oldpwd = ft_get_value(myenv, "OLDPWD");
     while (myenv)

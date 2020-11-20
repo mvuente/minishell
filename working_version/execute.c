@@ -26,7 +26,7 @@ void	echo_executer(t_set *set, int **fd, t_all *all)
         close(*(*fd + 1));
     *(*fd + 1) = 1;
     write(1, "\n", 1);
-    minishell(*all);
+    //minishell(*all);
 }
 
 void    executer(t_genlist *genlist, int **fd, t_all *all)
@@ -45,12 +45,13 @@ void    executer(t_genlist *genlist, int **fd, t_all *all)
         echo_executer(tmp->set, fd, all);
     else if (!ft_memcmp(tmp->set->builtin, "export", 7))
         export_executer(tmp->set, fd, all);
+	else if (!ft_memcmp(tmp->set->builtin, "cd", 3))
+        ft_cd(all, tmp->set->word->word);
     else
     {
         write(1, "e-bash!: wrong command! try again.", 34);
         write(1, "\n", 1);
-        minishell(*all);
+        //minishell(*all);
     }
     return ;
-    
 }

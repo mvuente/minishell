@@ -56,11 +56,54 @@ void	ft_write_export(t_env *bufenv, int fd, int num)
     ft_free_arr(arr);
 }
 
+int ft_check_word_export(char *word)
+{
+    int i;
+    char c;
+    int flag;
+
+    flag = 0;
+    i = -1;
+    while (word[++i] != '=' && word[i])
+    {
+        c = word[i];
+        if (((c  >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')))
+            c = word[i];
+        else if (c == '_')
+            flag++;
+        else
+            return (0);
+    }
+    if (i == 0 && flag == 1)
+        return (2);
+    return (1);
+}
+
+void (ft_no_valid_word(char *word))
+{
+    ft_putstr_fd("bash: export: `", 1);
+    ft_putstr_fd(word, 1);
+    ft_putstr_fd("': not a valid identifier\n", 1);
+}
+
 void	export_executer(t_set *set, int **fd, t_all *all)
 {
-	if (!set->word)
+	int check;
+    
+    if (!set->word)
 		ft_write_export(all->myenv, *fd[1], ft_lstsize_env(all->myenv));
 	else
-	//	ft_add_env(set->word, all->myenv);
-        return ;
+		{
+         while(set->word)
+            {
+               check = ft_check_word_export(set->word->word);
+                if (check == 1)
+                    ft_add_env(set->word->word, all->myenv);
+                else if (check == 2)
+                    continue ;
+                else
+                    ft_no_valid_word(set->word->word);
+                set->word = set->word->next;
+            }
+        }
 }

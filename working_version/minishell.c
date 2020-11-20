@@ -5,10 +5,8 @@ int     minishell(t_all all)
     size_t  ret;
 	char	*line;
 
-    write(1, "e_bash!", 7);
     while ((ret = gnl(0, &line)) > 0)
-    {  
-        
+    {
         reader(line, all);// line came back cause of \n
 		free(line);
     }

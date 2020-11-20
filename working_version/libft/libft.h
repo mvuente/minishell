@@ -32,5 +32,8 @@ size_t		ft_strlcat(char *dst, const char *src, size_t size);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 void        ft_putstr_fd(char *c, int fd);
 void	    ft_putchar_fd(char c, int fd);
+void		ft_putendl_fd(char *c, int fd);
+int			ft_atoi(const char *ptr);
+char		**ft_split(char const *s, char c);
 
 #endif

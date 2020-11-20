@@ -26,6 +26,7 @@ t_set	builtinrcrdr(char *item, t_set set)
 		set.builtin = low(item); // РАЗНЫЕ КОМАНДЫ ЧУВСТВИТЕЛЬНЫ К РЕГИСТРУ
 	else if (!set.word && !set.spec)
 	{
+		//printf("item is %s\n", item);
 		if (!ft_memcmp(item, "-n", 3))
 			{
 				set.spec = 0x1;

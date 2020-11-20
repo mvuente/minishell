@@ -116,8 +116,15 @@ void	export_executer(t_set *set, int **fd, t_all *all)
 {
 	int check;
     t_set *tmp;
-
-    tmp = set;
+	t_list	*mytemp;
+    
+	tmp = set;
+	mytemp = set->word;
+	while (mytemp)
+	{
+		//printf("arg is %\n", mytemp->word);
+		mytemp = mytemp->next;
+	}
     // if (!ft_check_258(set, all))
     	//return ;
 	   //return (258);
@@ -128,7 +135,9 @@ void	export_executer(t_set *set, int **fd, t_all *all)
       //ft_putendl_fd(set->word->word, 1);
        
         printf("1");
-    if (!set->word)
+    
+	
+	if (!set->word)
 		ft_write_export(all->myenv, 1, ft_lstsize_env(all->myenv));
 	else
 		{

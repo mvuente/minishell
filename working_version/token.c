@@ -20,8 +20,8 @@ char	*tokencrtr(char **line, char *delim, t_genlist **genlist, int **fd)
 	//printf("Am I here?\n");
 	if (*line < delim)
 	{
-		//printf("tmp is %p\n", delim);
-		//printf("line is %p\n", *line);
+		//printf("tmp is%s\n", delim);
+		//printf("line is%s\n", *line);
 		return (textpars(line, delim, templist->set));
 	}
 	else if (*delim == 0x3c || *delim == 0x3e)

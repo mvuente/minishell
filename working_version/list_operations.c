@@ -15,11 +15,21 @@ t_list	*lstaddback(t_list *word, char *item)
 {
 	t_list	*tmp;
 
+	//printf("item fro lstadd %s\n", item);
 	if (!word)
 		return (ft_create_item(item));
 	tmp = word;
-	while (tmp) 
+	while (tmp->next)
+	{
+	//	write(1, "P", 1);
 		tmp = tmp->next;
-	tmp = ft_create_item(item);
+	}
+	tmp->next = ft_create_item(item);
+	//tmp = word;
+	//while (tmp)
+	//{
+	//	printf("item in list is %s\n", tmp->word);
+	//	tmp = tmp->next;
+	//}
 	return (word);
 }

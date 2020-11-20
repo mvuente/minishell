@@ -27,7 +27,7 @@ typedef struct	s_env
 typedef struct s_all
 {
     int fd_0;
-    int fd_1;
+    int fd_1; 
     //char *path;
     //char *home;
     t_env *myenv;
@@ -60,12 +60,14 @@ void	executer(t_genlist *genlist, int **fd, t_all *all);
 void	reader(char *line, t_all all);
 void	genlstadd(char *delim, t_genlist **genlist);
 
+void	ft_cd(t_all *all, char *path);
 void    ft_free_arr(char **arr);
 void	ft_init_all(t_all *all, char **env, t_env *bufenv);
 void    ft_creat_env(char *env[], t_env	**bufenv);
 void	ft_lstadd_back_env(t_env **lst, t_env *new);
 void	ft_change_data(t_env *tmp, int flag, char *str);
 void	ft_sort(t_env *bufenv, char **arr, int num);
+void    ft_change_oldpwd(t_env *myenv, char *pwd, char *oldpwd, char *path);
 t_env	*ft_lstnew_env(char *content);
 int	    ft_lstsize_env(t_env *lst);
 char	**ft_creat_arr_export(t_env *bufenv, int size);

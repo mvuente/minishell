@@ -45,6 +45,9 @@ void    executer(t_genlist *genlist, int **fd, t_all *all)
         echo_executer(tmp->set, fd, all);
     else if (!ft_memcmp(tmp->set->builtin, "export", 7))
         export_executer(tmp->set, fd, all);
+	else if (!ft_memcmp(tmp->set->builtin, "cd", 3))
+        ft_cd(all, tmp->set->word->word);
+
     else
     {
         write(1, "e-bash!: wrong command! try again.", 34);

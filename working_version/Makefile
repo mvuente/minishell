@@ -42,7 +42,10 @@ clean:
 	@make -C $(SRC_LIB_DIR) clean
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) bash
 	@make -C $(SRC_LIB_DIR) fclean
 
 re: fclean all
+
+bash: all
+	gcc test.c minishell -o bash

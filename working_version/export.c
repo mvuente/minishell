@@ -1,4 +1,18 @@
-   #include "minishell.h"
+#include "minishell.h"
+
+void ft_free_set(t_set *set)
+{
+    while(set->word)
+    {
+        free(set->word->word);
+        set->word = set->word->next;
+    }
+    
+    if (set->builtin)
+        free(set->builtin);
+    free(set->word);
+    free(set);
+}
 
 void ft_add_env(char *str, t_env *bufenv)
 {
@@ -25,6 +39,7 @@ void ft_add_env(char *str, t_env *bufenv)
           }
         tmp = tmp->next;
    }
+   free(name);
    if (flag == 0)
         ft_lstadd_back_env(&bufenv, ft_lstnew_env(str)); //если уже есть новую не создает
 }
@@ -71,20 +86,6 @@ int ft_check_word_export(char *word)
         return (2);
     else
         return (0);
-
-
-    /*while (word[++i] != '=' && word[i])
-    {
-        c = word[i];
-        if (((c  >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')))
-            c = word[i];
-        else if (c == '_')
-            flag++;
-        else
-            return (0);
-    }
-    if (i == 0 && flag == 1)
-        return (2);*/
     return (1);
 }
 
@@ -132,10 +133,7 @@ void	export_executer(t_set *set, int **fd, t_all *all)
      if (!ft_check_258(set, all))
     	return ;
 	   //return (258);
-	
-  
-   
-    //printf("arg is %s\n", mytemp->word);
+	//printf("arg is %s\n", mytemp->word);
 	if (!set->word)
 		ft_write_export(all->myenv, 1, ft_lstsize_env(all->myenv));
 	else
@@ -155,4 +153,5 @@ void	export_executer(t_set *set, int **fd, t_all *all)
                 set->word = set->word->next;
             }
         }
+        ft_free_set(set);
 }

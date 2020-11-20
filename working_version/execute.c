@@ -46,6 +46,8 @@ void    executer(t_genlist *genlist, int **fd, t_all *all)
         ft_cd(all, tmp->set->word->word);
     else if (!ft_memcmp(tmp->set->builtin, "env", 4))
         env_executer(tmp->set, fd, all);
+    else if (!ft_memcmp(tmp->set->builtin, "unset", 6))
+        unset_executer(tmp->set, fd, all);
     else
     {
         write(1, "e-bash!: wrong command! try again.", 34);

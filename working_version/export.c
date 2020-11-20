@@ -86,18 +86,24 @@ void (ft_no_valid_word(char *word))
     ft_putstr_fd("': not a valid identifier\n", 1);
 }
 
-static int		ft_check_258(t_set *set, t_all *all)
+static int		ft_check_258(t_set *set, t_all *all) /// ee можно добавить в общие ее использует unset
 {
     while(set->word)
     {
-        if (ft_strchr(set->word->word, '('))
+        if (ft_strchr(set->word->word, '(') || ft_strchr(set->word->word, ')'))
         {
-            ft_putendl_fd("bash: syntax error near unexpected token `('", 1);
-            return (0);
-        }
-        if (ft_strchr(set->word->word, ')'))
-        {
-            ft_putendl_fd("bash: syntax error near unexpected token `)'", 1);
+            if (set->word->word[0] == '(' && !set->word->word[1])
+                ft_putendl_fd("bash: syntax error near unexpected token `newline'", 1);
+            else if (set->word->word[0] == '(' && set->word->word[1])
+            {
+                ft_putstr_fd("bash: syntax error near unexpected token `", 1);
+                ft_putstr_fd(++set->word->word, 1);
+                ft_putendl_fd("'", 1);
+            }
+            else if (ft_strchr(set->word->word, '('))
+                ft_putendl_fd("bash: syntax error near unexpected token `('", 1);
+            else if (ft_strchr(set->word->word, ')'))
+                ft_putendl_fd("bash: syntax error near unexpected token `)'", 1);
             all->error = 258;
             return (0);
         }
@@ -109,16 +115,27 @@ static int		ft_check_258(t_set *set, t_all *all)
 void	export_executer(t_set *set, int **fd, t_all *all)
 {
 	int check;
+    t_set *tmp;
 
-     if (!ft_check_258(set, all))
-    	return ;
+    tmp = set;
+    // if (!ft_check_258(set, all))
+    	//return ;
 	   //return (258);
+    ft_putendl_fd(set->word->word, 1);
+    set->word = set->word->next; 
+     ft_putendl_fd(set->word->word, 1);
+       // set->word = set->word->next;
+      //ft_putendl_fd(set->word->word, 1);
+       
+        printf("1");
     if (!set->word)
 		ft_write_export(all->myenv, 1, ft_lstsize_env(all->myenv));
 	else
 		{
+            
          while(set->word)
             {
+               write(1, "he\n", 3);
                check = ft_check_word_export(set->word->word);
                 if (check == 1)
                     ft_add_env(set->word->word, all->myenv);
@@ -126,6 +143,7 @@ void	export_executer(t_set *set, int **fd, t_all *all)
                     continue ;
                 else
                     ft_no_valid_word(set->word->word);
+                
                 set->word = set->word->next;
             }
         }

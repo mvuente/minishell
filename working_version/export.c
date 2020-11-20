@@ -64,7 +64,16 @@ int ft_check_word_export(char *word)
 
     flag = 0;
     i = -1;
-    while (word[++i] != '=' && word[i])
+    c = word[0];
+    if ((c  >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+        c = word[0];
+    else if (c == '_' && !word[1])
+        return (2);
+    else
+        return (0);
+
+
+    /*while (word[++i] != '=' && word[i])
     {
         c = word[i];
         if (((c  >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')))
@@ -75,11 +84,11 @@ int ft_check_word_export(char *word)
             return (0);
     }
     if (i == 0 && flag == 1)
-        return (2);
+        return (2);*/
     return (1);
 }
 
-void (ft_no_valid_word(char *word))
+void ft_no_valid_word(char *word)
 {
     ft_putstr_fd("bash: export: `", 1);
     ft_putstr_fd(word, 1);
@@ -88,55 +97,45 @@ void (ft_no_valid_word(char *word))
 
 static int		ft_check_258(t_set *set, t_all *all) /// ee можно добавить в общие ее использует unset
 {
-    while(set->word)
+    t_list *tmp;
+    tmp = set->word;
+
+    while(tmp)
     {
-        if (ft_strchr(set->word->word, '(') || ft_strchr(set->word->word, ')'))
+        if (ft_strchr(tmp->word, '(') || ft_strchr(tmp->word, ')'))
         {
-            if (set->word->word[0] == '(' && !set->word->word[1])
+            if (tmp->word[0] == '(' && !tmp->word[1])
                 ft_putendl_fd("bash: syntax error near unexpected token `newline'", 1);
-            else if (set->word->word[0] == '(' && set->word->word[1])
+            else if (tmp->word[0] == '(' && tmp->word[1])
             {
                 ft_putstr_fd("bash: syntax error near unexpected token `", 1);
-                ft_putstr_fd(++set->word->word, 1);
+                ft_putstr_fd(++tmp->word, 1);
                 ft_putendl_fd("'", 1);
             }
-            else if (ft_strchr(set->word->word, '('))
+            else if (ft_strchr(tmp->word, '('))
                 ft_putendl_fd("bash: syntax error near unexpected token `('", 1);
-            else if (ft_strchr(set->word->word, ')'))
+            else if (ft_strchr(tmp->word, ')'))
                 ft_putendl_fd("bash: syntax error near unexpected token `)'", 1);
             all->error = 258;
             return (0);
         }
-        set->word = set->word->next;
+        tmp = tmp->next;
     }
+
        return (1);
 }
 
 void	export_executer(t_set *set, int **fd, t_all *all)
 {
 	int check;
-    t_set *tmp;
-	t_list	*mytemp;
-    
-	tmp = set;
-	mytemp = set->word;
-	while (mytemp)
-	{
-		//printf("arg is %\n", mytemp->word);
-		mytemp = mytemp->next;
-	}
-    // if (!ft_check_258(set, all))
-    	//return ;
+   
+     if (!ft_check_258(set, all))
+    	return ;
 	   //return (258);
-    ft_putendl_fd(set->word->word, 1);
-    set->word = set->word->next; 
-     ft_putendl_fd(set->word->word, 1);
-       // set->word = set->word->next;
-      //ft_putendl_fd(set->word->word, 1);
-       
-        printf("1");
-    
 	
+  
+   
+    //printf("arg is %s\n", mytemp->word);
 	if (!set->word)
 		ft_write_export(all->myenv, 1, ft_lstsize_env(all->myenv));
 	else
@@ -144,7 +143,7 @@ void	export_executer(t_set *set, int **fd, t_all *all)
             
          while(set->word)
             {
-               write(1, "he\n", 3);
+               //write(1, "he\n", 3);
                check = ft_check_word_export(set->word->word);
                 if (check == 1)
                     ft_add_env(set->word->word, all->myenv);

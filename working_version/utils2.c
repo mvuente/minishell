@@ -24,7 +24,7 @@ void	ft_free_set(t_set *set) ///тут надо проверить все ли �
     free(set);
 }
 
-char	*ft_strjoin_export(char const *s1, char const *s2, char const *s3)
+/*char	*ft_strjoin_export(char const *s1, char const *s2, char const *s3)
 {
 	char	*str;
 	size_t	lens1;
@@ -40,4 +40,4 @@ char	*ft_strjoin_export(char const *s1, char const *s2, char const *s3)
 	ft_strlcat(str, s2, lens2 + lens1 + 1);
     ft_strlcat(str, s3, lens3 + lens2 + lens1 + 1);
 	return (str);
-}
+}*/

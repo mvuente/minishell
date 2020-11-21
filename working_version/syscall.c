@@ -5,7 +5,7 @@ char **ft_creat_arr_comanda(char *comanda, t_set *set)
     char *tmp;
     char **arr;
 
-    tmp = ft_strjoin_export(comanda, "!", set->spec);
+   // tmp = ft_strjoin_export(comanda, "!", set->spec);
     arr = ft_split(tmp, '!');
     free(tmp);
     return (arr);
@@ -22,7 +22,7 @@ void ft_write_error(t_all *all, t_set *set, int fd) //доделаю как пр
 
 //ft_get_value прикрутить в файл например utils
 
-char *ft_check_syscall(t_env *bufenv, t_set *set, char **arr, char *comanda)
+/*char *ft_check_syscall(t_env *bufenv, t_set *set, char **arr, char *comanda)
 {
     char *path;
     int fd;
@@ -35,9 +35,9 @@ char *ft_check_syscall(t_env *bufenv, t_set *set, char **arr, char *comanda)
     arr = ft_split(path, ':');
     free(path);
 
-   /* int i = -1;
-    while (arr[++i])
-        printf(" arr   %s\n", arr[i]);*/
+   // int i = -1;
+    //while (arr[++i])
+      //  printf(" arr   %s\n", arr[i]);
 
 
     if (ft_strchr(set->builtin, '/'))
@@ -59,6 +59,28 @@ char *ft_check_syscall(t_env *bufenv, t_set *set, char **arr, char *comanda)
         }
        // printf("\ncom    %s\n\n", comanda);
     return (comanda);
+}*/
+
+char *ft_add_str(t_list *word)
+{
+    char *str;
+    t_list *tmp;
+    char *tmpstr;
+
+    tmp = word;
+    str = ft_strdup("");
+    while(tmp)
+    {
+       // printf("%s\n", tmp->word);
+       tmpstr = str;
+       ft_strjoin_export(str, " ", tmp->word); 
+       //printf("%s\n", str);
+
+      tmp = tmp->next;
+      free(tmpstr);
+    }
+printf("%s\n", str);
+    return (str);
 }
 
 int ft_syscall(t_all *all, t_set *set, t_env *bufenv, int **fd)
@@ -68,8 +90,11 @@ int ft_syscall(t_all *all, t_set *set, t_env *bufenv, int **fd)
     char *comanda; //с путем
     char **env;
     char **arr;
-    
-    comanda = NULL;
+    char *str;
+
+    str = ft_add_str(set->word); //создаю строку чтобы получить массив аргументов
+   // printf("%s\n", str);
+   /* comanda = NULL;
     env = ft_creat_arr_export(bufenv, ft_lstsize_env(bufenv));
     if (!(comanda = ft_check_syscall(bufenv, set, arr, comanda)))
           ft_write_error(all, set, 1); // Я ЗАМЕНИЛ FD на 1
@@ -95,6 +120,6 @@ int ft_syscall(t_all *all, t_set *set, t_env *bufenv, int **fd)
         wait(NULL);                // Ожидание потомка 
         //return (0);
         exit(EXIT_SUCCESS);
-    }
+    }*/
     return (0);
 }

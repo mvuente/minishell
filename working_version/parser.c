@@ -11,12 +11,16 @@ char	*cqpars(char *tmp, char symb) //check for \ in ""
 {
 	char	*finish;
 
-	finish = tmp;
-	while (*finish != symb || *finish != 0x0)
+	finish = tmp + 1;
+	//printf("finish is %s\n", finish);	
+	//printf("cqpars started\n");
+	while (*finish != symb && *finish != 0x0)
 		finish++;
 	if (*finish == 0x0)
 		command_error();
+	//printf("before first memmove finish is %s\n", finish);
 	finish = ft_memmove(finish, finish + 1, ft_strlen(finish + 1) + 1);//last
+	//printf("after first memmove finish is %s\n", finish);
 	tmp = (ft_memmove(tmp, tmp + 1, ft_strlen(tmp + 1) + 1)); //first
 	return (finish - 1);	
 }
@@ -26,9 +30,11 @@ void	reader(char *line, t_all all) //par of this func could be a parser function
     char		*tmp;
 	char		*delimiters;
 	char		*quot;
+	//char		*quotfinder;
 	int			*fd;
 	t_genlist	*genlist;
 
+	//printf("beginning: %s\n", line);
 	delimiters = ";|<> ";
 	quot = "\"\'";
 	genlist = initial_genlist();
@@ -43,7 +49,10 @@ void	reader(char *line, t_all all) //par of this func could be a parser function
 		//printf("tmp is %p\n", tmp);
 		//printf("line is %p\n", line);
 		if (ft_strchr(quot, *tmp))
+		{
+			//printf("before quotes is %s\n", tmp);
 			tmp = cqpars(tmp, *tmp);
+		}
 		else if (*tmp == 0x24)
 			tmp = dollarpars(&line, tmp, all); // write this! to return ptr before delimiter
 		else if (ft_strchr(delimiters, *tmp))

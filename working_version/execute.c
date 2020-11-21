@@ -9,7 +9,8 @@ void	echo_executer(t_set *set, int **fd, t_all *all)
     //printf("word is %s\n", set->word);
     //printf("descrioptor is %i\n", *(*fd + 1));
     tmp = set->word;
-	if (tmp)
+	//printf("word is %s\n", tmp->word);
+    if (tmp)
 	{
 		write(*(*fd + 1), tmp->word, ft_strlen(tmp->word));
 		tmp = tmp->next;

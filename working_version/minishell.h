@@ -99,4 +99,6 @@ t_list	*ft_create_item(char *data);
 t_list	*lstaddback(t_list *word, char *item);
 size_t	gnl(int fd, char **line);
 
+void ft_free_set(t_set *set);
+
 # endif

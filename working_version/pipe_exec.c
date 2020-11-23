@@ -83,7 +83,13 @@ int ft_work_pipe(t_all *all, t_genlist *pipes, int size, int pipefd[2], int **fd
     return (0);
 }
 // ft_pipe(&all, pipes, (ft_lstsize_pipes(pipes)) - 1);
+void ft_redirect(t_all *all, t_genlist *redirect, int pipefd[2])
+{
+    // создать файл
+    // подменяется фд1 на фд открытого файда и выполняется редирект
 
+
+}
 int ft_pipe(t_all *all, t_genlist *pipes, int size, int **fd)
 {
     int pipefd[2];
@@ -97,7 +103,10 @@ int ft_pipe(t_all *all, t_genlist *pipes, int size, int **fd)
             if (pipe(pipefd) == -1)
                 return (0);
             //printf("built  %s\n", pipes->set->builtin);
-            ft_work_pipe(all, pipes, size, pipefd, fd);
+            if (pipes->set->consq == '>')
+                ft_redirect(all, pipes, pipefd);
+            else
+                ft_work_pipe(all, pipes, size, pipefd, fd);
          
         size--;
         pipes = pipes->next;

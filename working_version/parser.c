@@ -66,7 +66,7 @@ void	reader(char *line, t_all all) //par of this func could be a parser function
 
 	}
 	tokencrtr(&line, tmp, &genlist, &fd, &all);
-	if (pipecount = pipefinder(genlist))
+	if ((pipecount = pipefinder(genlist)))
     	ft_pipe(&all, genlist, pipecount, &fd);
 	else
 		executer(genlist, &fd, &all);

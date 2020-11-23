@@ -54,7 +54,8 @@ int ft_work_pipe(t_all *all, t_genlist *pipes, int size, int pipefd[2], int **fd
            //else 
              //  dup2(pipefd[size][1], pipefd[size+1][1]); 
             flag = 1;
-           ft_exe_function(pipes, all, fd);
+            executer(pipes, fd, all);
+          // ft_exe_function(pipes, all, fd);
            exit(0); /// тут надо вернуть status после системной команды
             
            } 

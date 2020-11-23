@@ -5,6 +5,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <stdio.h>
 # include "libft/libft.h"
 
@@ -73,9 +74,11 @@ void    ft_change_oldpwd(t_env *myenv, char *pwd, char *oldpwd, char *path);
 void	env_executer(t_set *set, int **fd, t_all *all);
 void	unset_executer(t_set *set, int **fd, t_all *all);
 void	ft_exit(t_all *all, t_set *set, int **fd);
+void    ft_exe_function(t_genlist *pipes, t_all *all, int fd);
 t_env	*ft_lstnew_env(char *content);
 int	    ft_lstsize_env(t_env *lst);
 int     ft_syscall(t_all *all, t_set *set, t_env *bufenv, int **fd);
+int		ft_pipe(t_all *all, t_genlist *pipes, int size);
 char	**ft_creat_arr_export(t_env *bufenv, int size);
 char	*ft_strjoin_export(char const *s1, char const *s2, char const *s3);
 

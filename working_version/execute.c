@@ -1,5 +1,16 @@
 #include "minishell.h"
 
+void    ft_exe_function(t_genlist *pipes, t_all *all, int fd)
+{
+   // printf("\n%s\n", pipes->set->builtin);
+     //printf("%d\n", fd);
+    ft_syscall(all, pipes->set, &all->myenv, fd);
+   
+    
+    //здесь надо сделать парсинг для обработки строк с командами
+    // после обработки сделать условие для вызова системных или самописных файлов
+}
+
 void	echo_executer(t_set *set, int **fd, t_all *all)
 {
 	int 	descr;

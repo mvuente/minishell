@@ -1,28 +1,41 @@
 #include "minishell.h"
 
-char **ft_creat_arr_comanda(char *comanda, t_set *set)
+char **ft_creat_arr_comanda(char *comanda, t_set *set, char *str)
 {
     char *tmp;
-    char **arr;
+    char **arr = NULL;
 
-   // tmp = ft_strjoin_export(comanda, "!", set->spec);
-    arr = ft_split(tmp, '!');
-    free(tmp);
+     //printf("cam  %s\n", comanda);
+    printf("str  %s\n", str);
+    if (str)
+        {
+            tmp = ft_strjoin_export(comanda, "!", str);
+            arr = ft_split(tmp, '!');
+            free(tmp);
+        }
+    else
+       arr = ft_split(comanda, ' ');
+    
+    
     return (arr);
 }
 
-void ft_write_error(t_all *all, t_set *set, int fd) //доделаю как прикрутим
+int ft_write_error(t_all *all, t_set *set, int fd) //доделаю как прикрутим
 {
-    all->error = 1;
-   // ft_putstr_fd()
-    printf("ошибка!!!");
+    int error;
 
+    error = 127;
+   ft_putstr_fd("bash:", 1);
+    ft_putstr_fd(set->builtin, 1);
+    ft_putstr_fd(": command not found\n", 1);
+  
 
+    return(error);
 }
 
 //ft_get_value прикрутить в файл например utils
 
-/*char *ft_check_syscall(t_env *bufenv, t_set *set, char **arr, char *comanda)
+char *ft_check_syscall(t_env *bufenv, t_set *set, char **arr, char *comanda)
 {
     char *path;
     int fd;
@@ -33,7 +46,7 @@ void ft_write_error(t_all *all, t_set *set, int fd) //доделаю как пр
     path = ft_get_value(bufenv, "PATH");
 
     arr = ft_split(path, ':');
-    free(path);
+   // free(path);
 
    // int i = -1;
     //while (arr[++i])
@@ -59,7 +72,7 @@ void ft_write_error(t_all *all, t_set *set, int fd) //доделаю как пр
         }
        // printf("\ncom    %s\n\n", comanda);
     return (comanda);
-}*/
+}
 
 char *ft_add_str(t_list *word)
 {
@@ -67,19 +80,24 @@ char *ft_add_str(t_list *word)
     t_list *tmp;
     char *tmpstr;
 
+    str = NULL;
     tmp = word;
-    str = ft_strdup("");
+    if (tmp->word)
+        {
+            str = ft_strdup(word->word);
+            tmp = tmp->next;
+        }
     while(tmp)
     {
-       // printf("%s\n", tmp->word);
+        //printf("word %s\n", tmp->word);
        tmpstr = str;
-       ft_strjoin_export(str, " ", tmp->word); 
-       //printf("%s\n", str);
+       str = ft_strjoin_export(str, "!", tmp->word); 
+      // printf("%p\n", tmp->word);
 
       tmp = tmp->next;
-      free(tmpstr);
+      //free(tmpstr);
     }
-printf("%s\n", str);
+//printf("%s\n", str);
     return (str);
 }
 
@@ -90,36 +108,37 @@ int ft_syscall(t_all *all, t_set *set, t_env *bufenv, int **fd)
     char *comanda; //с путем
     char **env;
     char **arr;
-    char *str;
-
-    str = ft_add_str(set->word); //создаю строку чтобы получить массив аргументов
-   // printf("%s\n", str);
-   /* comanda = NULL;
+    char *str=NULL;
+    
+    
+   if (set->word)
+      str = ft_add_str(set->word); //создаю строку чтобы получить массив аргументов
+    //str = ft_strdup("-la!/bin/");
+   // printf("strig  |%s|\n", str);
+    comanda = NULL;
     env = ft_creat_arr_export(bufenv, ft_lstsize_env(bufenv));
-    if (!(comanda = ft_check_syscall(bufenv, set, arr, comanda)))
-          ft_write_error(all, set, 1); // Я ЗАМЕНИЛ FD на 1
-    else 
-        arr = ft_creat_arr_comanda(comanda, set);
 
-    cpid = fork();
+    ft_check_syscall(bufenv, set, arr, comanda);
+
+    if (!(comanda = ft_check_syscall(bufenv, set, arr, comanda)))
+       all->error = ft_write_error(all, set, 1); // Я ЗАМЕНИЛ FD на 1
+    else 
+      arr = ft_creat_arr_comanda(comanda, set, str);
+
+
+   cpid = fork();
     if (cpid == -1) 
         return (1);
 
     if (cpid == 0) 
-    {    // Потомок читает из канала
-     // printf("\ncom    %s\n\n", comanda);
+    {    
        ft_putstr_fd("hello", 8); // ОН БУДЕТ ПИСАТЬ В ДЕСКРИПТОР 8????? ИЛИ ДЛИНА СЛОВА 8?
-       status = execve(comanda, arr, env);   ///bin/ls, env, ls -la массив 
-       
-       //printf ("status  %d\n", status);
-       //printf ("errno  %d\n", errno);
-       //return (0);
-       _exit(EXIT_SUCCESS);
+       status = execve(comanda, arr, env);   ///bin/ls, env, ls -la массив
+
+     
     } else 
-    {            // Родитель пишет значение argv[1] в канал 
-        wait(NULL);                // Ожидание потомка 
-        //return (0);
-        exit(EXIT_SUCCESS);
-    }*/
+    {  
+         wait(NULL);
+    }
     return (0);
 }

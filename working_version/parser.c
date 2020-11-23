@@ -30,7 +30,7 @@ void	reader(char *line, t_all all) //par of this func could be a parser function
     char		*tmp;
 	char		*delimiters;
 	char		*quot;
-	//char		*quotfinder;
+	int			pipecount;
 	int			*fd;
 	t_genlist	*genlist;
 
@@ -66,7 +66,9 @@ void	reader(char *line, t_all all) //par of this func could be a parser function
 
 	}
 	tokencrtr(&line, tmp, &genlist, &fd, &all);
-	//printf("OK?\n");
-	executer(genlist, &fd, &all);
+	if (pipecount = pipefinder(genlist))
+    	ft_pipe(all, genlist, pipecount);
+	else
+		executer(genlist, &fd, &all);
 	
 }

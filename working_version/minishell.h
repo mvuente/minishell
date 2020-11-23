@@ -81,6 +81,7 @@ char	*ft_strjoin_export(char const *s1, char const *s2, char const *s3);
 
 
 
+int		pipefinder(t_genlist *genlist);
 char	*replace(char **line, char *start, char *finish, char *value);
 //void	shell(t_set **set);
 char	*itemcrtr(char **line, char *tmp);

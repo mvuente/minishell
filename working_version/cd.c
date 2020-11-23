@@ -97,7 +97,7 @@ void ft_cd(t_all *all, t_set *set)
      //printf("%s\n", path);
     if ((chdir(path)) != 0) //return 1 or 0
     {
-      write(1, "cd: no such file or directory: ", 31);
+      //write(1, "cd: no such file or directory: ", 31);
       write(1, "cd: ", 4);
       write(1, path, ft_strlen(path));
       ft_putendl_fd(": No such file or directory", 1);

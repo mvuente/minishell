@@ -4,10 +4,10 @@ char	*textpars(char **line, char *tmp, t_set *set)
 {	
 	//printf("textpasr started\n");
 	*set = builtinrcrdr(itemcrtr(line, tmp), *set);
-	return (tmp + 1);
+	return (tmp);
 }
 
-char	*tokencrtr(char **line, char *delim, t_genlist **genlist, int **fd)
+char	*tokencrtr(char **line, char *delim, t_genlist **genlist, int **fd, t_all *all)
 {
 	char		*tmp;
 	t_genlist	*templist;
@@ -27,6 +27,13 @@ char	*tokencrtr(char **line, char *delim, t_genlist **genlist, int **fd)
 	else if (*delim == 0x7c)
 		{
 			return (pipeparser(line, delim, templist));
+		}
+	else if (*delim == 0x3b)
+		{
+			//printf("found semicolons?\n");
+			printf("line is %s\n", *line);
+			printf("tmp is %s\n", delim);
+			return (semicolparser(line, fd, genlist, all));
 		}
 	else if (*delim == 0x3c || *delim == 0x3e)
 		{

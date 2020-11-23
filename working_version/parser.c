@@ -57,7 +57,7 @@ void	reader(char *line, t_all all) //par of this func could be a parser function
 		else if (*tmp == 0x24)
 			tmp = dollarpars(&line, tmp, all); // write this! to return ptr before delimiter
 		else if (ft_strchr(delimiters, *tmp))
-			tmp = tokencrtr(&line, tmp, &genlist, &fd); // to proceed the token and shift line pointer
+			tmp = tokencrtr(&line, tmp, &genlist, &fd, &all); // to proceed the token and shift line pointer
 		else
 			tmp++;
 		//if (*tmp == ';')
@@ -65,7 +65,7 @@ void	reader(char *line, t_all all) //par of this func could be a parser function
 		//else if (*tmp == '|')
 
 	}
-	tokencrtr(&line, tmp, &genlist, &fd);
+	tokencrtr(&line, tmp, &genlist, &fd, &all);
 	//printf("OK?\n");
 	executer(genlist, &fd, &all);
 	

@@ -1,18 +1,18 @@
 #include "minishell.h"
 
-void ft_free_set(t_set *set)
-{
-    while(set->word)
-    {
-        free(set->word->word);
-        set->word = set->word->next;
-    }
-    
-    if (set->builtin)
-        free(set->builtin);
-    free(set->word);
-    free(set);
-}
+//void ft_free_set(t_set *set)
+//{
+//    while(set->word)
+//    {
+//        free(set->word->word);
+//        set->word = set->word->next;
+ //   }
+//    
+//    if (set->builtin)
+//        free(set->builtin);
+//    free(set->word);
+//    free(set);
+//}
 
 void ft_add_env(char *str, t_env *bufenv)
 {

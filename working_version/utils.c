@@ -55,7 +55,7 @@ char	*itemcrtr(char **line, char *tmp)
 	if (!(item = ft_calloc(tmp - *line + 1, sizeof(char))))
 		malloc_error();
 	item = ft_memmove(item, *line, tmp - *line);
-	*line = tmp + 1;
+	*line = tmp;
 	//printf("item from utils is %s\n", item);
 	return (item);
 }

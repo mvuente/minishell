@@ -59,6 +59,6 @@ void    executer(t_genlist *genlist, int **fd, t_all *all)
     //    write(1, ": command not found", 19);
     //    write(1, "\n", 1);
         //minishell(*all);
-    //}
+    //} 
     return ;
 }

@@ -39,10 +39,11 @@ void	reader(char *line, t_all all) //par of this func could be a parser function
 	quot = "\"\'";
 	genlist = initial_genlist();
 	tmp = line;
-	if (!(fd = (int*)malloc(sizeof(int) * 2)))
+	if (!(fd = (int*)malloc(sizeof(int) * 3)))
 		malloc_error();
 	fd[0] = 0;
 	fd[1] = 1;
+	fd[2] = 2;
 	//printf("fd started %i\n", fd[1]);
 	while (*tmp != 0x0)// tokenazing starts
 	{ 

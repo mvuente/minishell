@@ -24,6 +24,10 @@ char	*tokencrtr(char **line, char *delim, t_genlist **genlist, int **fd)
 		//printf("line is%s\n", *line);
 		return (textpars(line, delim, templist->set));
 	}
+	else if (*delim == 0x7c)
+		{
+			return (pipeparser(line, delim, templist));
+		}
 	else if (*delim == 0x3c || *delim == 0x3e)
 		{
 			//printf("direct should be started\n");

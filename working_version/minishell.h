@@ -90,6 +90,7 @@ char    *processpars(char **line, char *delim, t_genlist **genlist);
 char	*cqpars(char *tmp, char symb);
 char	*ft_get_value(t_env *myenv, char *var);
 char	*dollarpars(char **line, char *ptr, t_all all);
+char	*pipeparser(char **line, char *delim, t_genlist *templist);
 //char    *backpars(char *tmp);
 t_set	wordrcrdr(char *item, t_set set);
 char	*dirpars(char **line, char *start, int **fd);

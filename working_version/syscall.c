@@ -6,7 +6,7 @@ char **ft_creat_arr_comanda(char *comanda, t_set *set, char *str)
     char **arr = NULL;
 
      //printf("cam  %s\n", comanda);
-    printf("str  %s\n", str);
+    //printf("str  %s\n", str);
     if (str)
         {
             tmp = ft_strjoin_export(comanda, "!", str);
@@ -38,23 +38,21 @@ int ft_write_error(t_all *all, t_set *set, int fd) //доделаю как пр�
 char *ft_check_syscall(t_env *bufenv, t_set *set, char **arr, char *comanda)
 {
     char *path;
-    int fd;
     int a;
+    int fd;
 
-    fd = 0;
-
+    fd =0;
     path = ft_get_value(bufenv, "PATH");
 
     arr = ft_split(path, ':');
-   // free(path);
-
+   
    // int i = -1;
     //while (arr[++i])
       //  printf(" arr   %s\n", arr[i]);
 
 
     if (ft_strchr(set->builtin, '/'))
-        comanda = set->builtin;
+        comanda = ft_strdup(set->builtin);
     //printf("path    %s\n", path);
     a = -1;
     while (arr[++a] && !ft_strchr(set->builtin, '/'))
@@ -95,10 +93,17 @@ char *ft_add_str(t_list *word)
       // printf("%p\n", tmp->word);
 
       tmp = tmp->next;
-      //free(tmpstr);
+      free(tmpstr);
     }
 //printf("%s\n", str);
     return (str);
+}
+
+void ft_free_syscall(char *comanda, char **env)
+{
+        free(comanda);
+        ft_free_arr(env);
+
 }
 
 int ft_syscall(t_all *all, t_set *set, t_env *bufenv, int **fd)
@@ -108,17 +113,16 @@ int ft_syscall(t_all *all, t_set *set, t_env *bufenv, int **fd)
     char *comanda; //с путем
     char **env;
     char **arr;
-    char *str=NULL;
+    char *str;
     
-    
+    str = NULL;
    if (set->word)
       str = ft_add_str(set->word); //создаю строку чтобы получить массив аргументов
-    //str = ft_strdup("-la!/bin/");
-   // printf("strig  |%s|\n", str);
+    
     comanda = NULL;
     env = ft_creat_arr_export(bufenv, ft_lstsize_env(bufenv));
-
-    ft_check_syscall(bufenv, set, arr, comanda);
+    
+    //ft_check_syscall(bufenv, set, arr, comanda);
 
     if (!(comanda = ft_check_syscall(bufenv, set, arr, comanda)))
        all->error = ft_write_error(all, set, 1); // Я ЗАМЕНИЛ FD на 1
@@ -132,13 +136,21 @@ int ft_syscall(t_all *all, t_set *set, t_env *bufenv, int **fd)
 
     if (cpid == 0) 
     {    
-       ft_putstr_fd("hello", 8); // ОН БУДЕТ ПИСАТЬ В ДЕСКРИПТОР 8????? ИЛИ ДЛИНА СЛОВА 8?
+       //ft_putstr_fd("hello", 8); // ОН БУДЕТ ПИСАТЬ В ДЕСКРИПТОР 8????? ИЛИ ДЛИНА СЛОВА 8?
        status = execve(comanda, arr, env);   ///bin/ls, env, ls -la массив
+      
 
-     
-    } else 
+     exit(status);
+    } 
+    else 
     {  
          wait(NULL);
     }
+     
+    //ft_free_arr(arr);
+   
+    
+    //printf("%s\n", comanda);
+    ft_free_syscall(comanda, env);
     return (0);
 }

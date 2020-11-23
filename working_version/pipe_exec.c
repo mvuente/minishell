@@ -95,7 +95,7 @@ int ft_pipe(t_all *all, t_genlist *pipes, int size, int **fd)
     while (size >= 0)
     {
             if (pipe(pipefd) == -1)
-                retutn (0);
+                return (0);
             //printf("built  %s\n", pipes->set->builtin);
             ft_work_pipe(all, pipes, size, pipefd, fd);
          

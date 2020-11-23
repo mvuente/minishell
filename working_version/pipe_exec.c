@@ -36,7 +36,7 @@ int **ft_init_pipefd(int size)
 
 
 
-int ft_work_pipe(t_all *all, t_genlist *pipes, int size, int **pipefd)
+int ft_work_pipe(t_all *all, t_genlist *pipes, int size, int **pipefd, int **fd)
 {
     pid_t cpid;
     int status;
@@ -55,7 +55,7 @@ int ft_work_pipe(t_all *all, t_genlist *pipes, int size, int **pipefd)
              //  dup2(pipefd[size][1], pipefd[size+1][1]); 
             flag = 1;
            
-           ft_exe_function(pipes, all, 1); // ту вызывается функция которая вызовет или системную или самописную
+           ft_exe_function(pipes, all, fd); // ту вызывается функция которая вызовет или системную или самописную
         } 
         else 
         {   
@@ -67,12 +67,12 @@ int ft_work_pipe(t_all *all, t_genlist *pipes, int size, int **pipefd)
               {
                     dup2(all->fd_1, 1);
             }
-           // else
+           // else 
              //  dup2(pipefd[size-1][1], pipefd[size][0]);
             pipes = pipes->next;
             if (size < 1)
                {
-                    ft_exe_function(pipes, all, 1);
+                    ft_exe_function(pipes, all, fd);
                      dup2(all->fd_0, 0);
                } 
         }
@@ -80,7 +80,7 @@ int ft_work_pipe(t_all *all, t_genlist *pipes, int size, int **pipefd)
 }
 // ft_pipe(&all, pipes, (ft_lstsize_pipes(pipes)) - 1);
 
-int ft_pipe(t_all *all, t_genlist *pipes, int size)
+int ft_pipe(t_all *all, t_genlist *pipes, int size, int **fd)
 {
     int **pipefd;
     pid_t cpid;
@@ -92,7 +92,7 @@ int ft_pipe(t_all *all, t_genlist *pipes, int size)
     while (size >= 0)
     {
             printf("size = %d\n", size);
-            ft_work_pipe(all, pipes, size, pipefd);
+            ft_work_pipe(all, pipes, size, pipefd, fd);
         
         size--;
         pipes = pipes->next;

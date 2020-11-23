@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-void    ft_exe_function(t_genlist *pipes, t_all *all, int fd)
+void    ft_exe_function(t_genlist *pipes, t_all *all, int **fd)
 {
    // printf("\n%s\n", pipes->set->builtin);
      //printf("%d\n", fd);
-    ft_syscall(all, pipes->set, &all->myenv, fd);
+    ft_syscall(all, pipes->set, all->myenv, fd);
    
     
     //здесь надо сделать парсинг для обработки строк с командами

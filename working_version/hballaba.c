@@ -74,7 +74,7 @@ char	**ft_creat_arr_export(t_env *bufenv, int size) // скорее всего �
 		if (bufenv->data)
             content = ft_strjoin_export(bufenv->name, "=", bufenv->data);
         else 
-            content = bufenv->name;
+            content = ft_strdup(bufenv->name);
         if (!(arr[i] = (char*)malloc(sizeof(char) * (ft_strlen(content) + 1))))
 			malloc_error();
 		ft_memcpy(arr[i], content, ft_strlen(content) + 1);

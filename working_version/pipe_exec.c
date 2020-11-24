@@ -104,10 +104,11 @@ int ft_pipe(t_all *all, t_genlist *pipes, int size)
             if (pipe(pipefd) == -1)
                 return (0);
             //printf("built  %s\n", pipes->set->builtin);
-            if (pipes->set->consq == '>')
-                ft_redirect(all, pipes, pipefd);
-            else
-                ft_work_pipe(all, pipes, size, pipefd);
+            //if (pipes->set->consq == '>')
+              //  ft_redirect(all, pipes, pipefd);
+            if (pipes->set->direct)
+				dir_exec_pipe(&pipefd, pipes->set->direct);
+            ft_work_pipe(all, pipes, size, pipefd);
          
         size--;
         pipes = pipes->next;

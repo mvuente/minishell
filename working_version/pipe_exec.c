@@ -73,8 +73,11 @@ int ft_work_pipe(t_all *all, t_genlist *pipes, int size, int pipefd[2])
                    
            }
            pipes = pipes->next;
+		   if (pipes->set->direct)
+				dir_exec_pipe(pipe_init(), pipes->set->direct);
            if (size < 1)
            {
+			   //printf("comand inside is %s\n", pipes->set->builtin);
                 ft_exe_function(pipes, all, pipefd);
                 dup2(all->fd_0, 0);
                 
@@ -97,27 +100,29 @@ int ft_pipe(t_all *all, t_genlist *pipes, int size)
     pid_t 		cpid;
     int 		flag;
     int 		status;
-	t_genlist	*tmp;
-	int			check;
+	//t_genlist	*tmp;
+	//char		*test;
      
-    tmp = pipes->next;
+    //tmp = pipes->next;
 	size--;
     while (size >= 0)
     {
-            if (pipe(pipefd) == -1)
+        	//printf("comand is %s\n", pipes->set->builtin);
+			if (pipe(pipefd) == -1)
                 return (0);
             //printf("built  %s\n", pipes->set->builtin);
             //if (pipes->set->consq == '>')
               //  ft_redirect(all, pipes, pipefd);
-            if (tmp->set->direct)
-				dir_exec_pipe(pipe_init(), tmp->set->direct);
-			dup2(0, check);
-			printf("and I've got 0 is %i\n", check);
+            if (pipes->set->direct)
+				dir_exec_pipe(pipe_init(), pipes->set->direct);
+			//read(0, test, 1);
+			//printf("WTF? %s\n", test);
             ft_work_pipe(all, pipes, size, pipefd);
          
         size--;
+		//printf("comand after is %s\n", pipes->set->builtin);
         pipes = pipes->next;
-		tmp = tmp->next;
+		//tmp = tmp->next;
         //printf("built  %s\n", pipes->set->builtin);
     }
    return (0);

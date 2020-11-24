@@ -19,7 +19,7 @@ char	*replace(char **line, char *start, char *finish, char *value)
 		tmpline = ft_memmove(tmpline, value, ft_strlen(value));
 		tmpline = tmpline + ft_strlen(value);
 	}
-	tmpline = ft_memmove(tmpline, finish, ft_strlen(finish));
+	tmpline = ft_memmove(tmpline, finish, ft_strlen(finish) + 1);
 	free(*line);
 	*line = newline;
 	return (tmpline);
@@ -30,20 +30,15 @@ char	*dollarpars(char **line, char *ptr, t_all all)
 	char	*var;
 	char	*tmp;
 	char	*value;
-	//char	*temp;
 
 	ptr = ft_memmove(ptr, ptr + 1, ft_strlen(ptr + 1) + 1);// просто сдвинут всю строку на 1 влево, убрав $
 	tmp = ptr;
-	
-	//read(stderr, &temp, 100);
-
-	
-	printf("errno is %d\n", errno);
-	printf("stderr is %s\n", strerror(errno));
 	if (*tmp && *tmp == 0x3f)
 	{
 		if (!(value = ft_itoa(errno)))
 		malloc_error();
+		ptr--;
+		tmp++;
 	}
 	else
 	{

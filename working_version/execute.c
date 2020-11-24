@@ -46,7 +46,7 @@ void    executer(t_genlist *genlist, int **fd, t_all *all)
     t_genlist   *tmp;
 
     tmp = genlist;
-    printf("command is %s\n", tmp->set->builtin);
+    //printf("command is %s\n", tmp->set->builtin);
     if (!tmp->set->builtin)
     	write(1, "\n", 1);
     else if (!ft_memcmp(tmp->set->builtin, "pwd", 4))

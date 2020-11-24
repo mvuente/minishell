@@ -31,8 +31,8 @@ char	*tokencrtr(char **line, char *delim, t_genlist **genlist, int **fd, t_all *
 	else if (*delim == 0x3b)
 		{
 			//printf("found semicolons?\n");
-			printf("line is %s\n", *line);
-			printf("tmp is %s\n", delim);
+			//printf("line is %s\n", *line);
+			//printf("tmp is %s\n", delim);
 			return (semicolparser(line, fd, genlist, all));
 		}
 	else if (*delim == 0x3c || *delim == 0x3e)

@@ -6,7 +6,9 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <errno.h>
 # include <stdio.h>
+# include <string.h>
 # include "libft/libft.h"
 
 typedef struct s_list

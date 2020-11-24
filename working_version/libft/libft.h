@@ -35,5 +35,6 @@ void	    ft_putchar_fd(char c, int fd);
 void		ft_putendl_fd(char *c, int fd);
 int			ft_atoi(const char *ptr);
 char		**ft_split(char const *s, char c);
+char		*ft_itoa(int a);
 
 #endif

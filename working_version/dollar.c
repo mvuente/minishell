@@ -30,13 +30,28 @@ char	*dollarpars(char **line, char *ptr, t_all all)
 	char	*var;
 	char	*tmp;
 	char	*value;
+	//char	*temp;
 
 	ptr = ft_memmove(ptr, ptr + 1, ft_strlen(ptr + 1) + 1);// просто сдвинут всю строку на 1 влево, убрав $
 	tmp = ptr;
-	while (ft_isalnum(*tmp) || *tmp == 0x5f)
-		tmp++;
-	var = itemcrtr(&ptr, tmp); //получил имя перменной окружения
-	ptr = ptr - ft_strlen(var) - 1; // вернул указатель на место
-	value = ft_get_value(all.myenv, var);//взять значение переменной
+	
+	//read(stderr, &temp, 100);
+
+	
+	printf("errno is %d\n", errno);
+	printf("stderr is %s\n", strerror(errno));
+	if (*tmp && *tmp == 0x3f)
+	{
+		if (!(value = ft_itoa(errno)))
+		malloc_error();
+	}
+	else
+	{
+		while (tmp && (ft_isalnum(*tmp) || *tmp == 0x5f))
+			tmp++;
+		var = itemcrtr(&ptr, tmp); //получил имя перменной окружения
+		value = ft_get_value(all.myenv, var);//взять значение переменной
+		ptr = ptr - ft_strlen(var); // вернул указатель на место
+	}
 	return (replace(line, ptr, tmp, value));// заменить кусок строки от ptr до tmp на это значение
 }

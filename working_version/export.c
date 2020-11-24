@@ -85,7 +85,11 @@ int ft_check_word_export(char *word)
     else if (c == '_' && !word[1])
         return (2);
     else
-        return (0);
+    {
+    	//printf("errno is %i\n", errno);
+		errno = 1; // не уверен
+		return (0);
+	}
     return (1);
 }
 

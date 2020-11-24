@@ -39,6 +39,7 @@ char	*dollarpars(char **line, char *ptr, t_all all)
 		malloc_error();
 		ptr--;
 		tmp++;
+		errno = 0;
 	}
 	else
 	{

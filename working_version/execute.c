@@ -38,6 +38,7 @@ void	echo_executer(t_set *set, int **fd, t_all *all)
         close(*(*fd + 1));
     *(*fd + 1) = 1;
     write(1, "\n", 1);
+    errno = 0;
     //minishell(*all);
 }
 

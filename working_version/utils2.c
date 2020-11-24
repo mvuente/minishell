@@ -55,3 +55,14 @@ int		*pipe_init(void)
 	tmp = fd;
 	return (tmp);
 }
+
+//t_genlist	*rotor(int	size, t_genlist *genlist)
+//{
+//	t_genlist	*tmp;
+//
+//	tmp = genlist;
+//	while (size > 0)
+//	{
+//
+//	}
+//}

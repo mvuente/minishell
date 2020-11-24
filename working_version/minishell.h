@@ -62,7 +62,7 @@ typedef	struct	s_genlist
 int		minishell(t_all all);
 int		*pipe_init(void);
 int     *dir_exec(int *fd, t_dirlist *direct);
-void	dir_exec_pipe(int **fd, t_dirlist *direct);
+void	dir_exec_pipe(int *fd, t_dirlist *direct);
 void	read_error(void);
 void	malloc_error(void);
 void	command_error(void);

@@ -93,12 +93,15 @@ void ft_redirect(t_all *all, t_genlist *redirect, int pipefd[2])
 }
 int ft_pipe(t_all *all, t_genlist *pipes, int size)
 {
-    int pipefd[2];
-    pid_t cpid;
-    int flag;
-    int status;
+    int 		pipefd[2];
+    pid_t 		cpid;
+    int 		flag;
+    int 		status;
+	t_genlist	*tmp;
+	int			check;
      
-    size--;
+    tmp = pipes->next;
+	size--;
     while (size >= 0)
     {
             if (pipe(pipefd) == -1)
@@ -106,12 +109,15 @@ int ft_pipe(t_all *all, t_genlist *pipes, int size)
             //printf("built  %s\n", pipes->set->builtin);
             //if (pipes->set->consq == '>')
               //  ft_redirect(all, pipes, pipefd);
-            if (pipes->set->direct)
-				dir_exec_pipe(&pipefd, pipes->set->direct);
+            if (tmp->set->direct)
+				dir_exec_pipe(pipe_init(), tmp->set->direct);
+			dup2(check, 0);
+			printf("and I've got 0 is %i\n", check);
             ft_work_pipe(all, pipes, size, pipefd);
          
         size--;
         pipes = pipes->next;
+		tmp = tmp->next;
         //printf("built  %s\n", pipes->set->builtin);
     }
    return (0);

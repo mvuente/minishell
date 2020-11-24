@@ -111,7 +111,7 @@ int ft_pipe(t_all *all, t_genlist *pipes, int size)
               //  ft_redirect(all, pipes, pipefd);
             if (tmp->set->direct)
 				dir_exec_pipe(pipe_init(), tmp->set->direct);
-			dup2(check, 0);
+			dup2(0, check);
 			printf("and I've got 0 is %i\n", check);
             ft_work_pipe(all, pipes, size, pipefd);
          

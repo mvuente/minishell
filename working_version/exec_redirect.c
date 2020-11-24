@@ -71,8 +71,8 @@ void	dir_exec_pipe(int *fd, t_dirlist *direct)
 			fd[1] = open(tmp->fname, O_RDWR | O_CREAT| O_APPEND, S_IRWXU);
 		dup2(fd[1], 1);
 		tmp = tmp->next;
-		//printf("fd[0] is %i\n", fd[0]);
-		//printf("fd[1] is %i\n", fd[1]);
+		printf("fd[0] is %i\n", fd[0]);
+		printf("fd[1] is %i\n", fd[1]);
 	}
 	return ;
 }

@@ -54,6 +54,8 @@ int ft_work_pipe(t_all *all, t_genlist *pipes, int size, int pipefd[2])
            //else 
              //  dup2(pipefd[size][1], pipefd[size+1][1]); 
             flag = 1;
+			if (pipes->set->direct)
+				dir_exec_pipe(pipe_init(), pipes->set->direct);
             executer(pipes, pipefd, all);
           // ft_exe_function(pipes, all, fd);
            exit(0); /// тут надо вернуть status после системной команды
@@ -113,8 +115,8 @@ int ft_pipe(t_all *all, t_genlist *pipes, int size)
             //printf("built  %s\n", pipes->set->builtin);
             //if (pipes->set->consq == '>')
               //  ft_redirect(all, pipes, pipefd);
-            if (pipes->set->direct)
-				dir_exec_pipe(pipe_init(), pipes->set->direct);
+            //if (pipes->set->direct)
+			//	dir_exec_pipe(pipe_init(), pipes->set->direct);
 			//read(0, test, 1);
 			//printf("WTF? %s\n", test);
             ft_work_pipe(all, pipes, size, pipefd);

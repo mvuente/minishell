@@ -18,6 +18,7 @@ t_set	*initial_set(void)
 		malloc_error();
 	set->builtin = NULL;
 	set->word = NULL;
+	set->direct = NULL;
 	set->spec = 0x0;
 	set->consq = 0x0;
 	return (set);

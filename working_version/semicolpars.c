@@ -9,7 +9,7 @@ char	*semicolparser(char **line, int **fd, t_genlist **genlist, t_all *all)
 	while (tmplist->next)
 		tmplist = tmplist->next;
 	tmplist->set->consq = 0x3b;
-	executer(*genlist, fd, all);
+	executer(*genlist, *fd, all);
 	cleargenlist(*genlist);
 	printf("I'm here?\n");
 	*genlist = initial_genlist();

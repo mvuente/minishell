@@ -17,6 +17,12 @@ typedef struct s_list
     struct s_list   *next;
 }               t_list;
 
+typedef struct s_dirlist
+{
+    char            *direct;
+	char			*fname;
+    struct s_dirlist   *next;
+}               t_dirlist;
 
 typedef struct	s_env
 {
@@ -42,6 +48,7 @@ typedef	struct	s_set
 {
     char   			*builtin;
     t_list			*word;
+    t_dirlist		*direct;
 	char			spec;
 	char			consq;
 }				t_set;
@@ -53,14 +60,16 @@ typedef	struct	s_genlist
 }				t_genlist;
 
 int		minishell(t_all all);
-int     **dir_exec(int **fd, char *operator, char *operand);
+int		*pipe_init(void);
+int     *dir_exec(int *fd, t_dirlist *direct);
 void	read_error(void);
 void	malloc_error(void);
 void	command_error(void);
-void	ft_pwd(int **fd, t_all *all);
+void	some_error(void);
+void	ft_pwd(int *fd, t_all *all);
 void 	ft_echo(char *name, char *line, char option, char direct);
-void	export_executer(t_set *set, int **fd, t_all *all);
-void	executer(t_genlist *genlist, int **fd, t_all *all);
+void	export_executer(t_set *set, int *fd, t_all *all);
+void	executer(t_genlist *genlist, int *fd, t_all *all);
 void	reader(char *line, t_all all);
 void	genlstadd(char *delim, t_genlist **genlist);
 void    cleargenlist(t_genlist *genlist);
@@ -73,14 +82,14 @@ void	ft_lstadd_back_env(t_env **lst, t_env *new);
 void	ft_change_data(t_env *tmp, int flag, char *str);
 void	ft_sort(t_env *bufenv, char **arr, int num);
 void    ft_change_oldpwd(t_env *myenv, char *pwd, char *oldpwd, char *path);
-void	env_executer(t_set *set, int **fd, t_all *all);
-void	unset_executer(t_set *set, int **fd, t_all *all);
-void	ft_exit(t_all *all, t_set *set, int **fd);
-void    ft_exe_function(t_genlist *pipes, t_all *all, int **fd);
+void	env_executer(t_set *set, int *fd, t_all *all);
+void	unset_executer(t_set *set, int *fd, t_all *all);
+void	ft_exit(t_all *all, t_set *set, int *fd);
+void    ft_exe_function(t_genlist *pipes, t_all *all, int *fd);
 t_env	*ft_lstnew_env(char *content);
 int	    ft_lstsize_env(t_env *lst);
-int     ft_syscall(t_all *all, t_set *set, t_env *bufenv, int **fd);
-int		ft_pipe(t_all *all, t_genlist *pipes, int size, int **fd);
+int     ft_syscall(t_all *all, t_set *set, t_env *bufenv, int *fd);
+int		ft_pipe(t_all *all, t_genlist *pipes, int size);
 char	**ft_creat_arr_export(t_env *bufenv, int size);
 char	*ft_strjoin_export(char const *s1, char const *s2, char const *s3);
 
@@ -101,8 +110,10 @@ char	*pipeparser(char **line, char *delim, t_genlist *templist);
 char	*semicolparser(char **line, int **fd, t_genlist **genlist, t_all *all);
 //char    *backpars(char *tmp);
 t_set	wordrcrdr(char *item, t_set set);
-char	*dirpars(char **line, char *start, int **fd);
+char	*dirpars(char **line, char *start, int **fd, t_set *set);
 t_set	builtinrcrdr(char *item, t_set set);
+t_dirlist	*dirlistcrtr(char *direction, char *fname);
+t_dirlist	*dir_record(t_set *set, char *direct, char *operand);
 t_genlist	*initial_genlist(void);
 //t_set	**parser(char *line);
 t_list	*ft_create_item(char *data);

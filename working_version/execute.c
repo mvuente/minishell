@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void    ft_exe_function(t_genlist *pipes, t_all *all, int **fd)
+void    ft_exe_function(t_genlist *pipes, t_all *all, int *fd)
 {
    // printf("\n%s\n", pipes->set->builtin);
      //printf("%d\n", fd);
@@ -11,7 +11,7 @@ void    ft_exe_function(t_genlist *pipes, t_all *all, int **fd)
     // после обработки сделать условие для вызова системных или самописных файлов
 }
 
-void	echo_executer(t_set *set, int **fd, t_all *all)
+void	echo_executer(t_set *set, int *fd, t_all *all)
 {
 	int 	descr;
     t_list  *tmp;
@@ -23,26 +23,26 @@ void	echo_executer(t_set *set, int **fd, t_all *all)
 	//printf("word is %s\n", tmp->word);
     if (tmp)
 	{
-		write(*(*fd + 1), tmp->word, ft_strlen(tmp->word));
+		write(fd[1], tmp->word, ft_strlen(tmp->word));
 		tmp = tmp->next;
 	}
 	while (tmp)
 	{
-		write(*(*fd + 1), " ", 1);
-		write(*(*fd + 1), tmp->word, ft_strlen(tmp->word));
+		write(fd[1], " ", 1);
+		write(fd[1], tmp->word, ft_strlen(tmp->word));
 		tmp = tmp->next;  // echo 123>file    TO DO!!!
 	}
     if (!set->spec)
-        write(*(*fd + 1), "\n", 1);
-    if (*(*fd + 1) != 1)
-        close(*(*fd + 1));
-    *(*fd + 1) = 1;
+        write(fd[1], "\n", 1);
+    if (fd[1] != 1)
+        close(fd[1]);
+    //fd[1] = 1;
     write(1, "\n", 1);
     errno = 0;
     //minishell(*all);
 }
 
-void    executer(t_genlist *genlist, int **fd, t_all *all)
+void    executer(t_genlist *genlist, int *fd, t_all *all)
 {
     t_genlist   *tmp;
 
@@ -66,12 +66,6 @@ void    executer(t_genlist *genlist, int **fd, t_all *all)
 		ft_exit(all, tmp->set, fd);
     else
 		ft_syscall(all, tmp->set, all->myenv, fd);
-    //{
-      //  write(1, "e-bash!: ", 9); 
-        ///write(1, tmp->set->builtin, ft_strlen(tmp->set->builtin));
-    //    write(1, ": command not found", 19);
-    //    write(1, "\n", 1);
-        //minishell(*all);
-    //} 
+   
     return ;
 }

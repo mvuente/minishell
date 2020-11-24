@@ -8,7 +8,7 @@ void ft_write_exit(char *word, int fd)
             exit(255);
 }
 
-void	ft_exit(t_all *all, t_set *set, int **fd) // НУЖЕН ЛИ FD???
+void	ft_exit(t_all *all, t_set *set, int *fd) // НУЖЕН ЛИ FD???
 {
 	//char **arr;
 	int i;

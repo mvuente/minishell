@@ -38,7 +38,7 @@ char	*tokencrtr(char **line, char *delim, t_genlist **genlist, int **fd, t_all *
 	else if (*delim == 0x3c || *delim == 0x3e)
 		{
 			//printf("direct should be started\n");
-			return (dirpars(line, delim, fd));
+			return (dirpars(line, delim, fd, templist->set));
 		}
 	else if (*delim == 0x3b || *delim == 0x7c)
 		{

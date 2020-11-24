@@ -1,6 +1,19 @@
 #include "minishell.h"
 
-char	*dirpars(char **line, char *start, int **fd)
+t_dirlist	*dir_record(t_set *set, char *direct, char *operand)
+{
+	t_dirlist	*tmp;
+
+	tmp = set->direct;
+	if (!tmp)
+		return (dirlistcrtr(direct, operand));
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = dirlistcrtr(direct, operand);
+	return (set->direct);
+}
+
+char	*dirpars(char **line, char *start, int **fd, t_set *set)
 {
 	char		*tmp;
 	char		*delimiters;
@@ -33,6 +46,6 @@ char	*dirpars(char **line, char *start, int **fd)
 		else
 			tmp++;
 	}
-		dir_exec(fd, direct, itemcrtr(line, tmp));
+		set->direct = dir_record(set, direct, itemcrtr(line, tmp));
 	return (tmp);
 } 

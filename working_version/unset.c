@@ -85,7 +85,7 @@ static int		ft_check_258(t_set *set, t_all *all) /// ee можно добави�
        return (1);
 }
 
-void	unset_executer(t_set *set, int **fd, t_all *all) // FD НЕ НУЖЕН???
+void	unset_executer(t_set *set, int *fd, t_all *all) // FD НЕ НУЖЕН???
 {
     int check;
     int flag;

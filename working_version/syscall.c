@@ -116,7 +116,7 @@ void ft_free_syscall(char *comanda, char **env, char *str, char **arr)
             ft_free_arr(arr);
 }
 
-int ft_syscall(t_all *all, t_set *set, t_env *bufenv, int **fd)
+int ft_syscall(t_all *all, t_set *set, t_env *bufenv, int *fd)
 {
     pid_t cpid;
     int status;

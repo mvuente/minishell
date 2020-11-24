@@ -130,7 +130,7 @@ static int		ft_check_258(t_set *set, t_all *all) /// ee можно добави�
        return (1);
 }
 
-void	export_executer(t_set *set, int **fd, t_all *all)
+void	export_executer(t_set *set, int *fd, t_all *all)
 {
 	int check;
    

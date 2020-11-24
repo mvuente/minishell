@@ -36,7 +36,7 @@ int **ft_init_pipefd(int size)
 
 
 
-int ft_work_pipe(t_all *all, t_genlist *pipes, int size, int pipefd[2], int **fd)
+int ft_work_pipe(t_all *all, t_genlist *pipes, int size, int pipefd[2])
 {
     pid_t cpid;
     int status;
@@ -54,7 +54,7 @@ int ft_work_pipe(t_all *all, t_genlist *pipes, int size, int pipefd[2], int **fd
            //else 
              //  dup2(pipefd[size][1], pipefd[size+1][1]); 
             flag = 1;
-            executer(pipes, fd, all);
+            executer(pipes, pipefd, all);
           // ft_exe_function(pipes, all, fd);
            exit(0); /// тут надо вернуть status после системной команды
             
@@ -75,7 +75,7 @@ int ft_work_pipe(t_all *all, t_genlist *pipes, int size, int pipefd[2], int **fd
            pipes = pipes->next;
            if (size < 1)
            {
-                ft_exe_function(pipes, all, fd);
+                ft_exe_function(pipes, all, pipefd);
                 dup2(all->fd_0, 0);
                 
            }
@@ -91,7 +91,7 @@ void ft_redirect(t_all *all, t_genlist *redirect, int pipefd[2])
 
 
 }
-int ft_pipe(t_all *all, t_genlist *pipes, int size, int **fd)
+int ft_pipe(t_all *all, t_genlist *pipes, int size)
 {
     int pipefd[2];
     pid_t cpid;
@@ -107,7 +107,7 @@ int ft_pipe(t_all *all, t_genlist *pipes, int size, int **fd)
             if (pipes->set->consq == '>')
                 ft_redirect(all, pipes, pipefd);
             else
-                ft_work_pipe(all, pipes, size, pipefd, fd);
+                ft_work_pipe(all, pipes, size, pipefd);
          
         size--;
         pipes = pipes->next;

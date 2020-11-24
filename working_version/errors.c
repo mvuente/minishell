@@ -18,3 +18,8 @@ void	command_error(void)
 	exit(1);
 }
 
+void	some_error(void)
+{
+	write(1, "something wrong\n", 16);
+	exit(1);
+}

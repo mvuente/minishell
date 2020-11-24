@@ -42,20 +42,16 @@ void	cleargenlist(t_genlist *genlist)
 	return ;
 }
 
-/*char	*ft_strjoin_export(char const *s1, char const *s2, char const *s3)
+int		*pipe_init(void)
 {
-	char	*str;
-	size_t	lens1;
-	size_t	lens2;
-    size_t	lens3;
+	int	fd[2];
+	int	*tmp;
 
-	lens1 = ft_strlen((char*)s1);
-	lens2 = ft_strlen((char*)s2);
-    lens3 = ft_strlen((char*)s3);
-	if (!(str = (char*)malloc(lens1 + lens2 + lens3 + 1)))
-        malloc_error();
-	ft_strlcpy(str, s1, lens1 + 1);
-	ft_strlcat(str, s2, lens2 + lens1 + 1);
-    ft_strlcat(str, s3, lens3 + lens2 + lens1 + 1);
-	return (str);
-}*/
+	fd[0] = 0;
+	fd[1] = 1;
+	//if (pipe(fd) < 0)
+	//	some_error();
+	//printf("I'm here!\n");
+	tmp = fd;
+	return (tmp);
+}

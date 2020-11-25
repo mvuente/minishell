@@ -1,158 +1,148 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   syscall.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hballaba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/25 11:57:35 by hballaba          #+#    #+#             */
+/*   Updated: 2020/11/25 12:34:36 by hballaba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-char **ft_creat_arr_comanda(char *comanda, t_set *set, char *str)
+char	**ft_creat_arr_comanda(char *comanda, t_set *set, char *str)
 {
-    char *tmp;
-    char **arr;
+	char	*tmp;
+	char	**arr;
 
-    if (str)
-        {
-            tmp = ft_strjoin_export(comanda, "!", str);
-            arr = ft_split(tmp, '!');
-            free(tmp);
-        }
-    else
-       arr = ft_split(comanda, ' ');
-    
-    
-    return (arr);
+	if (str)
+	{
+		tmp = ft_strjoin_export(comanda, "!", str);
+		arr = ft_split(tmp, '!');
+		free(tmp);
+	}
+	else
+		arr = ft_split(comanda, ' ');
+	return (arr);
 }
 
-int ft_write_error(t_all *all, t_set *set, char *comanda, char *builtin) //доделаю как прикрутим
+int		ft_write_error(t_all *all, t_set *set, char *comanda, char *builtin) //доделаю как прикрутим
 {
-    int error;
+	int		error;
 
-    error = 127;
-    if (builtin[0] != '/' && ft_strchr(builtin, '/'))
-    {
-        ft_putstr_fd("bash:", 1);
-        ft_putstr_fd(set->builtin, 1);
-        ft_putstr_fd(": No such file or directory\n", 1);
-
-    }
-    else
-    {
-        ft_putstr_fd("bash:", 1);
-        ft_putstr_fd(set->builtin, 1);
-        ft_putstr_fd(": command not found\n", 1);
-    }
-    
-   
-  
-
-    return(error);
+	error = 127;
+	if (builtin[0] != '/' && ft_strchr(builtin, '/'))
+	{
+		ft_putstr_fd("bash:", 1);
+		ft_putstr_fd(set->builtin, 1);
+		ft_putstr_fd(": No such file or directory\n", 1);
+	}
+	else
+	{
+		ft_putstr_fd("bash:", 1);
+		ft_putstr_fd(set->builtin, 1);
+		ft_putstr_fd(": command not found\n", 1);
+	}
+	return (error);
 }
 
-//ft_get_value прикрутить в файл например utils
-
-char *ft_check_syscall(t_env *bufenv, t_set *set)//сюда вставить fd flag
+char	*ft_for_syscall(char *path, int fd, int flag)
 {
-    char *path;
-    int a;
-    int fd;
-    int flag;
-    char *comanda;
-    char **arr;
+	char	*comanda;
 
-    fd =0;
-    flag = 0;
-    arr = NULL;
-    comanda = NULL;
-    path = ft_get_value(bufenv, "PATH");
-    if (set->builtin[0] == '/' && ft_strchr(set->builtin + 1, '/'))
-        comanda = ft_strdup(set->builtin);
-    else 
-     {
-     arr = ft_split(path, ':');
-       a = -1;
-    while (arr[++a] && !ft_strchr(set->builtin, '/'))
-        {
-            path = ft_strjoin_export(arr[a], "/", set->builtin);
-            if ((fd = open(path, O_RDONLY)) > 0 && flag == 0)
-            {
-                comanda = ft_strdup(path);
-                close(fd);
-                flag++;
-            }
-            free(path);
-        }
-      ft_free_arr(arr);
-     }
-    return (comanda);
+	close(fd);
+	comanda = ft_strdup(path);
+	return (comanda);
 }
 
-char *ft_add_str(t_list *word)
+char	*ft_check_syscall(t_env *bufenv, t_set *set, int fd, int flag)
 {
-    char *str;
-    t_list *tmp;
-    char *tmpstr;
+	char	*path;
+	int		a;
+	char	*comanda;
+	char	**arr;
 
-    str = NULL;
-    tmp = word;
-    if (tmp->word)
-        {
-            str = ft_strdup(word->word);
-            tmp = tmp->next;
-        }
-    while(tmp)
-    {
-       tmpstr = str;
-       str = ft_strjoin_export(str, "!", tmp->word); 
-       tmp = tmp->next;
-      free(tmpstr);
-    }
-    return (str);
+	arr = NULL;
+	comanda = NULL;
+	path = ft_get_value(bufenv, "PATH");
+	if (set->builtin[0] == '/' && ft_strchr(set->builtin + 1, '/'))
+		comanda = ft_strdup(set->builtin);
+	else
+	{
+		arr = ft_split(path, ':');
+		a = -1;
+		while (arr[++a] && !ft_strchr(set->builtin, '/'))
+		{
+			path = ft_strjoin_export(arr[a], "/", set->builtin);
+			if ((fd = open(path, O_RDONLY)) > 0 && flag == 0)
+				comanda = ft_for_syscall(path, fd, ++flag);
+			free(path);
+		}
+		ft_free_arr(arr);
+	}
+	return (comanda);
 }
 
-void ft_free_syscall(char *comanda, char **env, char *str, char **arr)
+char	*ft_add_str(t_list *word)
 {
-        
-        if (str)
-            free(str);
-        if (comanda)
-            free(comanda);
-        ft_free_arr(env);
-        if (arr)
-            ft_free_arr(arr);
+	char	*str;
+	t_list	*tmp;
+	char	*tmpstr;
+
+	str = NULL;
+	tmp = word;
+	if (tmp->word)
+	{
+		str = ft_strdup(word->word);
+		tmp = tmp->next;
+	}
+	while (tmp)
+	{
+		tmpstr = str;
+		str = ft_strjoin_export(str, "!", tmp->word);
+		tmp = tmp->next;
+		free(tmpstr);
+	}
+	return (str);
 }
 
-int ft_syscall(t_all *all, t_set *set, t_env *bufenv, int *fd)
+void	ft_free_syscall(char *comanda, char **env, char *str, char **arr)
 {
-    pid_t cpid;
-    int status;
-    char *comanda; //с путем
-    char **env;
-    char **arr;
-    char *str;
-    
-    str = NULL;
-    arr = NULL;
-    comanda = NULL;
-   if (set->word)
-      str = ft_add_str(set->word); //создаю строку чтобы получить массив аргументов
-    env = ft_creat_arr_export(bufenv, ft_lstsize_env(bufenv));
-   if (!(comanda = ft_check_syscall(bufenv, set)) || comanda[0] != '/')// не рабоатет при /bin
-      all->error = ft_write_error(all, set, comanda, set->builtin);
-   else     
-    {  
-        //printf("arr %s\n", comanda);
-        arr = ft_creat_arr_comanda(comanda, set, str);
+	if (str)
+		free(str);
+	if (comanda)
+		free(comanda);
+	ft_free_arr(env);
+	if (arr)
+		ft_free_arr(arr);
+}
 
-    }
-    
-    /*int i =-1;
-        while (arr[i])
-        printf("arr %s\n", arr[1]);*/
+int		ft_syscall(t_all *all, t_set *set, t_env *bufenv, int *fd)
+{
+	pid_t	cpid;
+	char	*comanda;
+	char	**env;
+	char	**arr;
+	char	*str;
 
-   if ((cpid = fork()) == -1)
-         return (1);
-   if (cpid == 0) 
-    {    
-       status = execve(comanda, arr, env);   ///bin/ls, env, ls -la массив
-       exit(status);
-    } 
-    else 
-       wait(NULL);
-    ft_free_syscall(comanda, env, str, arr);
-    return (0);
+	str = NULL;
+	arr = NULL;
+	comanda = NULL;
+	if (set->word)
+		str = ft_add_str(set->word);
+	env = ft_creat_arr_export(bufenv, ft_lstsize_env(bufenv));
+	if (!(comanda = ft_check_syscall(bufenv, set, 0, 0)) || comanda[0] != '/')
+		all->error = ft_write_error(all, set, comanda, set->builtin);
+	else
+		arr = ft_creat_arr_comanda(comanda, set, str);
+	if ((cpid = fork()) == -1)
+		return (1);
+	if (cpid == 0)
+		exit(execve(comanda, arr, env));
+	else
+		wait(NULL);
+	ft_free_syscall(comanda, env, str, arr);
+	return (0);
 }

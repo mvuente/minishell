@@ -6,7 +6,7 @@
 /*   By: hballaba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 12:55:03 by hballaba          #+#    #+#             */
-/*   Updated: 2020/11/25 13:56:48 by hballaba         ###   ########.fr       */
+/*   Updated: 2020/11/25 14:10:01 by hballaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		ft_delete_env(char *str, t_env *bufenv, int flag)
 	void	*ptr;
 
 	i = ft_strlen(str);
-	while (bufenv->next)
+	while (bufenv)
 	{
 		if (!(ft_strncmp(bufenv->name, str, i)) && i == ft_strlen(bufenv->name))
 		{
@@ -84,7 +84,7 @@ int		f_check_258(t_set *set, t_all *all) /// ee можно добавить в �
 		{
 			if (tmp->word[0] == '(' && !tmp->word[1])
 				ft_putendl_fd(\
-						"bash: syntax error near unexpected token `newline'", 1);
+					"bash: syntax error near unexpected token `newline'", 1);
 			else if (tmp->word[0] == '(' && tmp->word[1])
 				ft_write_258(++tmp->word);
 			else if (ft_strchr(tmp->word, '('))
@@ -101,7 +101,7 @@ int		f_check_258(t_set *set, t_all *all) /// ee можно добавить в �
 	return (1);
 }
 
-void	unset_executer(t_set *set, int *fd, t_all *all) // FD НЕ НУЖЕН???     не удаляет мои переменные
+void	unset_executer(t_set *set, int *fd, t_all *all)// FD НЕ НУЖЕН??
 {
 	int		check;
 	int		flag;

@@ -20,7 +20,7 @@ char	*replace(char **line, char *start, char *finish, char *value)
 		tmpline = tmpline + ft_strlen(value);
 	}
 	tmpline = ft_memmove(tmpline, finish, ft_strlen(finish) + 1);
-	free(*line);
+	//free(*line);
 	*line = newline;
 	return (tmpline);
 }

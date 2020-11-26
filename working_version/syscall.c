@@ -6,7 +6,7 @@
 /*   By: hballaba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 11:57:35 by hballaba          #+#    #+#             */
-/*   Updated: 2020/11/25 12:34:36 by hballaba         ###   ########.fr       */
+/*   Updated: 2020/11/26 15:39:13 by hballaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int		ft_write_error(t_all *all, t_set *set, char *comanda, char *builtin) //до
 	int		error;
 
 	error = 127;
-	if (builtin[0] != '/' && ft_strchr(builtin, '/'))
+	if ((builtin[0] != '/' && ft_strchr(builtin, '/')) || !ft_strncmp(comanda, "PATH=NULL", 10))
 	{
 		ft_putstr_fd("bash:", 1);
 		ft_putstr_fd(set->builtin, 1);
@@ -67,7 +67,9 @@ char	*ft_check_syscall(t_env *bufenv, t_set *set, int fd, int flag)
 	arr = NULL;
 	comanda = NULL;
 	path = ft_get_value(bufenv, "PATH");
-	if (set->builtin[0] == '/' && ft_strchr(set->builtin + 1, '/'))
+	if (!path)
+		comanda = ft_strdup("PATH=NULL");
+	else if (set->builtin[0] == '/' && ft_strchr(set->builtin + 1, '/'))
 		comanda = ft_strdup(set->builtin);
 	else
 	{

@@ -25,6 +25,26 @@ char	*replace(char **line, char *start, char *finish, char *value)
 	return (tmpline);
 }
 
+void	ft_putnbr_fd(int n, int fd)                                   /////добавил функцию
+{
+	long long int number;
+
+	number = n;
+	if (number < 0)
+	{
+		write(fd, "-", 1);
+		number = number * -1;
+	}
+	if (number > 9)
+	{
+		ft_putnbr_fd(number / 10, fd);
+		ft_putnbr_fd(number % 10, fd);
+	}
+	else
+		ft_putchar_fd(number + 48, fd);
+}
+
+
 char	*dollarpars(char **line, char *ptr, t_all all)
 {
 	char	*var;
@@ -40,12 +60,16 @@ char	*dollarpars(char **line, char *ptr, t_all all)
 		ptr--;
 		tmp++;
 		errno = 0;
+		if (**line == '?') 															///добавил 
+			ft_putnbr_fd(all.error, 1);
+		printf("error   %d\n", all.error);												///добавил
 	}
 	else
 	{
 		while (tmp && (ft_isalnum(*tmp) || *tmp == 0x5f))
 			tmp++;
 		var = itemcrtr(&ptr, tmp); //получил имя перменной окружения
+		printf("var %s\n", var);
 		value = ft_get_value(all.myenv, var);//взять значение переменной
 		ptr = ptr - ft_strlen(var); // вернул указатель на место
 	}

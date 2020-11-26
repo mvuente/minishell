@@ -30,15 +30,15 @@ int		ft_check_word_env(char *word)
 {
 	if (!(ft_strchr(word, '=')))
 	{
-		ft_putstr_fd("env:", 1);
-		ft_putstr_fd(word, 1);
-		ft_putstr_fd(": No such file or directory\n", 1);
-		return (1);
+		ft_putstr_fd("env:", 2);
+		ft_putstr_fd(word, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		return (127);
 	}
 	return (0);
 }
 
-void	env_executer(t_set *set, int *fd, t_all *all)
+int	env_executer(t_set *set, int *fd, t_all *all)
 {
 	int		check;
 
@@ -54,11 +54,13 @@ void	env_executer(t_set *set, int *fd, t_all *all)
 				ft_putstr_fd(set->word->word, 1);
 			else
 			{
-				ft_putstr_fd("env:", 1);
-				ft_putstr_fd(set->word->word, 1);
-				ft_putstr_fd(": No such file or directory\n", 1);
+				ft_putstr_fd("env:", 2);
+				ft_putstr_fd(set->word->word, 2);
+				ft_putstr_fd(": No such file or directory\n", 2);
+				check = 127;
 			}
 			set->word = set->word->next;
 		}
 	}
+	return (check);
 }

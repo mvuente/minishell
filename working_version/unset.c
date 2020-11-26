@@ -68,9 +68,9 @@ int		ft_check_word_unset(char *word)
 
 void	ft_write_258(char *word)
 {
-	ft_putstr_fd("bash: syntax error near unexpected token `", 1);
-	ft_putstr_fd(word, 1);
-	ft_putendl_fd("'", 1);
+	ft_putstr_fd("bash: syntax error near unexpected token `", 2);
+	ft_putstr_fd(word, 2);
+	ft_putendl_fd("'", 2);
 }
 
 int		f_check_258(t_set *set, t_all *all) /// ee можно добавить в общие ее использует unset
@@ -84,31 +84,31 @@ int		f_check_258(t_set *set, t_all *all) /// ee можно добавить в �
 		{
 			if (tmp->word[0] == '(' && !tmp->word[1])
 				ft_putendl_fd(\
-					"bash: syntax error near unexpected token `newline'", 1);
+					"bash: syntax error near unexpected token `newline'", 2);
 			else if (tmp->word[0] == '(' && tmp->word[1])
 				ft_write_258(++tmp->word);
 			else if (ft_strchr(tmp->word, '('))
 				ft_putendl_fd("bash: syntax error near unexpected token `('"\
-						, 1);
+						, 2);
 			else if (ft_strchr(tmp->word, ')'))
 				ft_putendl_fd("bash: syntax error near unexpected token `)'"\
-						, 1);
+						, 2);
 			all->error = 258;
-			return (0);
+			return (258);
 		}
 		tmp = tmp->next;
 	}
 	return (1);
 }
 
-void	unset_executer(t_set *set, int *fd, t_all *all)// FD НЕ НУЖЕН??
+int	unset_executer(t_set *set, int *fd, t_all *all)// FD НЕ НУЖЕН??
 {
 	int		check;
 	int		flag;
 
 	flag = 0;
 	if (!f_check_258(set, all))
-		return ;
+		return (258);
 		//return (258);
 	while (set->word)
 	{
@@ -124,8 +124,8 @@ void	unset_executer(t_set *set, int *fd, t_all *all)// FD НЕ НУЖЕН??
 		set->word = set->word->next;
 	}
 	if (flag == 1)
-		return ;
+		return (1);
 		//return (1);
-	return ;
+	return (0);
 	//return (0);
 }

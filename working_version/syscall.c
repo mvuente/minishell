@@ -122,26 +122,28 @@ void	ft_free_syscall(char *comanda, char **env, char *str, char **arr)
 int ft_execve(char *comanda, char **arr, char **env, char *builtin)
 {
 	int i;
+
 	if (!comanda)
 		comanda = builtin;
-	i = execve(comanda, arr, env);
+	if ((i = execve(comanda, arr, env)) < 0)
+		i = 127;
 	if (!ft_strchr(builtin, '/') && ft_strncmp(comanda, "PATH=NULL", 10) != 0)
 	{
-		ft_putstr_fd("bash:", 1);
-		ft_putstr_fd(builtin, 1);
-		ft_putstr_fd(": command not found\n", 1);
+		ft_putstr_fd("bash:", 2);
+		ft_putstr_fd(builtin, 2);
+		ft_putstr_fd(": command not found\n", 2);
 	}
 	else if (errno == 2 || (errno == 14 && !comanda))
 	{
-		ft_putstr_fd("bash:", 1);
-		ft_putstr_fd(builtin, 1);
-		ft_putstr_fd(": No such file or directory\n", 1);
+		ft_putstr_fd("bash:", 2);
+		ft_putstr_fd(builtin, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 	}
 	else
 	{
-		ft_putstr_fd("bash:", 1);
-		ft_putstr_fd(builtin, 1);
-		ft_putstr_fd(":is a directory\n", 1);
+		ft_putstr_fd("bash:", 2);
+		ft_putstr_fd(builtin, 2);
+		ft_putstr_fd(":is a directory\n", 2);
 	}
 	return (i);
 }
@@ -153,6 +155,7 @@ int		ft_syscall(t_all *all, t_set *set, t_env *bufenv, int *fd)
 	char	**env;
 	char	**arr;
 	char	*str;
+	int status;
 
 	str = NULL;
 	arr = NULL;
@@ -167,9 +170,16 @@ int		ft_syscall(t_all *all, t_set *set, t_env *bufenv, int *fd)
 	if ((cpid = fork()) == -1)
 		return (1);
 	if (cpid == 0)
-		exit(ft_execve(comanda, arr, env, set->builtin));
+		{
+			exit(ft_execve(comanda, arr, env, set->builtin));
+		}
 	else
-		wait(NULL);
+		waitpid(cpid, &status, 0);
+		//if (WIFEXITED(status))
+	//{
+		all->error = WEXITSTATUS(status);
+	printf("%d\n", all->error);
+	//}
 	ft_free_syscall(comanda, env, str, arr);
 	return (0);
 }

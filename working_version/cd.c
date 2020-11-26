@@ -62,7 +62,7 @@ char	*ft_work_tilda(t_all *all, char *path, char *home)
 	return (path);
 }
 
-void	ft_cd(t_all *all, t_set *set)
+int	ft_cd(t_all *all, t_set *set)
 {
 	char	*home;
 	char	*pwd;
@@ -82,12 +82,12 @@ void	ft_cd(t_all *all, t_set *set)
 		path = ft_work_tilda(all, path, home);
 	if ((chdir(path)) != 0) //return 1 or 0
 	{
-		write(1, "cd: ", 4);
-		write(1, path, ft_strlen(path));
-		ft_putendl_fd(": No such file or directory", 1);
-		return ;//(1);
+		write(2, "cd: ", 4);
+		write(2, path, ft_strlen(path));
+		ft_putendl_fd(": No such file or directory", 2);
+		return (1);//(1);
 	}
 	else
 		ft_change_oldpwd(all->myenv, pwd, NULL, path);
-    //return (0);
+    return (0);
 }

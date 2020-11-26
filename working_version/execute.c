@@ -11,10 +11,11 @@ void    ft_exe_function(t_genlist *pipes, t_all *all, int *fd)
     // после обработки сделать условие для вызова системных или самописных файлов
 }
 
-void	echo_executer(t_set *set, int *fd, t_all *all)
+void	echo_executer(t_set *set, t_all *all)
 {
 	int 	descr;
     t_list  *tmp;
+    //int     tmpfd;
 
     //printf("builtin is %s\n", set->builtin);
     //printf("word is %s\n", set->word);
@@ -23,20 +24,24 @@ void	echo_executer(t_set *set, int *fd, t_all *all)
 	//printf("word is %s\n", tmp->word);
     if (tmp)
 	{
-		write(fd[1], tmp->word, ft_strlen(tmp->word));
+		write(1, tmp->word, ft_strlen(tmp->word));
 		tmp = tmp->next;
 	}
 	while (tmp)
 	{
-		write(fd[1], " ", 1);
-		write(fd[1], tmp->word, ft_strlen(tmp->word));
+		write(1, " ", 1);
+		write(1, tmp->word, ft_strlen(tmp->word));
 		tmp = tmp->next;  // echo 123>file    TO DO!!!
 	}
     if (!set->spec)
-        write(fd[1], "\n", 1);
-    if (fd[1] != 1)
-        close(fd[1]);
+        write(1, "\n", 1);
+    //if (fd[1] != 1)
+      //  close(fd[1]);
     //fd[1] = 1;
+    dup2(1, descr);
+    if (descr != 1)
+    	close(descr);
+    dup2(all->fd_1, 1);
     write(1, "\n", 1);
     errno = 0;
     //minishell(*all);
@@ -47,13 +52,13 @@ void    executer(t_genlist *genlist, int *fd, t_all *all)
     t_genlist   *tmp;
 
     tmp = genlist;
-    //printf("command is %s\n", tmp->set->builtin);
+    printf("command is %s\n", tmp->set->builtin);
     if (!tmp->set->builtin)
     	write(1, "\n", 1);
     else if (!ft_memcmp(tmp->set->builtin, "pwd", 4))
         ft_pwd(fd, all);
     else if (!ft_memcmp(tmp->set->builtin, "echo", 5))
-        echo_executer(tmp->set, fd, all);
+        echo_executer(tmp->set, all);
     else if (!ft_memcmp(tmp->set->builtin, "export", 7))
         export_executer(tmp->set, fd, all);
 	else if (!ft_memcmp(tmp->set->builtin, "cd", 3))

@@ -7,23 +7,6 @@
 //	return (ft_memmove(tmp, tmp + 1, ft_strlen(tmp + 1) + 1) + 1);
 //}
 
-char	*cqpars(char *tmp, char symb) //check for \ in ""
-{
-	char	*finish;
-
-	finish = tmp + 1;
-	//printf("finish is %s\n", finish);	
-	//printf("cqpars started\n");
-	while (*finish != symb && *finish != 0x0)
-		finish++;
-	if (*finish == 0x0)
-		command_error();
-	//printf("before first memmove finish is %s\n", finish);
-	finish = ft_memmove(finish, finish + 1, ft_strlen(finish + 1) + 1);//last
-	//printf("after first memmove finish is %s\n", finish);
-	tmp = (ft_memmove(tmp, tmp + 1, ft_strlen(tmp + 1) + 1)); //first
-	return (finish - 1);	
-}
 
 void	reader(char *line, t_all all) //par of this func could be a parser function
 {
@@ -52,7 +35,7 @@ void	reader(char *line, t_all all) //par of this func could be a parser function
 		if (ft_strchr(quot, *tmp))
 		{
 			//printf("before quotes is %s\n", tmp);
-			tmp = cqpars(tmp, *tmp);
+			tmp = cqpars(tmp, *tmp); // just to find the end of quotes and move the pointer there to
 		}
 		else if (*tmp == 0x24)
 			tmp = dollarpars(&line, tmp, all); // write this! to return ptr before delimiter

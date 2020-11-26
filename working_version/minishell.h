@@ -109,6 +109,8 @@ char	*ft_get_value(t_env *myenv, char *var);
 char	*dollarpars(char **line, char *ptr, t_all all);
 char	*pipeparser(char **line, char *delim, t_genlist *templist);
 char	*semicolparser(char **line, int **fd, t_genlist **genlist, t_all *all);
+char	*cqprocessor(char *item);
+char	*cqpars(char *tmp, char symb);
 //char    *backpars(char *tmp);
 t_set	wordrcrdr(char *item, t_set set);
 char	*dirpars(char **line, char *start, int **fd, t_set *set);

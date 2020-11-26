@@ -57,6 +57,7 @@ char	*itemcrtr(char **line, char *tmp)
 		malloc_error();
 	item = ft_memmove(item, *line, tmp - *line);
 	*line = tmp;
+	item = cqprocessor(item); // it checks obtained item for quotes and (if yes), remotes them
 	//printf("item from utils is %s\n", item);
 	return (item);
 }

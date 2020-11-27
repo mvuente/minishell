@@ -183,6 +183,7 @@ int		ft_syscall(t_all *all, t_set *set, t_env *bufenv)
 		all->error = WEXITSTATUS(status);
 	//printf("%d\n", all->error);
 	//}
+	g_flag = 0;
 	ft_free_syscall(comanda, env, str, arr);
 	return (all->error);
 }

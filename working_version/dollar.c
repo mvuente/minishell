@@ -67,7 +67,7 @@ char	*dollarpars(char **line, char *ptr, t_all all)
 			tmp++;
 		var = itemcrtr(&ptr, tmp); //получил имя перменной окружения
 		value = ft_get_value(all.myenv, var);//взять значение переменной
-		ptr = ptr - ft_strlen(var); // вернул указатель на место
+		ptr = ptr - ft_strlen(var) - 1; // вернул указатель на место
 	}
 	return (replace(line, ptr, tmp, value));// заменить кусок строки от ptr до tmp на это значение
 }

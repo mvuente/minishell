@@ -178,8 +178,8 @@ int		ft_syscall(t_all *all, t_set *set, t_env *bufenv, int *fd)
 		//if (WIFEXITED(status))
 	//{
 		all->error = WEXITSTATUS(status);
-	printf("%d\n", all->error);
+	//printf("%d\n", all->error);
 	//}
 	ft_free_syscall(comanda, env, str, arr);
-	return (0);
+	return (all->error);
 }

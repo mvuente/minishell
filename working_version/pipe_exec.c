@@ -55,8 +55,8 @@ int ft_work_pipe(t_all *all, t_genlist *pipes, int size, int pipefd[2])
              //  dup2(pipefd[size][1], pipefd[size+1][1]); 
             flag = 1;
 			if (pipes->set->direct)
-				dir_exec_pipe(pipe_init(), pipes->set->direct);
-            executer(pipes, pipefd, all);
+				dir_exec(pipe_init(), pipes->set->direct);
+            executer(pipes, all, 1);
           // ft_exe_function(pipes, all, fd);
            exit(0); /// тут надо вернуть status после системной команды
             
@@ -69,19 +69,19 @@ int ft_work_pipe(t_all *all, t_genlist *pipes, int size, int pipefd[2])
               waitpid(cpid, &status, WUNTRACED); //WNOHANG   WUNTRACED
           
           
-           if (size < 1) // значит что это последня команда и надо вернуть fd в первоначально состояние, чтобы ушло в стдаут терминал
-           {
-                    dup2(all->fd_1, 1);
+           //if (size < 1) // значит что это последня команда и надо вернуть fd в первоначально состояние, чтобы ушло в стдаут терминал
+           //{
+             //       dup2(all->fd_1, 1);
                    
-           }
+          // }
            pipes = pipes->next;
-		   if (pipes->set->direct)
-				dir_exec_pipe(pipe_init(), pipes->set->direct);
+		   //if (pipes->set->direct)
+		//		dir_exec_pipe(pipe_init(), pipes->set->direct);
            if (size < 1)
            {
 			   //printf("comand inside is %s\n", pipes->set->builtin);
-                ft_exe_function(pipes, all, pipefd);
-                dup2(all->fd_0, 0);
+                executer(pipes, all, 0);
+                //dup2(all->fd_0, 0);
                 
            }
         }

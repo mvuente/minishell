@@ -53,12 +53,10 @@ void	reader(char *line, t_all all) //par of this func could be a parser functio
 	tokencrtr(&line, tmp, &genlist, &all);
 	if ((pipecount = pipefinder(genlist)))
     	ft_pipe(&all, genlist, pipecount);
-	else if (genlist->set->direct)
-	{
-		executer(genlist, dir_exec(pipe_init(), genlist->set->direct), &all);
-	}
+	//else if (genlist->set->direct)
+	//{
+	//	executer(genlist, dir_exec(pipe_init(), genlist->set->direct), &all);
+	//}
 	else
-	{
-		executer(genlist, pipe_init(), &all);
-	}
+		executer(genlist, &all, 0);
 }

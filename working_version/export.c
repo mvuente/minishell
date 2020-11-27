@@ -126,7 +126,7 @@ int		ft_check_258(t_set *set, t_all *all) /// ee можно добавить в 
 	return (1);
 }
 
-int	export_executer(t_set *set, int *fd, t_all *all)
+int	export_executer(t_set *set, t_all *all)
 {
 	int		check;
 

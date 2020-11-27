@@ -27,8 +27,9 @@ int    delim_checker(char *line)
 				return (delim_error(tmp, 2));
 			else if (!empty_checker(line, tmp))
 				return (delim_error(tmp, 1));
+			line = tmp + 1;
 		}
-		line = tmp;
+		
 		tmp++;
 	}
 	return (0);
@@ -36,17 +37,20 @@ int    delim_checker(char *line)
 
 char	*semicolparser(char **line, t_genlist **genlist, t_all *all)
 {
-	t_genlist	*tmplist;		
+	t_genlist	*tmplist;
+	int			pipecount;		
 
 	//printf("or here?\n");
 	tmplist = *genlist;
-	tmplist->set->consq = 0x3b;
+	//tmplist->set->consq = 0x3b;
 	while (tmplist->next)
 		tmplist = tmplist->next;
 	tmplist->set->consq = 0x3b;
-	// hereby I need to make a list of comands
-
-	executer(*genlist, pipe_init(), all);
+	// hereby I need to make a list of comand
+	if ((pipecount = pipefinder(*genlist)))
+    	ft_pipe(all, *genlist, pipecount);
+	else
+		executer(*genlist, all, 0);
 	cleargenlist(*genlist);
 	//printf("I'm here?\n");
 	*genlist = initial_genlist();
@@ -56,26 +60,26 @@ char	*semicolparser(char **line, t_genlist **genlist, t_all *all)
 
 // below is for training
 
-char	*pipeparser(char **line, char *delim, t_genlist *templist)
-{
-	templist->set->consq = *delim;
+//char	*pipeparser(char **line, char *delim, t_genlist *templist)
+//{
+//	templist->set->consq = *delim;
 	//приделать новый лист
-	templist->next = initial_genlist();
-	return (*line += 1);
-}
+//	templist->next = initial_genlist();
+//	return (*line += 1);
+//}
 
-int		pipefinder(t_genlist *genlist)
-{
-	t_genlist	*temp;
-	int			pipecount;
-
-	temp = genlist;
-	pipecount = 0;
-	while (temp)
-	{
-		if (temp->set->consq == 0x7c)
-			pipecount++;
-		temp = temp->next;
-	}
-	return (pipecount);
-}
+//int		pipefinder(t_genlist *genlist)
+//{
+//	t_genlist	*temp;
+//	int			pipecount;
+//
+//	temp = genlist;
+//	pipecount = 0;
+//	while (temp)
+//	{
+//		if (temp->set->consq == 0x7c)
+//			pipecount++;
+//		temp = temp->next;
+//	}
+//	return (pipecount);
+//}

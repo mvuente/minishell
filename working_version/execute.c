@@ -4,7 +4,7 @@ void    ft_exe_function(t_genlist *pipes, t_all *all, int *fd)
 {
    // printf("\n%s\n", pipes->set->builtin);
      //printf("%d\n", fd);
-    ft_syscall(all, pipes->set, all->myenv, fd);
+    ft_syscall(all, pipes->set, all->myenv);
    
     
     //здесь надо сделать парсинг для обработки строк с командами
@@ -47,28 +47,33 @@ void	echo_executer(t_set *set, t_all *all)
     //minishell(*all);
 }
 
-void    executer(t_genlist *genlist, int *fd, t_all *all)
+void    executer(t_genlist *genlist, t_all *all, int pipe_flag)
 {
     t_genlist   *tmp;
 
     tmp = genlist;
+	if (tmp->set->direct)
+		dir_exec(pipe_init(), tmp->set->direct);
     if (!tmp->set->builtin)
     	write(1, "\n", 1);
     else if (!ft_memcmp(tmp->set->builtin, "pwd", 4))
-      ft_pwd(fd, all);
+      ft_pwd(all);
     else if (!ft_memcmp(tmp->set->builtin, "echo", 5))
        echo_executer(tmp->set, all);
     else if (!ft_memcmp(tmp->set->builtin, "export", 7))
-       errno = export_executer(tmp->set, fd, all);
+       errno = export_executer(tmp->set, all);
 	else if (!ft_memcmp(tmp->set->builtin, "cd", 3))
         errno = ft_cd(all, tmp->set);
     else if (!ft_memcmp(tmp->set->builtin, "env", 4))
-        errno = env_executer(tmp->set, fd, all);
+        errno = env_executer(tmp->set, all);
     else if (!ft_memcmp(tmp->set->builtin, "unset", 6))
-       errno = unset_executer(tmp->set, fd, all);
+       errno = unset_executer(tmp->set, all);
 	else if (!ft_memcmp(tmp->set->builtin, "exit", 5))
-		errno = ft_exit(all, tmp->set, fd);
+		errno = ft_exit(all, tmp->set);
     else
-		errno = ft_syscall(all, tmp->set, all->myenv, fd);   
+		errno = ft_syscall(all, tmp->set, all->myenv);
+	if (!pipe_flag)
+		dup2(all->fd_0, 0);
+	dup2(all->fd_1, 1);
     return ;
 }

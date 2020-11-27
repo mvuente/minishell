@@ -151,7 +151,7 @@ int ft_execve(char *comanda, char **arr, char **env, char *builtin)
 	return (i);
 }
 
-int		ft_syscall(t_all *all, t_set *set, t_env *bufenv, int *fd)
+int		ft_syscall(t_all *all, t_set *set, t_env *bufenv)
 {
 	pid_t	cpid;
 	char	*comanda;

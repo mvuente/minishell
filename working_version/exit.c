@@ -20,7 +20,7 @@ void	ft_write_exit(char *word, int fd)
 	exit(255);
 }
 
-int	ft_exit(t_all *all, t_set *set, int *fd) // НУЖЕН ЛИ FD???
+int	ft_exit(t_all *all, t_set *set) // НУЖЕН ЛИ FD???
 {
 	int		i;
 

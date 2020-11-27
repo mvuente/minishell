@@ -38,7 +38,7 @@ int		ft_check_word_env(char *word)
 	return (0);
 }
 
-int	env_executer(t_set *set, int *fd, t_all *all)
+int	env_executer(t_set *set, t_all *all)
 {
 	int		check;
 

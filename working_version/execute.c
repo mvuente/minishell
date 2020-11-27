@@ -51,9 +51,7 @@ void    executer(t_genlist *genlist, int *fd, t_all *all)
 {
     t_genlist   *tmp;
 
-    all->error = 0;
     tmp = genlist;
-    printf("command is %s\n", tmp->set->builtin);
     if (!tmp->set->builtin)
     	write(1, "\n", 1);
     else if (!ft_memcmp(tmp->set->builtin, "pwd", 4))
@@ -61,17 +59,16 @@ void    executer(t_genlist *genlist, int *fd, t_all *all)
     else if (!ft_memcmp(tmp->set->builtin, "echo", 5))
        echo_executer(tmp->set, all);
     else if (!ft_memcmp(tmp->set->builtin, "export", 7))
-       all->error = export_executer(tmp->set, fd, all);
+       errno = export_executer(tmp->set, fd, all);
 	else if (!ft_memcmp(tmp->set->builtin, "cd", 3))
-        all->error = ft_cd(all, tmp->set);
+        errno = ft_cd(all, tmp->set);
     else if (!ft_memcmp(tmp->set->builtin, "env", 4))
-        all->error = env_executer(tmp->set, fd, all);
+        errno = env_executer(tmp->set, fd, all);
     else if (!ft_memcmp(tmp->set->builtin, "unset", 6))
-       all->error = unset_executer(tmp->set, fd, all);
+       errno = unset_executer(tmp->set, fd, all);
 	else if (!ft_memcmp(tmp->set->builtin, "exit", 5))
-		all->error = ft_exit(all, tmp->set, fd);
+		errno = ft_exit(all, tmp->set, fd);
     else
-		all->error = ft_syscall(all, tmp->set, all->myenv, fd);
-   
+		errno = ft_syscall(all, tmp->set, all->myenv, fd);   
     return ;
 }

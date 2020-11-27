@@ -60,16 +60,12 @@ char	*dollarpars(char **line, char *ptr, t_all all)
 		ptr--;
 		tmp++;
 		errno = 0;
-		if (**line == '?') 															///добавил 
-			ft_putnbr_fd(all.error, 1);
-		printf("error   %d\n", all.error);												///добавил
 	}
 	else
 	{
 		while (tmp && (ft_isalnum(*tmp) || *tmp == 0x5f))
 			tmp++;
 		var = itemcrtr(&ptr, tmp); //получил имя перменной окружения
-		printf("var %s\n", var);
 		value = ft_get_value(all.myenv, var);//взять значение переменной
 		ptr = ptr - ft_strlen(var); // вернул указатель на место
 	}

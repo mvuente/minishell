@@ -58,7 +58,7 @@ typedef	struct	s_genlist
 	t_set				*set;
 	struct	s_genlist	*next;
 }				t_genlist;
-
+int     g_flag;
 int		minishell(t_all all);
 int		*pipe_init(void);
 int     *dir_exec(int *fd, t_dirlist *direct);

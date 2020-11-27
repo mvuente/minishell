@@ -40,12 +40,36 @@ void	ft_creat_env(char *env[], t_env **bufenv)
 	return ;
 }
 
+void    ft_sigl(int sig)
+{
+    
+	if (sig == SIGINT)
+       {
+		   write(1, "\b\b \b\b", 5);
+		   ft_putstr_fd("\ne_bash! ", 1);
+		   errno = 1;
+	   }
+    if (sig == SIGQUIT)
+       {	   	
+		   if (g_flag == 1)
+		   {
+			      ft_putendl_fd("Quit: 3", 1);
+				  errno = 131;
+				  return ;
+		   }
+		
+	   }
+}
+
 void	ft_init_all(t_all *all, char **env, t_env *bufenv)
 {
 	all->fd_0 = dup(0);
 	all->fd_1 = dup(1);
 	ft_creat_env(env, &bufenv);
 	all->myenv = bufenv;
+	g_flag = 0;
+	signal(SIGINT, ft_sigl);
+    signal(SIGQUIT, ft_sigl);
 	return ;
 }
 

@@ -24,14 +24,16 @@ void	some_error(void)
 	exit(1);
 }
 
-void    delim_error(char *delim, int flag)
+int		delim_error(char *delim, int flag)
 {
 	errno = 258;
+	write(2, "e-bash: ", 8);
 	write(2, "syntax error near unexpected token", 34);
 	write(2, "`", 1);
 	write(2, delim, 1);
 	if (flag == 2)
 		write(2, delim, 1);
 	write(2, "\'", 1);
-	return ;
+	write(2, "\n", 1);
+	return (1);
 }

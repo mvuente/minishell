@@ -62,12 +62,13 @@ int     g_flag;
 int		minishell(t_all all);
 int		*pipe_init(void);
 int     *dir_exec(int *fd, t_dirlist *direct);
+int		delim_checker(char *line);
+int		delim_error(char *delim, int flag);
 void	dir_exec_pipe(int *fd, t_dirlist *direct);
 void	read_error(void);
 void	malloc_error(void);
 void	command_error(void);
 void	some_error(void);
-void    delim_error(char *delim, int flag);
 void	ft_pwd(int *fd, t_all *all);
 void 	ft_echo(char *name, char *line, char option, char direct);
 int 	export_executer(t_set *set, int *fd, t_all *all);
@@ -75,7 +76,7 @@ void	executer(t_genlist *genlist, int *fd, t_all *all);
 void	reader(char *line, t_all all);
 void	genlstadd(char *delim, t_genlist **genlist);
 void    cleargenlist(t_genlist *genlist);
-void    delim_checker(char *line);
+
 
 int	    ft_cd(t_all *all, t_set *set);
 void    ft_free_arr(char **arr);

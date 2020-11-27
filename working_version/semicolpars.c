@@ -14,7 +14,7 @@ int		empty_checker(char *line, char *ptr)
 	return (0);
 }
 
-void    delim_checker(char *line)
+int    delim_checker(char *line)
 {
 	char	*tmp;
 	
@@ -24,14 +24,14 @@ void    delim_checker(char *line)
 		if (*tmp == 0x7c || *tmp == 0x3b)
 		{
 			if (*(tmp + 1) == *tmp)
-				delim_error(tmp, 2);
+				return (delim_error(tmp, 2));
 			else if (!empty_checker(line, tmp))
-				delim_error(tmp, 1);
+				return (delim_error(tmp, 1));
 		}
 		line = tmp;
 		tmp++;
 	}
-	return ;
+	return (0);
 }
 
 char	*semicolparser(char **line, t_genlist **genlist, t_all *all)

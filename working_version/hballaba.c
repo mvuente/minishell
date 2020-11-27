@@ -45,20 +45,28 @@ void    ft_sigl(int sig)
     
 	if (sig == SIGINT)
        {
-		   write(1, "\b\b \b\b", 5);
-		   ft_putstr_fd("\ne_bash! ", 1);
-		   errno = 1;
-	   }
+           write(1, "\b\b \b\b", 5);
+            if (g_flag == 1)
+                {
+                    errno = 130;
+                    ft_putendl_fd("^C", 1);
+                }
+            else
+            {
+                ft_putstr_fd("\ne_bash! ", 1);
+                   errno = 1;
+            }
+    }
     if (sig == SIGQUIT)
-       {	   	
-		   if (g_flag == 1)
-		   {
-			      ft_putendl_fd("Quit: 3", 1);
-				  errno = 131;
-				  return ;
-		   }
-		
-	   }
+       {
+           //write(1, "\b\b \b\b", 5);
+           if (g_flag == 1)
+           {
+                  ft_putendl_fd("^\\Quit: 3", 1);
+                  errno = 131;
+                  return ;
+           }
+       }
 }
 
 void	ft_init_all(t_all *all, char **env, t_env *bufenv)

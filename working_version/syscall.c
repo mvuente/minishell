@@ -27,8 +27,7 @@ char	**ft_creat_arr_comanda(char *comanda, t_set *set, char *str)
 	}
 	else
 		arr = ft_split(comanda, ' ');
-	if (comanda[i - 2] == 'c' && comanda[i - 1] == 'a' && comanda[i - 2] == 't')
-		g_flag = 1;
+	g_flag = 1;
 	return (arr);
 }
 

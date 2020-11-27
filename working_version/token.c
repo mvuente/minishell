@@ -7,7 +7,7 @@ char	*textpars(char **line, char *tmp, t_set *set)
 	return (tmp);
 }
 
-char	*tokencrtr(char **line, char *delim, t_genlist **genlist, int **fd, t_all *all)
+char	*tokencrtr(char **line, char *delim, t_genlist **genlist, t_all *all)
 {
 	char		*tmp;
 	t_genlist	*templist;
@@ -33,12 +33,12 @@ char	*tokencrtr(char **line, char *delim, t_genlist **genlist, int **fd, t_all *
 			//printf("found semicolons?\n");
 			//printf("line is %s\n", *line);
 			//printf("tmp is %s\n", delim);
-			return (semicolparser(line, fd, genlist, all));
+			return (semicolparser(line, genlist, all));
 		}
 	else if (*delim == 0x3c || *delim == 0x3e)
 		{
 			//printf("direct should be started\n");
-			return (dirpars(line, delim, fd, templist->set));
+			return (dirpars(line, delim, templist->set));
 		}
 	else if (*delim == 0x3b || *delim == 0x7c)
 		{

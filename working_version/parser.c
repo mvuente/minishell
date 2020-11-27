@@ -8,25 +8,26 @@
 //}
 
 
-void	reader(char *line, t_all all) //par of this func could be a parser function
+void	reader(char *line, t_all all) //par of this func could be a parser functio 
 {
     char		*tmp;
 	char		*delimiters;
 	char		*quot;
 	int			pipecount;
-	int			*fd;
+	//int			*fd;
 	t_genlist	*genlist;
 
 	//printf("beginning: %s\n", line);
+	delim_checker(line);
 	delimiters = ";|<> ";
 	quot = "\"\'";
 	genlist = initial_genlist();
 	tmp = line;
-	if (!(fd = (int*)malloc(sizeof(int) * 3)))
-		malloc_error();
-	fd[0] = 0;
-	fd[1] = 1;
-	fd[2] = 2;
+	//if (!(fd = (int*)malloc(sizeof(int) * 3)))
+	//	malloc_error();
+	//fd[0] = 0;
+	//fd[1] = 1;
+	//fd[2] = 2;
 	//printf("fd started %i\n", fd[1]);
 	while (*tmp != 0x0)// tokenazing starts
 	{ 
@@ -40,7 +41,7 @@ void	reader(char *line, t_all all) //par of this func could be a parser function
 		else if (*tmp == 0x24)
 			tmp = dollarpars(&line, tmp, all); // write this! to return ptr before delimiter
 		else if (ft_strchr(delimiters, *tmp))
-			tmp = tokencrtr(&line, tmp, &genlist, &fd, &all); // to proceed the token and shift line pointer
+			tmp = tokencrtr(&line, tmp, &genlist, &all); // to proceed the token and shift line pointer
 		else
 			tmp++;
 		//if (*tmp == ';')
@@ -48,7 +49,7 @@ void	reader(char *line, t_all all) //par of this func could be a parser function
 		//else if (*tmp == '|')
 
 	}
-	tokencrtr(&line, tmp, &genlist, &fd, &all);
+	tokencrtr(&line, tmp, &genlist, &all);
 	if ((pipecount = pipefinder(genlist)))
     	ft_pipe(&all, genlist, pipecount);
 	else if (genlist->set->direct)

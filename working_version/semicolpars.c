@@ -22,10 +22,12 @@ void    delim_checker(char *line)
 	while (*tmp != 0x0)
 	{
 		if (*tmp == 0x7c || *tmp == 0x3b)
-			{
-				if (!empty_checker(line, tmp))
-					delim_error();
-			}
+		{
+			if (*(tmp + 1) == *tmp)
+				delim_error(tmp, 2);
+			else if (!empty_checker(line, tmp))
+				delim_error(tmp, 1);
+		}
 		line = tmp;
 		tmp++;
 	}
@@ -34,7 +36,7 @@ void    delim_checker(char *line)
 
 char	*semicolparser(char **line, t_genlist **genlist, t_all *all)
 {
-	t_genlist	*tmplist;
+	t_genlist	*tmplist;		
 
 	//printf("or here?\n");
 	tmplist = *genlist;

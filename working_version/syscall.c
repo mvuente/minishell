@@ -16,7 +16,9 @@ char	**ft_creat_arr_comanda(char *comanda, t_set *set, char *str)
 {
 	char	*tmp;
 	char	**arr;
+	int		i;
 
+	i = ft_strlen(comanda);
 	if (str)
 	{
 		tmp = ft_strjoin_export(comanda, "!", str);
@@ -157,7 +159,7 @@ int		ft_syscall(t_all *all, t_set *set, t_env *bufenv, int *fd)
 	char	**env;
 	char	**arr;
 	char	*str;
-	int status;
+	int		status;
 
 	str = NULL;
 	arr = NULL;

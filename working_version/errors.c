@@ -24,9 +24,14 @@ void	some_error(void)
 	exit(1);
 }
 
-void    delim_error(void)
+void    delim_error(char *delim, int flag)
 {
 	errno = 258;
 	write(2, "syntax error near unexpected token", 34);
+	write(2, "`", 1);
+	write(2, delim, 1);
+	if (flag == 2)
+		write(2, delim, 1);
+	write(2, "\'", 1);
 	return ;
 }

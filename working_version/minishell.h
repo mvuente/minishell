@@ -67,7 +67,7 @@ void	read_error(void);
 void	malloc_error(void);
 void	command_error(void);
 void	some_error(void);
-void    delim_error(void);
+void    delim_error(char *delim, int flag);
 void	ft_pwd(int *fd, t_all *all);
 void 	ft_echo(char *name, char *line, char option, char direct);
 int 	export_executer(t_set *set, int *fd, t_all *all);

@@ -13,7 +13,7 @@ t_dirlist	*dir_record(t_set *set, char *direct, char *operand)
 	return (set->direct);
 }
 
-char	*dirpars(char **line, char *start, int **fd, t_set *set)
+char	*dirpars(char **line, char *start, t_set *set)
 {
 	char		*tmp;
 	char		*delimiters;

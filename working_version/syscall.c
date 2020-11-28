@@ -31,7 +31,7 @@ char	**ft_creat_arr_comanda(char *comanda, t_set *set, char *str)
 	return (arr);
 }
 
-int		ft_write_error(t_all *all, t_set *set, char *comanda, char *builtin) //доделаю как прикрутим
+/*int		ft_write_error(t_all *all, t_set *set, char *comanda, char *builtin) //доделаю как прикрутим
 {
 	if (!comanda)
 		comanda = builtin;
@@ -48,7 +48,7 @@ int		ft_write_error(t_all *all, t_set *set, char *comanda, char *builtin) //до
 		ft_putstr_fd(": No such file or directory\n", 1);
 	}
 	return (127);
-}
+}*/
 
 char	*ft_for_syscall(char *path, int fd, int flag)
 {
@@ -147,6 +147,7 @@ int ft_execve(char *comanda, char **arr, char **env, char *builtin)
 		ft_putstr_fd("bash:", 2);
 		ft_putstr_fd(builtin, 2);
 		ft_putstr_fd(":is a directory\n", 2);
+		i = 126;
 	}
 	return (i);
 }

@@ -76,6 +76,12 @@ int		ft_check_word_export(char *word)
 
 	flag = 0;
 	i = -1;
+	while (word[++i])
+	{
+		if (word[i] >= '!' && word[i] <= '/')
+			return (0);
+	}
+
 	c = word[0];
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
 		c = word[0];

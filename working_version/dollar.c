@@ -53,10 +53,12 @@ char	*dollarpars(char **line, char *ptr, t_all all)
 
 	ptr = ft_memmove(ptr, ptr + 1, ft_strlen(ptr + 1) + 1);// просто сдвинут всю строку на 1 влево, убрав $
 	tmp = ptr;
+	//if (*tmp == 0x0 || *tmp == 0x20)
+	//	return (tmp);
 	if (*tmp && *tmp == 0x3f)
 	{
 		if (!(value = ft_itoa(errno)))
-		malloc_error();
+			malloc_error();
 		ptr--;
 		tmp++;
 		errno = 0;

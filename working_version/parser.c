@@ -39,7 +39,7 @@ void	reader(char *line, t_all all) //par of this func could be a parser functio
 			//printf("before quotes is %s\n", tmp);
 			tmp = cqpars(tmp, *tmp); // just to find the end of quotes and move the pointer there to
 		}
-		else if (*tmp == 0x24)
+		else if (*tmp == 0x24 && *(tmp + 1) != 0x0 && *(tmp + 1) != 0x20 && *(tmp + 1) != 0x3b && *(tmp + 1) != 0x7c)
 			tmp = dollarpars(&line, tmp, all); // write this! to return ptr before delimiter
 		else if (ft_strchr(delimiters, *tmp))
 			tmp = tokencrtr(&line, tmp, &genlist, &all); // to proceed the token and shift line pointer

@@ -14,7 +14,7 @@ void	reader(char *line, t_all all) //par of this func could be a parser functio
 	char		*delimiters;
 	char		*quot;
 	int			pipecount;
-	//int			*fd;
+	//int			quotflag;
 	t_genlist	*genlist;
 
 	//printf("beginning: %s\n", line);
@@ -24,23 +24,25 @@ void	reader(char *line, t_all all) //par of this func could be a parser functio
 	quot = "\"\'";
 	genlist = initial_genlist();
 	tmp = line;
-	//if (!(fd = (int*)malloc(sizeof(int) * 3)))
-	//	malloc_error();
-	//fd[0] = 0;
-	//fd[1] = 1;
-	//fd[2] = 2;
-	//printf("fd started %i\n", fd[1]);
+	//quotflag = 0;
 	while (*tmp != 0x0)// tokenazing starts
 	{ 
 		//printf("tmp is %p\n", tmp);
 		//printf("line is %p\n", line);
 		if (ft_strchr(quot, *tmp))
 		{
-			//printf("before quotes is %s\n", tmp);
-			tmp = cqpars(tmp, *tmp); // just to find the end of quotes and move the pointer there to
+		//	if (*tmp == 0x27)
+		//		quotflag = 1;
+			//printf("before quuotes we have command %s\n", genlist->set->builtin);
+			tmp = cqpars(&line, tmp, *tmp, all); // just to find the end of quotes and move the pointer there to
 		}
-		else if (*tmp == 0x24 && *(tmp + 1) != 0x0 && *(tmp + 1) != 0x20 && *(tmp + 1) != 0x3b && *(tmp + 1) != 0x7c)
+		
+		else if (*tmp == 0x24 && *(tmp + 1) != 0x0 && *(tmp + 1) != 0x20 &&
+				*(tmp + 1) != 0x3b && *(tmp + 1) != 0x7c)// && !quotflag)
+		{
+			//printf("how many?\n");
 			tmp = dollarpars(&line, tmp, all); // write this! to return ptr before delimiter
+		}	
 		else if (ft_strchr(delimiters, *tmp))
 			tmp = tokencrtr(&line, tmp, &genlist, &all); // to proceed the token and shift line pointer
 		else

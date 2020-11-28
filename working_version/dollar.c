@@ -53,8 +53,7 @@ char	*dollarpars(char **line, char *ptr, t_all all)
 
 	ptr = ft_memmove(ptr, ptr + 1, ft_strlen(ptr + 1) + 1);// просто сдвинут всю строку на 1 влево, убрав $
 	tmp = ptr;
-	//if (*tmp == 0x0 || *tmp == 0x20)
-	//	return (tmp);
+	//printf("ptr is %s\n", ptr);
 	if (*tmp && *tmp == 0x3f)
 	{
 		if (!(value = ft_itoa(errno)))
@@ -62,17 +61,17 @@ char	*dollarpars(char **line, char *ptr, t_all all)
 		ptr--;
 		tmp++;
 		errno = 0;
+		return (replace(line, ptr, tmp, value));
 	}
 	else if (*tmp && ft_isdigit(*tmp))
-	{
 		return (tmp = ft_memmove(tmp, tmp + 1, ft_strlen(tmp + 1) + 1));
-	}
 	else
 	{
 		while (tmp && (ft_isalnum(*tmp) || *tmp == 0x5f))
 			tmp++;
-		var = itemcrtr(&ptr, tmp); //получил имя перменной окружения
+		var = itemcrtr(&ptr, tmp, 0, all); //получил имя перменной окружения
 		value = ft_get_value(all.myenv, var);//взять значение переменной
+	//	printf("value with env var is %s\n", value);
 		ptr = ptr - ft_strlen(var) - 1; // вернул указатель на место
 	}
 	return (replace(line, ptr, tmp, value));// заменить кусок строки от ptr до tmp на это значение

@@ -52,6 +52,8 @@ void    executer(t_genlist *genlist, t_all *all, int pipe_flag)
     t_genlist   *tmp;
 
     tmp = genlist;
+    printf("current command is %s\n", tmp->set->builtin);
+    //printf("current argument is %s\n", tmp->set->word->word);
 	if (tmp->set->direct)
 		dir_exec(pipe_init(), tmp->set->direct);
     if (!tmp->set->builtin)

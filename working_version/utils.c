@@ -48,7 +48,7 @@ char	*low(char *item)
 	return (item);
 }
 
-char	*itemcrtr(char **line, char *tmp)
+char	*itemcrtr(char **line, char *tmp, int dolflag, t_all all)
 {
 	char	*item;
 	char	*dollar;
@@ -57,7 +57,8 @@ char	*itemcrtr(char **line, char *tmp)
 		malloc_error();
 	item = ft_memmove(item, *line, tmp - *line);
 	*line = tmp;
-	item = cqprocessor(item); // it checks obtained item for quotes and (if yes), remotes them
-	//printf("item from utils is %s\n", item);
+	//printf("item before cqprocessor is %s\n", item);
+	item = cqprocessor(item, dolflag, all); // it checks obtained item for quotes and (if yes), remotes them
+	//printf("and result item is %s\n", item);
 	return (item);
 }

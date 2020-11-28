@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-char	*textpars(char **line, char *tmp, t_set *set)
+char	*textpars(char **line, char *tmp, t_set *set, t_all all)
 {	
 	//printf("textpasr started\n");
-	*set = builtinrcrdr(itemcrtr(line, tmp), *set);
+	*set = builtinrcrdr(itemcrtr(line, tmp, 1, all), *set);
 	return (tmp);
 }
 
@@ -22,7 +22,7 @@ char	*tokencrtr(char **line, char *delim, t_genlist **genlist, t_all *all)
 	{
 		//printf("tmp is%s\n", delim);
 		//printf("line is%s\n", *line);
-		return (textpars(line, delim, templist->set));
+		return (textpars(line, delim, templist->set, *all));
 	}
 	else if (*delim == 0x7c)
 		{
@@ -38,14 +38,14 @@ char	*tokencrtr(char **line, char *delim, t_genlist **genlist, t_all *all)
 	else if (*delim == 0x3c || *delim == 0x3e)
 		{
 			//printf("direct should be started\n");
-			return (dirpars(line, delim, templist->set));
+			return (dirpars(line, delim, templist->set, *all));
 		}
-	else if (*delim == 0x3b || *delim == 0x7c)
-		{
-			return (processpars(line, delim, &templist));
+	//else if (*delim == 0x3b || *delim == 0x7c)
+	//	{
+	//		return (processpars(line, delim, &templist));
 			//list = listoper(set, list); MAKE HERE!
 			//line = delim + 1;
-		}
+	//	}
 	else if (*delim == 0x20)
 		return (*line += 1);
 	else if (*delim == 0x0)

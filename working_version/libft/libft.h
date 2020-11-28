@@ -36,5 +36,6 @@ void		ft_putendl_fd(char *c, int fd);
 int			ft_atoi(const char *ptr);
 char		**ft_split(char const *s, char c);
 char		*ft_itoa(int a);
+int			ft_isdigit(int x);
 
 #endif

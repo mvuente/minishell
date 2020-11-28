@@ -63,6 +63,10 @@ char	*dollarpars(char **line, char *ptr, t_all all)
 		tmp++;
 		errno = 0;
 	}
+	else if (*tmp && ft_isdigit(*tmp))
+	{
+		return (tmp = ft_memmove(tmp, tmp + 1, ft_strlen(tmp + 1) + 1));
+	}
 	else
 	{
 		while (tmp && (ft_isalnum(*tmp) || *tmp == 0x5f))

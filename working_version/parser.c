@@ -18,10 +18,10 @@ void	reader(char *line, t_all all) //par of this func could be a parser functio
 	t_genlist	*genlist;
 
 	//printf("beginning: %s\n", line);
-	if (delim_checker(line))
-		return ;
 	delimiters = ";|<> ";
 	quot = "\"\'";
+	if (delim_checker(line, quot))
+		return ;
 	genlist = initial_genlist();
 	tmp = line;
 	//quotflag = 0;

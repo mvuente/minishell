@@ -2,8 +2,9 @@
 
 char	*textpars(char **line, char *tmp, t_set *set, t_all all)
 {	
-	//printf("textpasr started\n");
-	*set = builtinrcrdr(itemcrtr(line, tmp, 1, all), *set);
+	//printf("textpasr started and *line is %s\n", *line);
+
+	*set = builtinrcrdr(itemcrtr(line, tmp, 0, all), *set);
 	return (tmp);
 }
 

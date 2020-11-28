@@ -153,10 +153,13 @@ int	export_executer(t_set *set, t_all *all)
 			else if (check == 2)
 				continue ;
 			else
+			{
 				ft_no_valid_word(set->word->word);
+				return (1);
+			}
 			set->word = set->word->next;
 		}
 	}
-	ft_free_set(set);
+	//ft_free_set(set);
 	return (0);
 }

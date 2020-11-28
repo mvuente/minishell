@@ -14,22 +14,23 @@ int		empty_checker(char *line, char *ptr)
 	return (0);
 }
 
-int    delim_checker(char *line)
+int    delim_checker(char *line, char *quotset)
 {
 	char	*tmp;
+	char	*tempstring;
 	
 	tmp = line;
+	tempstring = line;
 	while (*tmp != 0x0)
 	{
-		if (*tmp == 0x7c || *tmp == 0x3b)
+		if ((*tmp == 0x7c || *tmp == 0x3b) && !is_open_cqs(line, tmp, quotset))
 		{
 			if (*(tmp + 1) == *tmp)
 				return (delim_error(tmp, 2));
-			else if (!empty_checker(line, tmp))
+			else if (!empty_checker(tempstring, tmp))
 				return (delim_error(tmp, 1));
-			line = tmp + 1;
+			tempstring = tmp + 1;
 		}
-		
 		tmp++;
 	}
 	return (0);

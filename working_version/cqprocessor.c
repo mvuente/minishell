@@ -1,5 +1,41 @@
 #include "minishell.h"
 
+char	*closest_cq(char *line, char cq)
+{
+	char	*ptr;
+
+	ptr = line;
+	while (*ptr != 0x0)
+	{
+		if (*ptr == cq)
+			return (ptr);
+		ptr++;
+	}
+	return (NULL);
+}
+
+int		is_open_cqs(char *line, char *delimiter, char *quotset)
+{
+	char	*ptr;
+	char	*closest;
+
+	
+	//printf("delimiter is %s\n", delimiter);
+	if (*delimiter != 0x7c && *delimiter != 0x3b)
+		return (2);
+	//printf("test\n");
+	ptr = line;
+	//printf("line is %s\n", line);
+	while (*ptr != 0x0)
+	{
+		if (ft_strchr(quotset, *ptr) && ptr < delimiter &&
+		(closest = closest_cq(ptr + 1, *ptr)) && closest > delimiter)
+			return (1);
+		ptr++;
+	}
+	return (0);
+}
+
 char	*cqpars(char **line, char *tmp, char symb, t_all all) //check for \ in ""
 {
 	char	*finish;
@@ -34,18 +70,29 @@ char	*cqprocessor(char *item, int dolflag, t_all all)
 	char	*quot;
 	char	*start;
 	char	*finish;
+	char	*quotset;
+	char	*tmp;
 
-	//printf("in cqprocessor item is %s\n", item);
+	printf("in cqprocessor item is %s\n", item);
 	//printf("dolflag is %i\n", dolflag);
+	quotset = "\"\'";
 	if (dolflag)
 	{
-		if ((quot = ft_strchr(item, 0x22)) || (quot = ft_strchr(item, 0x27)))
+		tmp = item;
+		while (*tmp != 0)
 		{
-			start = quot;
-			//printf("start is %s\n", start);
-			finish = cqpars(&item, quot, *quot, all) - 1;
-			finish = ft_memmove(finish, finish + 1, ft_strlen(finish + 1) + 1);//last
-			start = (ft_memmove(start, start + 1, ft_strlen(start + 1) + 1)); //first
+			printf("pointer in an analising string is %c\n", *tmp);
+			if (ft_strchr(quotset, *tmp))
+			{
+				quot = tmp;
+				start = tmp;
+				printf("start is %s\n", start);
+				finish = cqpars(&tmp, quot, *quot, all) - 1;
+				finish = ft_memmove(finish, finish + 1, ft_strlen(finish + 1) + 1);//last
+				start = (ft_memmove(start, start + 1, ft_strlen(start + 1) + 1)); //first
+				break;
+			}
+			tmp++;
 		}
 	}
 	return (item);

@@ -35,30 +35,38 @@ t_genlist	*initial_genlist(void)
 	return (genlist);
 }
 
-char	*low(char *item)
-{
-	char	*str;
-	
-	str = item;
-	while (*str)
-	{
-		*str = ft_tolower(*str);
-		str++;
-	}
-	return (item);
-}
+//char	*low(char *item)
+//{
+//	char	*str;
+//	
+//	str = item;
+//	while (*str)
+//	{
+//		*str = ft_tolower(*str);
+//		str++;
+//	}
+//	return (item);
+//}
 
 char	*itemcrtr(char **line, char *tmp, int dolflag, t_all all)
 {
 	char	*item;
 	char	*dollar;
+	char	*ptr;
 
 	if (!(item = ft_calloc(tmp - *line + 1, sizeof(char))))
 		malloc_error();
 	item = ft_memmove(item, *line, tmp - *line);
+	//printf("item before creating is %c\n", *item);
+	ptr = item;
+	if (ft_strchr(item, 0x22) || ft_strchr(item, 0x27))
+	{
+		dolflag = 1;
+		//ptr = item - 1;
+	}
 	*line = tmp;
 	//printf("item before cqprocessor is %s\n", item);
-	item = cqprocessor(item, dolflag, all); // it checks obtained item for quotes and (if yes), remotes them
+	item = cqprocessor(ptr, dolflag, all); // it checks obtained item for quotes and (if yes), remotes them
 	//printf("and result item is %s\n", item);
 	return (item);
 }

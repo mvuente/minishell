@@ -52,24 +52,24 @@ void    executer(t_genlist *genlist, t_all *all, int pipe_flag)
     t_genlist   *tmp;
 
     tmp = genlist;
-    printf("current command is %s\n", tmp->set->builtin);
+    //printf("current command is %s\n", tmp->set->builtin);
     //printf("current argument is %s\n", tmp->set->word->word);
 	if (tmp->set->direct)
 		dir_exec(pipe_init(), tmp->set->direct);
     if (!tmp->set->builtin)
     	write(1, "\n", 1);
     else if (!ft_memcmp(tmp->set->builtin, "pwd", 4))
-      ft_pwd(all);
+    	ft_pwd(all);
     else if (!ft_memcmp(tmp->set->builtin, "echo", 5))
-       echo_executer(tmp->set, all);
+    	echo_executer(tmp->set, all);
     else if (!ft_memcmp(tmp->set->builtin, "export", 7))
-       errno = export_executer(tmp->set, all);
+    	errno = export_executer(tmp->set, all);
 	else if (!ft_memcmp(tmp->set->builtin, "cd", 3))
-        errno = ft_cd(all, tmp->set);
+    	errno = ft_cd(all, tmp->set);
     else if (!ft_memcmp(tmp->set->builtin, "env", 4))
-        errno = env_executer(tmp->set, all);
+		errno = env_executer(tmp->set, all);
     else if (!ft_memcmp(tmp->set->builtin, "unset", 6))
-       errno = unset_executer(tmp->set, all);
+    	errno = unset_executer(tmp->set, all);
 	else if (!ft_memcmp(tmp->set->builtin, "exit", 5))
 		errno = ft_exit(all, tmp->set);
     else

@@ -61,8 +61,9 @@ typedef	struct	s_genlist
 int     g_flag;
 int		minishell(t_all all);
 int		*pipe_init(void);
+int		is_open_cqs(char *line, char *delimiter, char *quotset);
 void	dir_exec(int *fd, t_dirlist *direct);
-int		delim_checker(char *line);
+int		delim_checker(char *line, char *quotset);
 int		delim_error(char *delim, int flag);
 //void	dir_exec_pipe(int *fd, t_dirlist *direct);
 void	read_error(void);

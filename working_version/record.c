@@ -23,7 +23,7 @@
 t_set	builtinrcrdr(char *item, t_set set)
 {	
 	if (!(set.builtin))
-		set.builtin = low(item); // РАЗНЫЕ КОМАНДЫ ЧУВСТВИТЕЛЬНЫ К РЕГИСТРУ
+		set.builtin = item;
 	else if (!set.word && !set.spec)
 	{
 		//printf("item is %s\n", item);

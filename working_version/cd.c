@@ -81,16 +81,20 @@ char	*ft_work_tilda(t_all *all, char *path, char *home)
 	return (path);
 }
 
-void	ft_write_cd(char *path)
+void	ft_write_cd(char *path, char *pwd)
 {
 	write(2, "cd: ", 4);
 	write(2, path, ft_strlen(path));
 	ft_putendl_fd(": No such file or directory", 2);
+	if (pwd)
+		free(pwd);
 }
 
-int		ft_home_cd(void)
+int		ft_home_cd(char *pwd)
 {
 	ft_putendl_fd("bash_na_bash: cd: HOME not set", 2);
+	if (pwd)
+		free(pwd);
 	return (1);
 }
 
@@ -108,13 +112,13 @@ int		ft_cd(t_all *all, t_set *set)
 	{
 		path = home;
 		if (!path)
-			return (ft_home_cd());
+			return (ft_home_cd(pwd));
 	}
 	if (path[0] == '~')
 		path = ft_work_tilda(all, path, home);
 	if ((chdir(path)) != 0)
 	{
-		ft_write_cd(path);
+		ft_write_cd(path, pwd);
 		return (1);
 	}
 	else

@@ -66,41 +66,6 @@ int		ft_check_word_unset(char *word)
 	return (0);
 }
 
-void	ft_write_258(char *word)
-{
-	ft_putstr_fd("bash: syntax error near unexpected token `", 2);
-	ft_putstr_fd(word, 2);
-	ft_putendl_fd("'", 2);
-}
-
-int		f_check_258(t_set *set, t_all *all)
-{
-	t_list	*tmp;
-
-	tmp = set->word;
-	while (tmp)
-	{
-		if (ft_strchr(tmp->word, '(') || ft_strchr(tmp->word, ')'))
-		{
-			if (tmp->word[0] == '(' && !tmp->word[1])
-				ft_putendl_fd(\
-					"bash: syntax error near unexpected token `newline'", 2);
-			else if (tmp->word[0] == '(' && tmp->word[1])
-				ft_write_258(++tmp->word);
-			else if (ft_strchr(tmp->word, '('))
-				ft_putendl_fd("bash: syntax error near unexpected token `('"\
-						, 2);
-			else if (ft_strchr(tmp->word, ')'))
-				ft_putendl_fd("bash: syntax error near unexpected token `)'"\
-						, 2);
-			all->error = 258;
-			return (258);
-		}
-		tmp = tmp->next;
-	}
-	return (1);
-}
-
 int		unset_executer(t_set *set, t_all *all)
 {
 	int		check;
@@ -109,7 +74,7 @@ int		unset_executer(t_set *set, t_all *all)
 
 	tmp = set->word;
 	flag = 0;
-	if (!f_check_258(set, all))
+	if (!ft_check_258(set, all))
 		return (258);
 	while (tmp)
 	{

@@ -12,16 +12,16 @@
 
 #include "minishell.h"
 
-char *ft_get_value(t_env *myenv, char *name)
+char	*ft_get_value(t_env *myenv, char *name)
 {
-   int i;
+	int		i;
 
 	i = ft_strlen(name);
 	while (myenv)
 	{
-		if (!ft_memcmp(myenv->name, name, i + 1)  && i == ft_strlen(myenv->name))
+		if (!ft_memcmp(myenv->name, name, i + 1) && \
+		i == ft_strlen(myenv->name))
 		{
-			//printf("adress in get_value is %p\n", myenv->data);
 			return (myenv->data);
 		}
 		myenv = myenv->next;

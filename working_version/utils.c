@@ -1,16 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hballaba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/30 00:51:13 by hballaba          #+#    #+#             */
+/*   Updated: 2020/11/30 00:51:15 by hballaba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void    ft_free_arr(char **arr)
+void		ft_free_arr(char **arr)
 {
-    int i;
+	int		i;
 
-    i = -1;
-    while (arr[++i])
-       free(arr[i]);
-    free(arr);   
+	i = -1;
+	while (arr[++i])
+		free(arr[i]);
+	free(arr);
 }
 
-t_set	*initial_set(void)
+t_set		*initial_set(void)
 {
 	t_set	*set;
 
@@ -37,20 +49,7 @@ t_genlist	*initial_genlist(void)
 	return (genlist);
 }
 
-//char	*low(char *item)
-//{
-//	char	*str;
-//	
-//	str = item;
-//	while (*str)
-//	{
-//		*str = ft_tolower(*str);
-//		str++;
-//	}
-//	return (item);
-//}
-
-char	*itemcrtr(char **line, char *finish, int dolflag, t_all all)
+char		*itemcrtr(char **line, char *finish, int dolflag, t_all all)
 {
 	char	*item;
 	char	*dollar;
@@ -62,33 +61,30 @@ char	*itemcrtr(char **line, char *finish, int dolflag, t_all all)
 	if (!(item = ft_calloc(finish - *line + 1, sizeof(char))))
 		malloc_error();
 	item = ft_memmove(item, *line, finish - *line);
-	//printf("item before creating is %c\n", *item);
 	cqptr = item;
-
 	while (*cqptr != 0x0)
 	{
-		//if ((tmp = ft_strchr(cqptr, 0x22)))
-		//	cqptr = tmp;
-		//else if ((tmp = ft_strchr(cqptr, 0x27)))
-		//	cqptr = tmp;
 		if (ft_strchr(quotset, *cqptr))
 		{
-			//printf("BEFORE cqprocessor CQPTR is %s\n", cqptr);
 			dolflag = 1;
-			item = cqprocessor(item, &cqptr, dolflag, all); // it checks obtained item for quotes and (if yes), remotes them
-		//	printf("and AFTER cqproc CQPTR is %s\n", cqptr);
+			item = cqprocessor(item, &cqptr, dolflag, all);
 		}
 		else
 		{
 			cqptr++;
-			//*line = finish;
-			//return (item);
 		}
-		
-		//ptr = item - 1;
 	}
-	//free(*line);
 	*line = finish;
-	//printf("i've got an item and it's adress is %p\n", item);
 	return (item);
+}
+
+int		*pipe_init(void)
+{
+	int		fd[2];
+	int		*tmp;
+
+	fd[0] = 0;
+	fd[1] = 1;
+	tmp = fd;
+	return (tmp);
 }

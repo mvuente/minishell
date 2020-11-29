@@ -52,7 +52,7 @@ void	ft_sigl(int sig)
 		}
 		else
 		{
-			ft_putstr_fd("\ne_bash! ", 1);
+			ft_putstr_fd("\nbash_na_bash! ", 1);
 			errno = 1;
 		}
 	}

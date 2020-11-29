@@ -105,22 +105,24 @@ int		unset_executer(t_set *set, t_all *all)
 {
 	int		check;
 	int		flag;
+	t_list	*tmp;
 
+	tmp = set->word;
 	flag = 0;
 	if (!f_check_258(set, all))
 		return (258);
-	while (set->word)
+	while (tmp)
 	{
-		check = ft_check_word_unset(set->word->word);
+		check = ft_check_word_unset(tmp->word);
 		if (check == 1)
 		{
-			ft_no_valid_word_unset(set->word->word);
+			ft_no_valid_word_unset(tmp->word);
 			all->error = 1;
 			flag = 1;
 		}
 		else
-			ft_delete_env(set->word->word, all->myenv, 0);
-		set->word = set->word->next;
+			ft_delete_env(tmp->word, all->myenv, 0);
+		tmp = tmp->next;
 	}
 	if (flag == 1)
 		return (1);

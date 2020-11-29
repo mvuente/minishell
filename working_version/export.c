@@ -131,26 +131,28 @@ int		ft_check_258(t_set *set, t_all *all)
 int		export_executer(t_set *set, t_all *all)
 {
 	int		check;
+	t_list	*tmp;
 
+	tmp = set->word;
 	if (!ft_check_258(set, all))
 		return (258);
 	if (!set->word)
 		ft_write_export(all->myenv, 1, ft_lstsize_env(all->myenv));
 	else
 	{
-		while (set->word)
+		while (tmp)
 		{
-			check = ft_check_word_export(set->word->word);
+			check = ft_check_word_export(tmp->word);
 			if (check == 1)
-				ft_add_env(set->word->word, all->myenv);
+				ft_add_env(tmp->word, all->myenv);
 			else if (check == 2)
 				continue ;
 			else
 			{
-				ft_no_valid_word(set->word->word);
+				ft_no_valid_word(tmp->word);
 				return (1);
 			}
-			set->word = set->word->next;
+			tmp = tmp->next;
 		}
 	}
 	return (0);

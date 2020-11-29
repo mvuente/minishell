@@ -38,13 +38,13 @@ int		ft_check_word_env(char *word)
 	return (0);
 }
 
-int	env_executer(t_set *set, t_all *all)
+int		env_executer(t_set *set, t_all *all)
 {
 	int		check;
 
 	check = 0;
 	if (!set->word)
-		ft_write_env(all->myenv, 1);// *fd[1], fd); //ВЫЗЫВАЕМАЯ Ф-ЦИЯ БЕРЕТ ТОЛЬКО ДВА ПАРАМЕТРА (ДУМАЮ, ЧТ fd ей вообще не нужен)
+		ft_write_env(all->myenv, 1);
 	if (set->word)
 	{
 		check = ft_check_word_env(set->word->word);

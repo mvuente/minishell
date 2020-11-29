@@ -6,7 +6,7 @@
 /*   By: hballaba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 12:55:03 by hballaba          #+#    #+#             */
-/*   Updated: 2020/11/25 14:10:01 by hballaba         ###   ########.fr       */
+/*   Updated: 2020/11/29 16:31:56 by hballaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_write_258(char *word)
 	ft_putendl_fd("'", 2);
 }
 
-int		f_check_258(t_set *set, t_all *all) /// ee можно добавить в общие ее использует unset
+int		f_check_258(t_set *set, t_all *all)
 {
 	t_list	*tmp;
 
@@ -101,7 +101,7 @@ int		f_check_258(t_set *set, t_all *all) /// ee можно добавить в �
 	return (1);
 }
 
-int	unset_executer(t_set *set, t_all *all)// FD НЕ НУЖЕН??
+int		unset_executer(t_set *set, t_all *all)
 {
 	int		check;
 	int		flag;
@@ -109,10 +109,9 @@ int	unset_executer(t_set *set, t_all *all)// FD НЕ НУЖЕН??
 	flag = 0;
 	if (!f_check_258(set, all))
 		return (258);
-		//return (258);
 	while (set->word)
 	{
-		check = ft_check_word_unset(set->word->word);//заменить на ft_check
+		check = ft_check_word_unset(set->word->word);
 		if (check == 1)
 		{
 			ft_no_valid_word_unset(set->word->word);
@@ -125,7 +124,5 @@ int	unset_executer(t_set *set, t_all *all)// FD НЕ НУЖЕН??
 	}
 	if (flag == 1)
 		return (1);
-		//return (1);
 	return (0);
-	//return (0);
 }

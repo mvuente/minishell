@@ -6,7 +6,7 @@
 /*   By: hballaba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:36:40 by hballaba          #+#    #+#             */
-/*   Updated: 2020/11/25 10:54:43 by hballaba         ###   ########.fr       */
+/*   Updated: 2020/11/29 16:30:23 by hballaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_add_env(char *str, t_env *bufenv)
 	ft_strlcpy(name, str, i + 1);
 	while (tmp && flag == 0)
 	{
-		if (ft_strncmp(tmp->name, name, i) == 0 && i == ft_strlen(tmp->name))// && tmp->data)
+		if (ft_strncmp(tmp->name, name, i) == 0 && i == ft_strlen(tmp->name))
 		{
 			flag++;
 			if (ft_strchr(str, '='))
@@ -38,7 +38,7 @@ void	ft_add_env(char *str, t_env *bufenv)
 	}
 	free(name);
 	if (flag == 0)
-		ft_lstadd_back_env(&bufenv, ft_lstnew_env(str)); //если уже есть новую не создает
+		ft_lstadd_back_env(&bufenv, ft_lstnew_env(str));
 }
 
 void	ft_write_export(t_env *bufenv, int fd, int num)
@@ -72,15 +72,13 @@ int		ft_check_word_export(char *word)
 {
 	int		i;
 	char	c;
-	int		flag;
-	flag = 0;
+
 	i = -1;
-	while (word[++i] &&  word[i] != '=')
+	while (word[++i] && word[i] != '=')
 	{
 		if (word[i] >= '!' && word[i] <= '/')
 			return (0);
 	}
-
 	c = word[0];
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
 		c = word[0];
@@ -88,8 +86,7 @@ int		ft_check_word_export(char *word)
 		return (2);
 	else
 	{
-		printf("errno is %i\n", errno);
-		errno = 1; // не уверен
+		errno = 1;
 		return (0);
 	}
 	return (1);
@@ -102,7 +99,7 @@ void	ft_no_valid_word(char *word)
 	ft_putstr_fd("': not a valid identifier\n", 2);
 }
 
-int		ft_check_258(t_set *set, t_all *all) /// ee можно добавить в общие ее использует unset
+int		ft_check_258(t_set *set, t_all *all)
 {
 	t_list	*tmp;
 
@@ -131,21 +128,18 @@ int		ft_check_258(t_set *set, t_all *all) /// ee можно добавить в 
 	return (1);
 }
 
-int	export_executer(t_set *set, t_all *all)
+int		export_executer(t_set *set, t_all *all)
 {
 	int		check;
 
 	if (!ft_check_258(set, all))
 		return (258);
-	//return (258);
-	//printf("arg is %s\n", mytemp->word);
 	if (!set->word)
 		ft_write_export(all->myenv, 1, ft_lstsize_env(all->myenv));
 	else
 	{
 		while (set->word)
 		{
-			//write(1, "he\n", 3);
 			check = ft_check_word_export(set->word->word);
 			if (check == 1)
 				ft_add_env(set->word->word, all->myenv);
@@ -159,6 +153,5 @@ int	export_executer(t_set *set, t_all *all)
 			set->word = set->word->next;
 		}
 	}
-	//ft_free_set(set);
 	return (0);
 }

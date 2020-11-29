@@ -5,40 +5,37 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hballaba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/25 09:30:38 by hballaba          #+#    #+#             */
-/*   Updated: 2020/11/25 10:00:56 by hballaba         ###   ########.fr       */
+/*   Created: 2020/11/29 16:48:40 by hballaba          #+#    #+#             */
+/*   Updated: 2020/11/29 16:55:50 by hballaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *ft_oldpwd(char *data, char *pwd, char *tmp)
+char	*ft_oldpwd(char *data, char *pwd, char *tmp)
 {
-
 	tmp = data;
 	data = ft_strdup(pwd);
 	free(tmp);
 	free(pwd);
 	errno = 222;
-	
-	return(data);
+	return (data);
 }
 
 void	ft_add_oldpwd(char *pwd, t_env *myenv)
 {
-	char *str;
+	char	*str;
 
 	str = ft_strjoin_export("OLDPWD", "=", pwd);
-	ft_lstadd_back_env(&myenv, ft_lstnew_env(str)); 
+	ft_lstadd_back_env(&myenv, ft_lstnew_env(str));
 	free(str);
 	free(pwd);
-
 }
 
 void	ft_change_oldpwd(t_env *myenv, char *pwd, char *tmp, char *path)
 {
 	t_env *tmpenv;
-	
+
 	tmpenv = myenv;
 	while (myenv)
 	{
@@ -56,11 +53,7 @@ void	ft_change_oldpwd(t_env *myenv, char *pwd, char *tmp, char *path)
 			free(tmp);
 		}
 		if (ft_strncmp(myenv->name, "OLDPWD", 7) == 0 && myenv->data)
-		{
 			myenv->data = ft_oldpwd(myenv->data, pwd, tmp);
-
-		
-		}
 		myenv = myenv->next;
 	}
 	if (errno != 222)
@@ -85,12 +78,23 @@ char	*ft_work_tilda(t_all *all, char *path, char *home)
 		else
 			path = ft_strjoin(home, path + 1);
 	}
-	free(tmp);
-	printf("path%s\n", path);
 	return (path);
 }
 
-int	ft_cd(t_all *all, t_set *set)
+void	ft_write_cd(char *path)
+{
+	write(2, "cd: ", 4);
+	write(2, path, ft_strlen(path));
+	ft_putendl_fd(": No such file or directory", 2);
+}
+
+int		ft_home_cd(void)
+{
+	ft_putendl_fd("bash_na_bash: cd: HOME not set", 2);
+	return (1);
+}
+
+int		ft_cd(t_all *all, t_set *set)
 {
 	char	*home;
 	char	*pwd;
@@ -101,25 +105,19 @@ int	ft_cd(t_all *all, t_set *set)
 	if (set->word)
 		path = set->word->word;
 	else
-	{      
+	{
 		path = home;
 		if (!path)
-			{
-				ft_putendl_fd("e_bash: cd: HOME not set", 2);
-				return (1);
-			}
-			//path = all->home;
+			return (ft_home_cd());
 	}
 	if (path[0] == '~')
 		path = ft_work_tilda(all, path, home);
-	if ((chdir(path)) != 0) //return 1 or 0
+	if ((chdir(path)) != 0)
 	{
-		write(2, "cd: ", 4);
-		write(2, path, ft_strlen(path));
-		ft_putendl_fd(": No such file or directory", 2);
-		return (1);//(1);
+		ft_write_cd(path);
+		return (1);
 	}
 	else
 		ft_change_oldpwd(all->myenv, pwd, NULL, path);
-    return (0);
+	return (0);
 }

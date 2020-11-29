@@ -40,34 +40,32 @@ void	ft_creat_env(char *env[], t_env **bufenv)
 	return ;
 }
 
-void    ft_sigl(int sig)
+void	ft_sigl(int sig)
 {
-    
 	if (sig == SIGINT)
-       {
-             write(1, "\b\b  \b\b", 6);
-			   if (g_flag == 1)
-                {
-                    
-					errno = 130;
-                    ft_putendl_fd("^C", 1);
-                }
-            else
-            {
-               	ft_putstr_fd("\ne_bash! ", 1);
-                errno = 1;
-            }
-    }
-    if (sig == SIGQUIT)
-       {
-           write(1, "\b\b  \b\b", 6);
-           if (g_flag == 1)
-           {
-                  ft_putendl_fd("^\\Quit: 3", 1);
-                  errno = 131;
-                  return ;
-           }
-       }
+	{
+		write(1, "\b\b  \b\b", 6);
+		if (g_flag == 1)
+		{
+			errno = 130;
+			ft_putendl_fd("^C", 1);
+		}
+		else
+		{
+			ft_putstr_fd("\ne_bash! ", 1);
+			errno = 1;
+		}
+	}
+	if (sig == SIGQUIT)
+	{
+		write(1, "\b\b  \b\b", 6);
+		if (g_flag == 1)
+		{
+			ft_putendl_fd("^\\Quit: 3", 1);
+			errno = 131;
+			return ;
+		}
+	}
 }
 
 void	ft_init_all(t_all *all, char **env, t_env *bufenv)
@@ -79,8 +77,7 @@ void	ft_init_all(t_all *all, char **env, t_env *bufenv)
 	all->home = ft_strdup(ft_get_value(bufenv, "HOME"));
 	g_flag = 0;
 	signal(SIGINT, ft_sigl);
-    signal(SIGQUIT, ft_sigl);
-	return ;
+	signal(SIGQUIT, ft_sigl);
 }
 
 void	ft_sort(t_env *bufenv, char **arr, int num)

@@ -13,7 +13,7 @@ char	*tokencrtr(char **line, char *delim, t_genlist **genlist, t_all *all)
 	char		*tmp;
 	t_genlist	*templist;
 
-	printf("IN TOKENCRTR *line adress is %p\n", *line);
+	//printf("IN TOKENCRTR *line adress is %p\n", *line);
 //	printf("token started\n");
 	templist = *genlist;
 	while (templist->next)
@@ -39,7 +39,7 @@ char	*tokencrtr(char **line, char *delim, t_genlist **genlist, t_all *all)
 	else if (*delim == 0x3c || *delim == 0x3e)
 		{
 			//printf("direct should be started\n");
-			return (dirpars(line, delim, templist->set, *all));
+			return (dirpars(line, delim, templist->set, all));
 		}
 	//else if (*delim == 0x3b || *delim == 0x7c)
 	//	{

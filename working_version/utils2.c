@@ -47,18 +47,18 @@ void	ft_free_set(t_set *set)
 
 void	cleargenlist(t_genlist *genlist)
 {
-	//t_genlist	*templist;
-	//t_genlist	*tmp;
+	t_genlist	*templist;
+	t_genlist	*tmp;
 
-	//templist = genlist;
-	//while (templist)
-	//{
-	//	tmp = templist;
-	//	ft_free_set(templist->set);
-	//	templist = templist->next;
-	//	free(tmp);
-	//}
-	free(genlist);
+	templist = genlist;
+	while (templist)
+	{
+		tmp = templist;
+		ft_free_set(templist->set);
+		templist = templist->next;
+		free(tmp);
+	}
+	//free(genlist);
 	return ;
 }
 

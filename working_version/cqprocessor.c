@@ -36,7 +36,7 @@ int		is_open_cqs(char *line, char *delimiter, char *quotset)
 	return (0);
 }
 
-char	*cqpars(char **line, char *tmp, char symb, t_all all) //check for \ in ""
+char	*cqpars(char **line, char *tmp, char symb, t_all *all) //check for \ in ""
 {
 	char	*finish;
 	int		finflag;
@@ -82,7 +82,7 @@ char	*cqprocessor(char *item, char **cqptr, int dolflag, t_all all)
 	{
 		start = *cqptr;
 		quot = *cqptr; // фиксируем тип искомой кавычки
-		finish = cqpars(&tmp, quot, *quot, all) - 1; // находим закрывающую кавычку. tmp  не играеит роли
+		finish = cqpars(&tmp, quot, *quot, &all) - 1; // находим закрывающую кавычку. tmp  не играеит роли
 		finish = ft_memmove(finish, finish + 1, ft_strlen(finish + 1) + 1);//убираем закрывающую кавычку
 		start = (ft_memmove(start, start + 1, ft_strlen(start + 1) + 1)); //убираем открывающую кавычку
 		*cqptr = finish - 1;

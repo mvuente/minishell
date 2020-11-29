@@ -41,6 +41,7 @@ typedef struct s_all
     int				status;
     pid_t			pid;
     char            *home;
+	char			*ptr_to_free;
     t_env 			*myenv;
 
 }               t_all;
@@ -76,7 +77,7 @@ void	ft_pwd(t_all *all);
 void 	ft_echo(char *name, char *line, char option, char direct);
 int 	export_executer(t_set *set, t_all *all);
 void	executer(t_genlist *genlist, t_all *all, int pipe_flag);
-void	reader(char **line, t_all all);
+void	reader(char **line, t_all *all);
 void	genlstadd(char *delim, t_genlist **genlist);
 void    cleargenlist(t_genlist *genlist);
 
@@ -111,14 +112,14 @@ char	*textpars(char **line, char *tmp, t_set *set, t_all all);
 //char    *processpars(char **line, char *delim, t_genlist **genlist);
 //char	*cqpars(char *tmp, char symb, t_all);
 char	*ft_get_value(t_env *myenv, char *var);
-char	*dollarpars(char **line, char *ptr, t_all all);
+char	*dollarpars(char **line, char *ptr, t_all *all);
 char	*pipeparser(char **line, char *delim, t_genlist *templist);
 char	*semicolparser(char **line, t_genlist **genlist, t_all *all);
 char	*cqprocessor(char *item, char **cqptr, int dolflag, t_all all);
-char	*cqpars(char **line, char *tmp, char symb, t_all all);
+char	*cqpars(char **line, char *tmp, char symb, t_all *all);
 //char    *backpars(char *tmp);
 t_set	wordrcrdr(char *item, t_set set);
-char	*dirpars(char **line, char *start, t_set *set, t_all all);
+char	*dirpars(char **line, char *start, t_set *set, t_all *all);
 t_set	builtinrcrdr(char *item, t_set set);
 t_dirlist	*dirlistcrtr(char *direction, char *fname);
 t_dirlist	*dir_record(t_set *set, char *direct, char *operand);

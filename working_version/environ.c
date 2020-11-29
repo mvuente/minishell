@@ -21,7 +21,7 @@ char *ft_get_value(t_env *myenv, char *name)
 	{
 		if (!ft_memcmp(myenv->name, name, i + 1)  && i == ft_strlen(myenv->name))
 		{
-			printf("adress in get_value is %p\n", myenv->data);
+			//printf("adress in get_value is %p\n", myenv->data);
 			return (myenv->data);
 		}
 		myenv = myenv->next;

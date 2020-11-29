@@ -8,7 +8,7 @@
 //}
 
 
-void	reader(char **line, t_all all) //par of this func could be a parser functio 
+void	reader(char **line, t_all *all) //par of this func could be a parser functio 
 {
     char		*tmp;
 	char		*delimiters;
@@ -18,6 +18,7 @@ void	reader(char **line, t_all all) //par of this func could be a parser functio
 	t_genlist	*genlist;
 
 	//printf("beginning: %s\n", line);
+	all->ptr_to_free = *line;
 	delimiters = ";|<> ";
 	quot = "\"\'";
 	if (delim_checker(*line, quot))
@@ -47,7 +48,7 @@ void	reader(char **line, t_all all) //par of this func could be a parser functio
 			tmp = dollarpars(line, tmp, all); // write this! to return ptr before delimiter
 		}	
 		else if (ft_strchr(delimiters, *tmp))
-			tmp = tokencrtr(line, tmp, &genlist, &all); // to proceed the token and shift line pointer
+			tmp = tokencrtr(line, tmp, &genlist, all); // to proceed the token and shift line pointer
 		else
 			tmp++;
 		//if (*tmp == ';')
@@ -55,13 +56,13 @@ void	reader(char **line, t_all all) //par of this func could be a parser functio
 		//else if (*tmp == '|')
 
 	}
-	tokencrtr(line, tmp, &genlist, &all);
+	tokencrtr(line, tmp, &genlist, all);
 	if ((pipecount = pipefinder(genlist)))
-    	ft_pipe(&all, genlist, pipecount);
+    	ft_pipe(all, genlist, pipecount);
 	//else if (genlist->set->direct)
 	//{
 	//	executer(genlist, dir_exec(pipe_init(), genlist->set->direct), &all);
 	//}
 	else
-		executer(genlist, &all, 0);
+		executer(genlist, all, 0);
 }

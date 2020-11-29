@@ -6,7 +6,7 @@ char	*replace(char **line, char *start, char *finish, char *value)
 	char	*tmpline;
 	char	*newline;
 	
-	printf("BEFORE *line is %p\n", *line);
+	//printf("BEFORE *line is %p\n", *line);
 	if (value)
 		delta = ft_strlen(value) - (finish - start);
 	else
@@ -22,11 +22,11 @@ char	*replace(char **line, char *start, char *finish, char *value)
 	}
 	tmpline = ft_memmove(tmpline, finish, ft_strlen(finish) + 1);
 	//printf("value is %s\n", value);
-	printf("newline adress is %p\n", newline);
+	//printf("newline adress is %p\n", newline);
 	
-	free(*line);
+	//free(*line);
 	*line = newline;
-	printf("AFTER *line adress is %p\n", *line);
+	//printf("AFTER *line adress is %p\n", *line);
 	
 	return (tmpline);
 }
@@ -51,11 +51,12 @@ void	ft_putnbr_fd(int n, int fd)                                   /////доба
 }
 
 
-char	*dollarpars(char **line, char *ptr, t_all all)
+char	*dollarpars(char **line, char *ptr, t_all *all)
 {
 	char	*var;
 	char	*tmp;
 	char	*value;
+	char	*res;
 
 	ptr = ft_memmove(ptr, ptr + 1, ft_strlen(ptr + 1) + 1);// просто сдвинут всю строку на 1 влево, убрав $
 	tmp = ptr;
@@ -75,11 +76,14 @@ char	*dollarpars(char **line, char *ptr, t_all all)
 	{
 		while (tmp && (ft_isalnum(*tmp) || *tmp == 0x5f))
 			tmp++;
-		var = itemcrtr(&ptr, tmp, 0, all); //получил имя перменной окружения
-		value = ft_get_value(all.myenv, var);//взять значение переменной
+		var = itemcrtr(&ptr, tmp, 0, *all); //получил имя перменной окружения
+		value = ft_get_value(all->myenv, var);//взять значение переменной
 	//	printf("value with env var is %s\n", value);
 		ptr = ptr - ft_strlen(var) - 1; // вернул указатель на место
 		free(var);
 	}
-	return (replace(line, ptr, tmp, value));// заменить кусок строки от ptr до tmp на это значение
+	res = (replace(line, ptr, tmp, value));// заменить кусок строки от ptr до tmp на это значение
+	free(all->ptr_to_free);
+	all->ptr_to_free = *line;
+	return (res);
 }

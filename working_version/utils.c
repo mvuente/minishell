@@ -89,6 +89,6 @@ char	*itemcrtr(char **line, char *finish, int dolflag, t_all all)
 	}
 	//free(*line);
 	*line = finish;
-	printf("i've got an item and it's adress is %p\n", item);
+	//printf("i've got an item and it's adress is %p\n", item);
 	return (item);
 }

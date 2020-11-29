@@ -13,7 +13,7 @@ t_dirlist	*dir_record(t_set *set, char *direct, char *operand)
 	return (set->direct);
 }
 
-char	*dirpars(char **line, char *start, t_set *set, t_all all)
+char	*dirpars(char **line, char *start, t_set *set, t_all *all)
 {
 	char		*tmp;
 	char		*delimiters;
@@ -25,7 +25,7 @@ char	*dirpars(char **line, char *start, t_set *set, t_all all)
 
 	while (*start == 0x3c || *start == 0x3e)
 		start++;
-	direct = itemcrtr(line, start, 0, all);
+	direct = itemcrtr(line, start, 0, *all);
 	//printf("%s\n", direct);
 	if (ft_memcmp("<", direct, 2) && ft_memcmp(">", direct, 2) && ft_memcmp(">>", direct, 3))
 		command_error();
@@ -46,6 +46,6 @@ char	*dirpars(char **line, char *start, t_set *set, t_all all)
 		else
 			tmp++;
 	}
-		set->direct = dir_record(set, direct, itemcrtr(line, tmp, 1, all));
+		set->direct = dir_record(set, direct, itemcrtr(line, tmp, 1, *all));
 	return (tmp);
 } 

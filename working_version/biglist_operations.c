@@ -1,34 +1,10 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   list_operations.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mvuente <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/22 13:06:40 by mvuente           #+#    #+#             */
-/*   Updated: 2020/10/22 13:06:42 by mvuente          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "minishell.h"
-
-
-//t_genlist	*genlstcrtr(char *delim, t_genlist *genlist)
-//{
-//	t_genlist	*tmp;
-//
-//	if (!(tmp = (t_genlist*)malloc(sizeof(t_genlist))))
-//		malloc_error();
-//	tmp->next = NULL;
-//	tmp->set = NULL;
-//	genlist = tmp;
-//	return ;
-//}
 
 t_env	*ft_lstnew_env(char *content)
 {
 	t_env	*newlist;
-    int i;
+    int 	i;
 
     i = 0;
 	if (!(newlist = (t_env*)malloc(sizeof(t_env))))
@@ -40,7 +16,6 @@ t_env	*ft_lstnew_env(char *content)
 	}
     else
         newlist->data = NULL;
-    
     newlist->content = content;
     while (content[i] != '=' && content[i])
       i++;
@@ -76,9 +51,9 @@ void	genlstadd(char *delim, t_genlist **genlist)
 	return ;
 }
 
-int	ft_lstsize_env(t_env *lst)
+int		ft_lstsize_env(t_env *lst)
 {
-    int i;
+    int 	i;
 
 	if (!lst)
 		return (0);

@@ -21,6 +21,8 @@ t_set	*initial_set(void)
 	set->direct = NULL;
 	set->spec = 0x0;
 	set->consq = 0x0;
+	set->fd[0] = 0;
+	set->fd[1] = 0;
 	return (set);
 }
 

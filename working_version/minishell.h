@@ -51,6 +51,7 @@ typedef	struct	s_set
     t_dirlist		*direct;
 	char			spec;
 	char			consq;
+    int				fd[2];
 }				t_set;
 
 typedef	struct	s_genlist
@@ -77,7 +78,6 @@ void	executer(t_genlist *genlist, t_all *all, int pipe_flag);
 void	reader(char *line, t_all all);
 void	genlstadd(char *delim, t_genlist **genlist);
 void    cleargenlist(t_genlist *genlist);
-
 
 int	    ft_cd(t_all *all, t_set *set);
 void    ft_free_arr(char **arr);
@@ -127,6 +127,6 @@ t_list	*ft_create_item(char *data);
 t_list	*lstaddback(t_list *word, char *item);
 size_t	gnl(int fd, char **line);
 
-void ft_free_set(t_set *set);
+void 		ft_free_set(t_set *set);
 
 # endif

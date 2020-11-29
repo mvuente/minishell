@@ -12,33 +12,53 @@ void	ft_change_data(t_env *tmp, int flag, char *str)
 
 void	ft_free_set(t_set *set)
 {
-	t_list	*tmp;
+	t_list		*tmp;
+	t_list		*todie;
+	t_dirlist	*dirtmp;
+	t_dirlist	*dirtodie;
 
 	tmp = set->word;
 	while(tmp)
 	{
-       free(tmp->word);
+       todie = tmp;
+	   printf("i try to free addres %p\n", tmp->word);
+	   free(tmp->word);
+	   free(todie);
         tmp = tmp->next;
     }
-   if (set->builtin)
+	dirtmp = set->direct;
+	while(dirtmp)
+	{
+    	dirtodie = dirtmp;
+		free(dirtmp->direct);
+		free(dirtmp->fname);
+    	dirtmp = dirtmp->next;
+		free(dirtodie);
+    }
+	//if (set->direct)
+	//	free(set->direct);
+	if (set->builtin)
         free(set->builtin);
-    free(set->word);
+    //if (set->word)
+	//	free(set->word);
     free(set);
+	return ;
 }
 
 void	cleargenlist(t_genlist *genlist)
 {
-	t_genlist	*templist;
-	t_genlist	*tmp;
+	//t_genlist	*templist;
+	//t_genlist	*tmp;
 
-	templist = genlist;
-	while (templist)
-	{
-		tmp = templist;
-		ft_free_set(templist->set);
-		templist = templist->next;
-		free(tmp);
-	}
+	//templist = genlist;
+	//while (templist)
+	//{
+	//	tmp = templist;
+	//	ft_free_set(templist->set);
+	//	templist = templist->next;
+	//	free(tmp);
+	//}
+	free(genlist);
 	return ;
 }
 

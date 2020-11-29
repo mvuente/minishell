@@ -69,6 +69,7 @@ void	dir_exec(int *fd, t_dirlist *direct)
 			fd[1] = open(tmp->fname, O_RDWR | O_CREAT, S_IRWXU);
     	else
 			fd[1] = open(tmp->fname, O_RDWR | O_CREAT| O_APPEND, S_IRWXU);
+		printf(" new fd is %i\n", fd[1]);
 		dup2(fd[1], 1);
 		tmp = tmp->next;
 	}

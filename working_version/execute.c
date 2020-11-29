@@ -2,13 +2,7 @@
 
 void    ft_exe_function(t_genlist *pipes, t_all *all, int *fd)
 {
-   // printf("\n%s\n", pipes->set->builtin);
-     //printf("%d\n", fd);
     ft_syscall(all, pipes->set, all->myenv);
-   
-    
-    //здесь надо сделать парсинг для обработки строк с командами
-    // после обработки сделать условие для вызова системных или самописных файлов
 }
 
 void	echo_executer(t_set *set, t_all *all)
@@ -35,16 +29,11 @@ void	echo_executer(t_set *set, t_all *all)
 	}
     if (!set->spec)
         write(1, "\n", 1);
-    //if (fd[1] != 1)
-      //  close(fd[1]);
-    //fd[1] = 1;
     dup2(1, descr);
     if (descr != 1)
     	close(descr);
     dup2(all->fd_1, 1);
-	//write(1, "\n", 1);
     errno = 0;
-    //minishell(*all);
 }
 
 void    executer(t_genlist *genlist, t_all *all, int pipe_flag)
@@ -77,5 +66,6 @@ void    executer(t_genlist *genlist, t_all *all, int pipe_flag)
 	if (!pipe_flag)
 		dup2(all->fd_0, 0);
 	dup2(all->fd_1, 1);
+	ft_free_set(tmp->set);
     return ;
 }

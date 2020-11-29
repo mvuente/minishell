@@ -76,6 +76,7 @@ void	ft_init_all(t_all *all, char **env, t_env *bufenv)
 	all->fd_1 = dup(1);
 	ft_creat_env(env, &bufenv);
 	all->myenv = bufenv;
+	all->home = ft_strdup(ft_get_value(bufenv, "HOME"));
 	g_flag = 0;
 	signal(SIGINT, ft_sigl);
     signal(SIGQUIT, ft_sigl);

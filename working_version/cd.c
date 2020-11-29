@@ -86,6 +86,7 @@ char	*ft_work_tilda(t_all *all, char *path, char *home)
 			path = ft_strjoin(home, path + 1);
 	}
 	free(tmp);
+	printf("path%s\n", path);
 	return (path);
 }
 
@@ -103,7 +104,11 @@ int	ft_cd(t_all *all, t_set *set)
 	{      
 		path = home;
 		if (!path)
-			path = all->home;
+			{
+				ft_putendl_fd("e_bash: cd: HOME not set", 2);
+				return (1);
+			}
+			//path = all->home;
 	}
 	if (path[0] == '~')
 		path = ft_work_tilda(all, path, home);

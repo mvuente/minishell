@@ -51,7 +51,10 @@ char	*semicolparser(char **line, t_genlist **genlist, t_all *all)
 	if ((pipecount = pipefinder(*genlist)))
     	ft_pipe(all, *genlist, pipecount);
 	else
+	{	
+		//printf("last builtin is %s\n", (*genlist)->set->builtin);
 		executer(*genlist, all, 0);
+	}
 	//cleargenlist(*genlist);
 	//printf("I'm here?\n");
 	*genlist = initial_genlist();

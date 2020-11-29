@@ -20,12 +20,14 @@ void	echo_executer(t_set *set, t_all *all)
 	{
 		write(1, tmp->word, ft_strlen(tmp->word));
 		tmp = tmp->next;
+		//write(1, "AA", 2);
 	}
 	while (tmp)
 	{
 		write(1, " ", 1);
 		write(1, tmp->word, ft_strlen(tmp->word));
 		tmp = tmp->next;  // echo 123>file    TO DO!!!
+		
 	}
     if (!set->spec)
         write(1, "\n", 1);
@@ -66,8 +68,7 @@ void    executer(t_genlist *genlist, t_all *all, int pipe_flag)
 	if (!pipe_flag)
 		dup2(all->fd_0, 0);
 	dup2(all->fd_1, 1);
-	//ft_free_set(tmp->set);
-	
-	
+	if (genlist->set->consq == 0x3b)
+		cleargenlist(genlist);
     return ;
 }

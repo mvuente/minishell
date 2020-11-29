@@ -14,6 +14,7 @@ void	reader(char **line, t_all *all) //par of this func could be a parser functi
 	char		*delimiters;
 	char		*quot;
 	int			pipecount;
+	//int			semflag;
 	//int			quotflag;
 	t_genlist	*genlist;
 
@@ -24,7 +25,7 @@ void	reader(char **line, t_all *all) //par of this func could be a parser functi
 	if (delim_checker(*line, quot))
 		return ;
 	genlist = initial_genlist();
-	printf("genlist allocated is %p\n", genlist);
+	//printf("genlist allocated is %p\n", genlist);
 	tmp = *line;
 	//quotflag = 0;
 	while (*tmp != 0x0)// tokenazing starts
@@ -54,17 +55,21 @@ void	reader(char **line, t_all *all) //par of this func could be a parser functi
 		//if (*tmp == ';')
 		//	executer(genlist);
 		//else if (*tmp == '|')
-
 	}
-	tokencrtr(line, tmp, &genlist, all);
+	//printf("the last %s\n", *line - 1);
+	//printf("in teh end tmp %p\n", tmp);
+	if (*line != tmp)
+		tokencrtr(line, tmp, &genlist, all);
 	if ((pipecount = pipefinder(genlist)))
     	ft_pipe(all, genlist, pipecount);
 	//else if (genlist->set->direct)
 	//{
 	//	executer(genlist, dir_exec(pipe_init(), genlist->set->direct), &all);
 	//}
-	else
+	
+	else if (**line == 0x0 && *(*line - 1) != 0x3b)
 		executer(genlist, all, 0);
-	//printf("in genlist %s\n", genlist->set->builtin);
+	//printf("lalala\n");
 	cleargenlist(genlist);
+	return ;
 }

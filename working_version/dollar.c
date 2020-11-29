@@ -20,9 +20,14 @@ char	*replace(char **line, char *start, char *finish, char *value)
 		tmpline = ft_memmove(tmpline, value, ft_strlen(value));
 		tmpline = tmpline + ft_strlen(value);
 	}
+	if (*(finish - 1) == 0x3f)
+	{
+		printf("value adress is %p\n", value);
+		free(value);
+	}
 	tmpline = ft_memmove(tmpline, finish, ft_strlen(finish) + 1);
-	//printf("value is %s\n", value);
-	//printf("newline adress is %p\n", newline);
+	//printf("tmpline adress is %s\n", tmpline);
+	printf("newline adress is %p\n", newline);
 	
 	//free(*line);
 	*line = newline;
@@ -68,7 +73,10 @@ char	*dollarpars(char **line, char *ptr, t_all *all)
 		ptr--;
 		tmp++;
 		errno = 0;
-		return (replace(line, ptr, tmp, value));
+		res = (replace(line, ptr, tmp, value));// заменить кусок строки от ptr до tmp на это значение
+		free(all->ptr_to_free);
+		all->ptr_to_free = *line;
+		return (res);
 	}
 	else if (*tmp && ft_isdigit(*tmp))
 		return (tmp = ft_memmove(tmp, tmp + 1, ft_strlen(tmp + 1) + 1));

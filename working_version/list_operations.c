@@ -6,10 +6,10 @@ t_list	*ft_create_item(char *data)
 
 	if (!(item = (t_list*)malloc(sizeof(t_list))))
 		malloc_error();
-	printf("new t_list addres is %p\n", item);
+	//printf("new t_list addres is %p\n", item);
 	item->next = NULL;
 	item->word = data;
-	printf("and data adress inside is %p\n", item->word);
+	//printf("and data adress inside is %p\n", item->word);
 	return (item);
 }
 

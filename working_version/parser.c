@@ -65,4 +65,6 @@ void	reader(char **line, t_all *all) //par of this func could be a parser functi
 	//}
 	else
 		executer(genlist, all, 0);
+	//printf("in genlist %s\n", genlist->set->builtin);
+	cleargenlist(genlist);
 }

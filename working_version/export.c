@@ -80,7 +80,7 @@ int		ft_check_word_export(char *word)
 			return (0);
 	}
 	c = word[0];
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_' && word[1]))
 		c = word[0];
 	else if (c == '_' && !word[1])
 		return (2);
@@ -94,7 +94,7 @@ int		ft_check_word_export(char *word)
 
 void	ft_no_valid_word(char *word)
 {
-	ft_putstr_fd("bash: export: `", 2);
+	ft_putstr_fd("bash_na_bash: export: `", 2);
 	ft_putstr_fd(word, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
 }
@@ -109,7 +109,7 @@ int		ft_check_258(t_set *set, t_all *all)
 		if (ft_strchr(tmp->word, '(') || ft_strchr(tmp->word, ')'))
 		{
 			if (tmp->word[0] == '(' && !tmp->word[1])
-				ft_putendl_fd("bash: syntax error near unexpected token `newline'", 2);
+				ft_putendl_fd("bash_na_bash: syntax error near unexpected token `newline'", 2);
 			else if (tmp->word[0] == '(' && tmp->word[1])
 			{
 				ft_putstr_fd("bash: syntax error near unexpected token `", 2);
@@ -117,9 +117,9 @@ int		ft_check_258(t_set *set, t_all *all)
 				ft_putendl_fd("'", 2);
 			}
 			else if (ft_strchr(tmp->word, '('))
-				ft_putendl_fd("bash: syntax error near unexpected token `('", 2);
+				ft_putendl_fd("bash_na_bash: syntax error near unexpected token `('", 2);
 			else if (ft_strchr(tmp->word, ')'))
-				ft_putendl_fd("bash: syntax error near unexpected token `)'", 2);
+				ft_putendl_fd("bash_na_bash: syntax error near unexpected token `)'", 2);
 			all->error = 258;
 			return (0);
 		}
@@ -146,7 +146,7 @@ int		export_executer(t_set *set, t_all *all)
 			if (check == 1)
 				ft_add_env(tmp->word, all->myenv);
 			else if (check == 2)
-				continue ;
+				check = 2;
 			else
 			{
 				ft_no_valid_word(tmp->word);

@@ -48,25 +48,43 @@ t_genlist	*initial_genlist(void)
 //	return (item);
 //}
 
-char	*itemcrtr(char **line, char *tmp, int dolflag, t_all all)
+char	*itemcrtr(char **line, char *finish, int dolflag, t_all all)
 {
 	char	*item;
 	char	*dollar;
-	char	*ptr;
+	char	*cqptr;
+	char	*tmp;
+	char	*quotset;
 
-	if (!(item = ft_calloc(tmp - *line + 1, sizeof(char))))
+	quotset = "\"\'";
+	if (!(item = ft_calloc(finish - *line + 1, sizeof(char))))
 		malloc_error();
-	item = ft_memmove(item, *line, tmp - *line);
+	item = ft_memmove(item, *line, finish - *line);
 	//printf("item before creating is %c\n", *item);
-	ptr = item;
-	if (ft_strchr(item, 0x22) || ft_strchr(item, 0x27))
+	cqptr = item;
+
+	while (*cqptr != 0x0)
 	{
-		dolflag = 1;
+		//if ((tmp = ft_strchr(cqptr, 0x22)))
+		//	cqptr = tmp;
+		//else if ((tmp = ft_strchr(cqptr, 0x27)))
+		//	cqptr = tmp;
+		if (ft_strchr(quotset, *cqptr))
+		{
+			//printf("BEFORE cqprocessor CQPTR is %s\n", cqptr);
+			dolflag = 1;
+			item = cqprocessor(item, &cqptr, dolflag, all); // it checks obtained item for quotes and (if yes), remotes them
+		//	printf("and AFTER cqproc CQPTR is %s\n", cqptr);
+		}
+		else
+		{
+			cqptr++;
+			//*line = finish;
+			//return (item);
+		}
+		
 		//ptr = item - 1;
 	}
-	*line = tmp;
-	//printf("item before cqprocessor is %s\n", item);
-	item = cqprocessor(ptr, dolflag, all); // it checks obtained item for quotes and (if yes), remotes them
-	//printf("and result item is %s\n", item);
+	*line = finish;
 	return (item);
 }

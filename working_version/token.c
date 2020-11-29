@@ -2,7 +2,7 @@
 
 char	*textpars(char **line, char *tmp, t_set *set, t_all all)
 {	
-	//printf("textpasr started and *line is %s\n", *line);
+//	printf("textpasr started and *line is %s\n", *line);
 
 	*set = builtinrcrdr(itemcrtr(line, tmp, 0, all), *set);
 	return (tmp);
@@ -14,7 +14,7 @@ char	*tokencrtr(char **line, char *delim, t_genlist **genlist, t_all *all)
 	t_genlist	*templist;
 
 	//printf("first fd[1] is %i\n", *(*fd + 1));
-	//printf("first fd[0] is %i\n", **fd);
+//	printf("token started\n");
 	templist = *genlist;
 	while (templist->next)
 		templist = templist->next;

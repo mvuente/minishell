@@ -11,12 +11,14 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 char	*ft_strchr(const char *s, int c)
 {
 	char	*res;
 	char	smb;
 
+	//printf(" in strchr STRING is %s\n", (char *)s);
 	smb = (char)c;
 	res = (char *)s;
 	while (*res)

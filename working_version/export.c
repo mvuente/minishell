@@ -76,14 +76,14 @@ int		ft_check_word_export(char *word)
 
 	flag = 0;
 	i = -1;
-	while (word[++i] && word[i] != '=')
+	while (word[++i])
 	{
 		if (word[i] >= '!' && word[i] <= '/')
 			return (0);
 	}
 
 	c = word[0];
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_' && word[1]))
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
 		c = word[0];
 	else if (c == '_' && !word[1])
 		return (2);
@@ -148,11 +148,10 @@ int	export_executer(t_set *set, t_all *all)
 		{
 			//write(1, "he\n", 3);
 			check = ft_check_word_export(set->word->word);
-			printf("arg is %d\n", check);
 			if (check == 1)
 				ft_add_env(set->word->word, all->myenv);
 			else if (check == 2)
-				check = 2;
+				continue ;
 			else
 			{
 				ft_no_valid_word(set->word->word);

@@ -35,6 +35,8 @@ void	reader(char *line, t_all all) //par of this func could be a parser functio
 		//		quotflag = 1;
 			//printf("before quuotes we have command %s\n", genlist->set->builtin);
 			tmp = cqpars(&line, tmp, *tmp, all); // just to find the end of quotes and move the pointer there to
+			//printf("IN PARSER: %s\n", tmp);
+		//	printf("IN PARSER: %s\n", line);
 		}
 		
 		else if (*tmp == 0x24 && *(tmp + 1) != 0x0 && *(tmp + 1) != 0x20 &&

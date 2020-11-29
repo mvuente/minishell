@@ -57,43 +57,36 @@ char	*cqpars(char **line, char *tmp, char symb, t_all all) //check for \ in ""
 		}
 		finish++;
 	}
-	if (*finish == 0x0 && !finflag)
-		command_error();
+	//if (*finish == 0x0 && !finflag)
+	//	command_error();
 	//printf("before first memmove finish is %s\n", finish);
 	if (finflag)
 		finish--;
 	return (finish + 1);	
 }
 
-char	*cqprocessor(char *item, int dolflag, t_all all)
+char	*cqprocessor(char *item, char **cqptr, int dolflag, t_all all)
 {
 	char	*quot;
 	char	*start;
 	char	*finish;
-	char	*quotset;
+	//char	*quotset;
 	char	*tmp;
+	//char	*result;
 
-	printf("in cqprocessor item is %s\n", item);
+	
+	//printf("in cqprocessor item is %s\n", item);
 	//printf("dolflag is %i\n", dolflag);
-	quotset = "\"\'";
+	//quotset = "\"\'";
 	if (dolflag)
 	{
-		tmp = item;
-		while (*tmp != 0)
-		{
-			printf("pointer in an analising string is %c\n", *tmp);
-			if (ft_strchr(quotset, *tmp))
-			{
-				quot = tmp;
-				start = tmp;
-				printf("start is %s\n", start);
-				finish = cqpars(&tmp, quot, *quot, all) - 1;
-				finish = ft_memmove(finish, finish + 1, ft_strlen(finish + 1) + 1);//last
-				start = (ft_memmove(start, start + 1, ft_strlen(start + 1) + 1)); //first
-				break;
-			}
-			tmp++;
-		}
+		start = *cqptr;
+		quot = *cqptr; // фиксируем тип искомой кавычки
+		finish = cqpars(&tmp, quot, *quot, all) - 1; // находим закрывающую кавычку. tmp  не играеит роли
+		finish = ft_memmove(finish, finish + 1, ft_strlen(finish + 1) + 1);//убираем закрывающую кавычку
+		start = (ft_memmove(start, start + 1, ft_strlen(start + 1) + 1)); //убираем открывающую кавычку
+		*cqptr = finish - 1;
+	//	tmp = item;
 	}
 	return (item);
 }

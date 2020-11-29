@@ -25,9 +25,9 @@ int     minishell(t_all all)
             }
         }  
           
-            reader(line, all);// line came back cause of \n
-		    free(line);
-        
+            reader(&line, all);// line came back cause of \n
+		printf("adress to be freed in minishell is %p\n", line);
+		free(line);
     }
     if (ret == 0)// (it's if CTRL+D push)
         exit(0);

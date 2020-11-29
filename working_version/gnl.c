@@ -9,9 +9,11 @@ static	char	*bufrecorder(char *tmp, char buf)
 	length = ft_strlen(old);
 	if (!(tmp = (char*)malloc(sizeof(char) * length + 2)))
 		malloc_error();
+	//printf("memory allocated in BUFRECORDER: %p\n", tmp);
 	ft_bzero(tmp, length + 2);
 	ft_memmove(tmp, old, length);
 	tmp[length] = buf;
+	//printf("allocated memory %p will be freed \n", old);
 	free(old);
 	return (tmp);
 }
@@ -24,6 +26,7 @@ size_t			gnl(int fd, char **line)
 
 	if (!(tmp = (char*)malloc(sizeof(char))))
 		malloc_error();
+	//printf("memory allocated in GNL: %p\n", tmp);
 	*tmp = '\0';
 	*line = tmp;
 	write(1, "bash_na_bash! ", 14); // CURRENT FOLDER BEFORE IS NEEDED
@@ -33,9 +36,14 @@ size_t			gnl(int fd, char **line)
 		{
 			tmp = bufrecorder(tmp, buf[0]);
 			*line = tmp;
+			//printf("there was ret a line with adress %p\n", *line);
 		}
 		else
+		{
+			//printf("tmp is %s\n", tmp);
+			//free(tmp);
 			return (ret);
+		}
 	}
 	if (!ret)
 		return (0);

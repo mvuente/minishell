@@ -13,7 +13,7 @@ char	*tokencrtr(char **line, char *delim, t_genlist **genlist, t_all *all)
 	char		*tmp;
 	t_genlist	*templist;
 
-	//printf("first fd[1] is %i\n", *(*fd + 1));
+	printf("IN TOKENCRTR *line adress is %p\n", *line);
 //	printf("token started\n");
 	templist = *genlist;
 	while (templist->next)

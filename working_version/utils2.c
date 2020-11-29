@@ -20,10 +20,10 @@ void	ft_free_set(t_set *set)
 	tmp = set->word;
 	while(tmp)
 	{
-       todie = tmp;
-	   printf("i try to free addres %p\n", tmp->word);
-	   free(tmp->word);
-	   free(todie);
+    	todie = tmp;
+		//printf("i try to free addres %p\n", tmp->word);
+		free(tmp->word);
+		free(todie);
         tmp = tmp->next;
     }
 	dirtmp = set->direct;

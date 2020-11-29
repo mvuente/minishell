@@ -38,7 +38,8 @@ typedef struct s_all
     int 			fd_0;
     int 			fd_1;
 	int				error;
-    //char *path;
+    int				status;
+    pid_t			pid;
     char            *home;
     t_env 			*myenv;
 
@@ -75,7 +76,7 @@ void	ft_pwd(t_all *all);
 void 	ft_echo(char *name, char *line, char option, char direct);
 int 	export_executer(t_set *set, t_all *all);
 void	executer(t_genlist *genlist, t_all *all, int pipe_flag);
-void	reader(char *line, t_all all);
+void	reader(char **line, t_all all);
 void	genlstadd(char *delim, t_genlist **genlist);
 void    cleargenlist(t_genlist *genlist);
 

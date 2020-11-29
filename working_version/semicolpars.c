@@ -52,7 +52,7 @@ char	*semicolparser(char **line, t_genlist **genlist, t_all *all)
     	ft_pipe(all, *genlist, pipecount);
 	else
 		executer(*genlist, all, 0);
-	cleargenlist(*genlist);
+	//cleargenlist(*genlist);
 	//printf("I'm here?\n");
 	*genlist = initial_genlist();
 	return (*line += 1);

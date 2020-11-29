@@ -42,7 +42,7 @@ void	echo_executer(t_set *set, t_all *all)
     if (descr != 1)
     	close(descr);
     dup2(all->fd_1, 1);
-    write(1, "\n", 1);
+	//write(1, "\n", 1);
     errno = 0;
     //minishell(*all);
 }

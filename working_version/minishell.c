@@ -22,6 +22,7 @@ int		minishell(t_all all)
 	{
 		if (ret == 0)
 		{
+			write(1, "  \b\b", 5);
 			if (!line[0])
 			{
 				ft_putendl_fd("exit", 1);

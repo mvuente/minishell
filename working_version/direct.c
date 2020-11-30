@@ -16,12 +16,8 @@ t_dirlist	*dir_record(t_set *set, char *direct, char *operand)
 char	*dirpars(char **line, char *start, t_set *set, t_all *all)
 {
 	char		*tmp;
-	char		*delimiters;
-	char		*quot;
 	char		*direct;
 
-	delimiters = ";|<> ";
-	quot = "\"\'";
 	while (*start == 0x3c || *start == 0x3e)
 		start++;
 	direct = itemcrtr(line, start, 0, *all);
@@ -34,9 +30,9 @@ char	*dirpars(char **line, char *start, t_set *set, t_all *all)
 			break;
 	}
 	*line = tmp;
-	while (*tmp != 0x0 && !ft_strchr(delimiters, *tmp))
+	while (*tmp != 0x0 && !ft_strchr(all->delimiters, *tmp))
 	{
-		if (ft_strchr(quot, *tmp))
+		if (ft_strchr(all->quot, *tmp))
 			tmp = cqpars(line, tmp, *tmp, all);
 		else
 			tmp++;

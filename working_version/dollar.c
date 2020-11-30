@@ -1,5 +1,20 @@
 #include "minishell.h"
 
+char	*qwest_proc(char **line, char *tmp, char *ptr, t_all *all)
+{
+	char	*value;
+	char	*res;
+
+	if (!(value = ft_itoa(errno)))
+			malloc_error();
+	tmp++;
+	errno = 0;
+	res = (replace(line, ptr, tmp, value));
+	free(all->ptr_to_free);
+	all->ptr_to_free = *line;
+	return (res);
+}
+
 char	*replace(char **line, char *start, char *finish, char *value)
 {
 	size_t	delta;
@@ -26,25 +41,6 @@ char	*replace(char **line, char *start, char *finish, char *value)
 	return (tmpline);
 }
 
-void	ft_putnbr_fd(int n, int fd)
-{
-	long long int number;
-
-	number = n;
-	if (number < 0)
-	{
-		write(fd, "-", 1);
-		number = number * -1;
-	}
-	if (number > 9)
-	{
-		ft_putnbr_fd(number / 10, fd);
-		ft_putnbr_fd(number % 10, fd);
-	}
-	else
-		ft_putchar_fd(number + 48, fd);
-}
-
 char	*dollarpars(char **line, char *ptr, t_all *all)
 {
 	char	*var;
@@ -55,16 +51,7 @@ char	*dollarpars(char **line, char *ptr, t_all *all)
 	ptr = ft_memmove(ptr, ptr + 1, ft_strlen(ptr + 1) + 1);
 	tmp = ptr;
 	if (*tmp && *tmp == 0x3f)
-	{
-		if (!(value = ft_itoa(errno)))
-			malloc_error();
-		tmp++;
-		errno = 0;
-		res = (replace(line, ptr, tmp, value));
-		free(all->ptr_to_free);
-		all->ptr_to_free = *line;
-		return (res);
-	}
+		return (qwest_proc(line, tmp, ptr, all));
 	else if (*tmp && ft_isdigit(*tmp))
 		return (tmp = ft_memmove(tmp, tmp + 1, ft_strlen(tmp + 1) + 1));
 	else

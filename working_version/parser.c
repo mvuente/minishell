@@ -43,8 +43,7 @@ void	reader(char **line, t_all *all)
 			return ;
 		}
 	}
-	//if (*line != tmp)
-		tokencrtr(line, tmp, &genlist, all);
+	tokencrtr(line, tmp, &genlist, all);
 	pre_exec(line, genlist, all);
 	cleargenlist(genlist);
 	return ;

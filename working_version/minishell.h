@@ -79,8 +79,7 @@ int						minishell(t_all all);
 int						*pipe_init(void);
 int						is_open_cqs(char *line, char *delimiter, char *quotset);
 void					dir_exec(int *fd, t_dirlist *direct, t_all *all);
-//int						empty_checker(char *line, char *ptr);
-int    					empty_redirect_checker(char *line, char *delimiters);
+int						empty_redirect_checker(char *line, char *delimiters);
 int						delim_checker(char *line, char *quotset);
 int						delim_error(char *delim, int flag);
 int						empt_dir_error(void);
@@ -147,5 +146,10 @@ t_list					*lstaddback(t_list *word, char *item);
 size_t					gnl(int fd, char **line);
 int						ft_check_258(t_set *set, t_all *all);
 void					ft_free_set(t_set *set);
+char					*ft_check_syscall(t_env *bufenv, t_set *set, int fd, \
+						int flag);
+char					*ft_for_syscall(char *path, int fd, int flag);
+char					**ft_creat_arr_comanda(char *comanda, t_set *set, \
+						char *str);
 
 #endif

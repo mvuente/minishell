@@ -61,8 +61,6 @@ char	*dirpars(char **line, char *start, t_set *set, t_all *all)
 	while (*start == 0x3c || *start == 0x3e)
 		start++;
 	direct = itemcrtr(line, start, 0, *all);
-	if (ft_memcmp("<", direct, 2) && ft_memcmp(">", direct, 2) && ft_memcmp(">>", direct, 3))
-		command_error();
 	tmp = start;
 	while (*tmp != 0x0)
 	{

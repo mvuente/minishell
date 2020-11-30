@@ -86,8 +86,6 @@ int						empt_dir_error(void);
 char					*open_cq_error(void);
 void					read_error(void);
 void					malloc_error(void);
-void					command_error(void);
-void					some_error(void);
 void					ft_pwd(t_all *all);
 void					ft_echo(char *name, char *line, char option, \
 						char direct);

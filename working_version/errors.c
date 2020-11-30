@@ -12,18 +12,6 @@ void	malloc_error(void)
 	exit(1);
 }
 
-void	command_error(void)
-{
-	write(2, "wrong command\n", 14);
-	exit(1);
-}
-
-void	some_error(void)
-{
-	write(2, "something wrong\n", 16);
-	exit(1);
-}
-
 int		delim_error(char *delim, int flag)
 {
 	errno = 258;

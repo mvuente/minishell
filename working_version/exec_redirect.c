@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	open_cq_error(int fd, t_dirlist *tmp, t_all *all)
+void	open_error(int fd, t_dirlist *tmp, t_all *all)
 {
 	fd = 0;
 	ft_putstr_fd("bash_na_bash: ", 2);
@@ -45,7 +45,7 @@ void	dir_exec(int *fd, t_dirlist *direct, t_all *all)
 		if (*tmp->direct == 0x3c)
 		{
 			if ((fd[0] = open(tmp->fname, O_RDWR)) == -1)
-				open_cq_error(fd[0], tmp, all);
+				open_error(fd[0], tmp, all);
 			dup2(fd[0], 0);
 		}
 		else if (!ft_memcmp(">", tmp->direct, 2))

@@ -46,8 +46,9 @@ void    executer(t_genlist *genlist, t_all *all, int pipe_flag)
 			}
 		}
     if (!tmp->set->builtin)
-    	write(1, "\n", 1);
-    else if (!ft_memcmp(tmp->set->builtin, "pwd", 4))
+	{
+	}
+	else if (!ft_memcmp(tmp->set->builtin, "pwd", 4))
     	ft_pwd(all);
     else if (!ft_memcmp(tmp->set->builtin, "echo", 5))
     	echo_executer(tmp->set, all);

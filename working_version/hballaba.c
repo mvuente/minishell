@@ -79,6 +79,7 @@ void	ft_init_all(t_all *all, char **env, t_env *bufenv)
 	g_flag = 0;
 	all->delimiters = ";|<> ";
 	all->quot = "\"\'";
+	all->ptr_to_free = NULL;
 	signal(SIGINT, ft_sigl);
 	signal(SIGQUIT, ft_sigl);
 }

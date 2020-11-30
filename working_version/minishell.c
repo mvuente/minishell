@@ -20,7 +20,8 @@ int		minishell(t_all all)
 			}
 		}
 		reader(&line, &all);
-		free(all.ptr_to_free);
+		if (all.ptr_to_free)
+			free(all.ptr_to_free);
 	}
 	if (ret == 0)
 		exit(0);

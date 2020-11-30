@@ -30,9 +30,9 @@ void	reader(char **line, t_all *all)
     char		*tmp;
 	t_genlist	*genlist;
 
+	all->ptr_to_free = *line;
 	if (validator(*line, all))
 		return ;
-	all->ptr_to_free = *line;
 	genlist = initial_genlist();
 	tmp = *line;
 	while (*tmp != 0x0)

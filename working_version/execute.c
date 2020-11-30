@@ -31,24 +31,9 @@ void	echo_executer(t_set *set, t_all *all)
     errno = 0;
 }
 
-void    executer(t_genlist *genlist, t_all *all, int pipe_flag)
+void	exe_pars(t_genlist *tmp, t_all *all)
 {
-    t_genlist   *tmp;
-
-    tmp = genlist;
-	if (tmp->set->direct)
-		{
-			dir_exec(pipe_init(), tmp->set->direct, all);
-			if (all->fdstat)
-			{
-				errno = 1;
-				return ;
-			}
-		}
-    if (!tmp->set->builtin)
-	{
-	}
-	else if (!ft_memcmp(tmp->set->builtin, "pwd", 4))
+	if (!ft_memcmp(tmp->set->builtin, "pwd", 4))
     	ft_pwd(all);
     else if (!ft_memcmp(tmp->set->builtin, "echo", 5))
     	echo_executer(tmp->set, all);
@@ -64,6 +49,25 @@ void    executer(t_genlist *genlist, t_all *all, int pipe_flag)
 		errno = ft_exit(all, tmp->set);
     else
 		errno = ft_syscall(all, tmp->set, all->myenv);
+	return ;
+}
+
+void    executer(t_genlist *genlist, t_all *all, int pipe_flag)
+{
+    t_genlist   *tmp;
+
+    tmp = genlist;
+	if (tmp->set->direct)
+		{
+			dir_exec(pipe_init(), tmp->set->direct, all);
+			if (all->fdstat)
+			{
+				errno = 1;
+				return ;
+			}
+		}
+    if (tmp->set->builtin)
+		exe_pars(tmp, all);
 	if (!pipe_flag)
 		dup2(all->fd_0, 0);
 	dup2(all->fd_1, 1);

@@ -75,6 +75,7 @@ char		*itemcrtr(char **line, char *finish, int dolflag, t_all all)
 		}
 	}
 	*line = finish;
+	//printf("item length is %i\n", (int)ft_strlen(item));
 	return (item);
 }
 

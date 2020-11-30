@@ -37,8 +37,8 @@ int		ft_work_pipe(t_all *all, t_genlist *pipes, int size, int pipefd[2])
 	{
 		close(pipefd[0]);
 		dup2(pipefd[1], 1);
-		if (pipes->set->direct)
-			dir_exec(pipe_init(), pipes->set->direct);
+		//if (pipes->set->direct)
+		//	dir_exec(pipe_init(), pipes->set->direct);
 		executer(pipes, all, 1);
 		close(pipefd[1]);
 		exit(0);

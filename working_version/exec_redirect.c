@@ -36,12 +36,13 @@
 //	return (fd);
 //}
 
-void	dir_exec(int *fd, t_dirlist *direct)
+void	dir_exec(int *fd, t_dirlist *direct, t_all *all)
 {
     t_dirlist	*tmp;
 	//char		*test;
 
 	//printf("I'm here?\n");
+	all->fdstat = 0; 
 	tmp = direct;
 	dup2(0, fd[0]);
 	dup2(1, fd[1]);
@@ -56,7 +57,14 @@ void	dir_exec(int *fd, t_dirlist *direct)
 			if ((fd[0] = open(tmp->fname, O_RDWR)) == -1)
 				{
 					fd[0] = 0;
-					write(2, "No such file or directory\n", 26); // нужен ошибка и minishell()
+					ft_putstr_fd("bash_na_bash: ", 2);
+					ft_putstr_fd(tmp->fname, 2);
+					ft_putstr_fd(": No such file or directory\n", 2);
+					//errno = 1;
+					all->fdstat = 1;
+					//dup2(all->fd_0, 0);
+					//dup2(all->fd_1, 1);
+					//return ('n');
 				}
 			//printf("opened file is %i\n", fd[0]);
 			//dup2(0, fd[0]);

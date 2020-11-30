@@ -46,7 +46,14 @@ void    executer(t_genlist *genlist, t_all *all, int pipe_flag)
     //printf("current command is %s\n", tmp->set->builtin);
     //printf("current argument is %s\n", tmp->set->word->word);
 	if (tmp->set->direct)
-		dir_exec(pipe_init(), tmp->set->direct);
+		{
+			dir_exec(pipe_init(), tmp->set->direct, all);
+			if (all->fdstat)
+			{
+				errno = 1;
+				return ;
+			}
+		}
     if (!tmp->set->builtin)
     	write(1, "\n", 1);
     else if (!ft_memcmp(tmp->set->builtin, "pwd", 4))

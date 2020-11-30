@@ -24,6 +24,8 @@ void	reader(char **line, t_all *all) //par of this func could be a parser functi
 	quot = "\"\'";
 	if (delim_checker(*line, quot))
 		return ;
+	if (empty_redirect_checker(*line, delimiters))
+		return ;
 	genlist = initial_genlist();
 	//printf("genlist allocated is %p\n", genlist);
 	tmp = *line;

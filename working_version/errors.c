@@ -37,3 +37,11 @@ int		delim_error(char *delim, int flag)
 	write(2, "\n", 1);
 	return (1);
 }
+
+int		empt_dir_error(void)
+{
+	errno = 258;
+	ft_putendl_fd(\
+	"bash: syntax error near unexpected token `newline'", 2);
+	return (1);
+}

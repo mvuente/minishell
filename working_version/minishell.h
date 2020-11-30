@@ -154,5 +154,7 @@ char					*ft_check_syscall(t_env *bufenv, t_set *set, int fd, \
 char					*ft_for_syscall(char *path, int fd, int flag);
 char					**ft_creat_arr_comanda(char *comanda, t_set *set, \
 						char *str);
+void					ft_change_oldpwd(t_env *myenv, char *pwd, char *tmp, \
+						char *path);
 
 #endif

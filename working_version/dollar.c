@@ -6,7 +6,7 @@ char	*qwest_proc(char **line, char *tmp, char *ptr, t_all *all)
 	char	*res;
 
 	if (!(value = ft_itoa(errno)))
-			malloc_error();
+		malloc_error();
 	tmp++;
 	errno = 0;
 	res = (replace(line, ptr, tmp, value));
@@ -20,12 +20,13 @@ char	*replace(char **line, char *start, char *finish, char *value)
 	size_t	delta;
 	char	*tmpline;
 	char	*newline;
-	
+
 	if (value)
 		delta = ft_strlen(value) - (finish - start);
 	else
 		delta = start - finish;
-	if (!(newline = (char*)ft_calloc(ft_strlen(*line) + delta + 1, sizeof(char))))
+	if (!(newline = (char*)ft_calloc(ft_strlen(*line) + delta + 1, \
+	sizeof(char))))
 		malloc_error();
 	newline = ft_memmove(newline, *line, start - *line);
 	tmpline = newline + ft_strlen(newline);

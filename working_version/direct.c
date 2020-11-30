@@ -27,7 +27,7 @@ char	*dirpars(char **line, char *start, t_set *set, t_all *all)
 		if (*tmp == 0x20)
 			tmp++;
 		else
-			break;
+			break ;
 	}
 	*line = tmp;
 	while (*tmp != 0x0 && !ft_strchr(all->delimiters, *tmp))
@@ -39,4 +39,4 @@ char	*dirpars(char **line, char *start, t_set *set, t_all *all)
 	}
 	set->direct = dir_record(set, direct, itemcrtr(line, tmp, 1, *all));
 	return (tmp);
-} 
+}

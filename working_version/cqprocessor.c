@@ -52,7 +52,7 @@ char	*cqpars(char **line, char *tmp, char symb, t_all *all)
 		return (open_cq_error());
 	if (finflag)
 		finish--;
-	return (finish + 1);	
+	return (finish + 1);
 }
 
 char	*cqprocessor(char *item, char **cqptr, int dolflag, t_all all)

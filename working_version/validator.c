@@ -89,7 +89,7 @@ int		validator(char *line, t_all *all)
 	int		er;
 
 	if ((er = delim_checker(line, all->quot)) ||
-	(er = empty_redirect_checker(line, all->delimiters)))
+	(er = empty_redirect_checker(line, all->small_delim)))
 		return (er);
 	return (0);
 }

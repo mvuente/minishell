@@ -86,7 +86,7 @@ int		ft_check_258(t_set *set, t_all *all)
 				ft_putendl_fd(\
 					"bash: syntax error near unexpected token `newline'", 2);
 			else if (tmp->word[0] == '(' && tmp->word[1])
-				ft_write_258(++tmp->word);
+				ft_write_258(tmp->word);
 			else if (ft_strchr(tmp->word, '('))
 				ft_putendl_fd("bash: syntax error near unexpected token `('"\
 						, 2);

@@ -55,6 +55,7 @@ typedef struct			s_all
 	char				*home;
 	char				*ptr_to_free;
 	char				*delimiters;
+	char				*small_delim;
 	char				*quot;
 	t_env				*myenv;
 }						t_all;

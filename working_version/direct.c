@@ -1,40 +1,8 @@
 #include "minishell.h"
 
-int		no_operand_checker(char **line, char *delimiters)
-{
-	char		*tmp;
 
-	tmp = *line + 1;
-	while (*tmp != 0x0 && !ft_strchr(delimiters, *tmp))
-	{
-		if (*tmp != 0x20)
-		{
-			*line = tmp - 1;
-			return (0x61);
-		}
-		tmp++;
-	}
-	return (0);
-}
 
-int    empty_redirect_checker(char *line, char *delimiters)
-{
-	char		*tmp;
-	
-	tmp = line;
-	while (*tmp != 0x0)
-	{
-		if (*tmp == 0x3c || *tmp == 0x3e)
-		{
-			if (*tmp == 0x3e && *(tmp + 1) == 0x3e)
-				tmp++;
-			if (!no_operand_checker(&tmp, delimiters))
-				return (empt_dir_error());
-		}
-		tmp++;
-	}
-	return (0);
-}
+
 
 t_dirlist	*dir_record(t_set *set, char *direct, char *operand)
 {

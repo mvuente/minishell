@@ -18,7 +18,7 @@ SRC =   direct.c errors.c gnl.c biglist_operations.c minishell.c \
 		exec_redirect.c dollar.c hballaba.c environ.c utils2.c \
 		list_operations.c export.c cd.c unset.c env.c exit.c syscall.c \
 		pipepars.c semicolpars.c pipe_exec.c lists.c cqprocessor.c \
-		sys_utils.c
+		sys_utils.c validator.c
 
 SRC_LIB_DIR = libft/
 

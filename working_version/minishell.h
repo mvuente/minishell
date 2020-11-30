@@ -54,6 +54,8 @@ typedef struct			s_all
 	pid_t				pid;
 	char				*home;
 	char				*ptr_to_free;
+	char				*delimiters;
+	char				*quot;
 	t_env				*myenv;
 }						t_all;
 
@@ -83,6 +85,7 @@ int						empty_redirect_checker(char *line, char *delimiters);
 int						delim_checker(char *line, char *quotset);
 int						delim_error(char *delim, int flag);
 int						empt_dir_error(void);
+int						validator(char *line, t_all *all);
 char					*open_cq_error(void);
 void					read_error(void);
 void					malloc_error(void);

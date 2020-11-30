@@ -74,8 +74,11 @@ void	ft_init_all(t_all *all, char **env, t_env *bufenv)
 	all->fd_1 = dup(1);
 	ft_creat_env(env, &bufenv);
 	all->myenv = bufenv;
-	all->home = ft_strdup(ft_get_value(bufenv, "HOME"));
+	if (!(all->home = ft_strdup(ft_get_value(bufenv, "HOME"))))
+		malloc_error();
 	g_flag = 0;
+	all->delimiters = ";|<> ";
+	all->quot = "\"\'";
 	signal(SIGINT, ft_sigl);
 	signal(SIGQUIT, ft_sigl);
 }

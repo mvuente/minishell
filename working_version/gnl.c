@@ -26,24 +26,18 @@ size_t			gnl(int fd, char **line)
 
 	if (!(tmp = (char*)malloc(sizeof(char))))
 		malloc_error();
-	//printf("memory allocated in GNL: %p\n", tmp);
 	*tmp = '\0';
 	*line = tmp;
-	write(1, "bash_na_bash! ", 14); // CURRENT FOLDER BEFORE IS NEEDED
+	write(1, "bash_na_bash! ", 14);
 	while ((ret = read(0, buf, 1) > 0))
 	{
 		if (buf[0] != '\n')
 		{
 			tmp = bufrecorder(tmp, buf[0]);
 			*line = tmp;
-			//printf("there was ret a line with adress %p\n", *line);
 		}
 		else
-		{
-			//printf("tmp is %s\n", tmp);
-			//free(tmp);
 			return (ret);
-		}
 	}
 	if (!ret)
 		return (0);

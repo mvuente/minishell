@@ -2,7 +2,7 @@
 
 int		no_operand_checker(char **line, char *delimiters)
 {
-	char	*tmp;
+	char		*tmp;
 
 	tmp = *line + 1;
 	while (*tmp != 0x0 && !ft_strchr(delimiters, *tmp))
@@ -19,11 +19,9 @@ int		no_operand_checker(char **line, char *delimiters)
 
 int    empty_redirect_checker(char *line, char *delimiters)
 {
-	char	*tmp;
-	//char	*tempstring;
+	char		*tmp;
 	
 	tmp = line;
-	//tempstring = line;
 	while (*tmp != 0x0)
 	{
 		if (*tmp == 0x3c || *tmp == 0x3e)
@@ -32,7 +30,6 @@ int    empty_redirect_checker(char *line, char *delimiters)
 				tmp++;
 			if (!no_operand_checker(&tmp, delimiters))
 				return (empt_dir_error());
-			//tempstring = tmp + 1;
 		}
 		tmp++;
 	}
@@ -42,8 +39,6 @@ int    empty_redirect_checker(char *line, char *delimiters)
 t_dirlist	*dir_record(t_set *set, char *direct, char *operand)
 {
 	t_dirlist	*tmp;
-
-	if (*operand == 0x0)
 
 	tmp = set->direct;
 	if (!tmp)
@@ -63,14 +58,12 @@ char	*dirpars(char **line, char *start, t_set *set, t_all *all)
 
 	delimiters = ";|<> ";
 	quot = "\"\'";
-
 	while (*start == 0x3c || *start == 0x3e)
 		start++;
 	direct = itemcrtr(line, start, 0, *all);
-	//printf("%s\n", direct);
 	if (ft_memcmp("<", direct, 2) && ft_memcmp(">", direct, 2) && ft_memcmp(">>", direct, 3))
-		command_error(); // что считать ошибкой?????
-	tmp = start;  // до строки 80 кусок повторяется выше
+		command_error();
+	tmp = start;
 	while (*tmp != 0x0)
 	{
 		if (*tmp == 0x20)
@@ -80,14 +73,12 @@ char	*dirpars(char **line, char *start, t_set *set, t_all *all)
 	}
 	*line = tmp;
 	while (*tmp != 0x0 && !ft_strchr(delimiters, *tmp))
-	{ 
-		//printf("in 1-st loop\n");
+	{
 		if (ft_strchr(quot, *tmp))
 			tmp = cqpars(line, tmp, *tmp, all);
 		else
 			tmp++;
 	}
-	printf("tmp is %s\n", tmp);
 	set->direct = dir_record(set, direct, itemcrtr(line, tmp, 1, *all));
 	return (tmp);
 } 

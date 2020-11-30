@@ -14,7 +14,7 @@
 
 void		ft_free_arr(char **arr)
 {
-	int		i;
+	int			i;
 
 	i = -1;
 	while (arr[++i])
@@ -24,7 +24,7 @@ void		ft_free_arr(char **arr)
 
 t_set		*initial_set(void)
 {
-	t_set	*set;
+	t_set		*set;
 
 	if (!(set = (t_set*)malloc(sizeof(t_set))))
 		malloc_error();
@@ -51,11 +51,11 @@ t_genlist	*initial_genlist(void)
 
 char		*itemcrtr(char **line, char *finish, int dolflag, t_all all)
 {
-	char	*item;
-	char	*dollar;
-	char	*cqptr;
-	char	*tmp;
-	char	*quotset;
+	char		*item;
+	char		*dollar;
+	char		*cqptr;
+	char		*tmp;
+	char		*quotset;
 
 	quotset = "\"\'";
 	if (!(item = ft_calloc(finish - *line + 1, sizeof(char))))
@@ -70,19 +70,16 @@ char		*itemcrtr(char **line, char *finish, int dolflag, t_all all)
 			item = cqprocessor(item, &cqptr, dolflag, all);
 		}
 		else
-		{
 			cqptr++;
-		}
 	}
 	*line = finish;
-	//printf("item length is %i\n", (int)ft_strlen(item));
 	return (item);
 }
 
 int		*pipe_init(void)
 {
-	int		fd[2];
-	int		*tmp;
+	int			fd[2];
+	int			*tmp;
 
 	fd[0] = 0;
 	fd[1] = 1;

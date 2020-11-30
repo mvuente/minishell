@@ -19,13 +19,9 @@ int		is_open_cqs(char *line, char *delimiter, char *quotset)
 	char	*ptr;
 	char	*closest;
 
-	
-	//printf("delimiter is %s\n", delimiter);
 	if (*delimiter != 0x7c && *delimiter != 0x3b)
 		return (2);
-	//printf("test\n");
 	ptr = line;
-	//printf("line is %s\n", line);
 	while (*ptr != 0x0)
 	{
 		if (ft_strchr(quotset, *ptr) && ptr < delimiter &&
@@ -36,30 +32,22 @@ int		is_open_cqs(char *line, char *delimiter, char *quotset)
 	return (0);
 }
 
-char	*cqpars(char **line, char *tmp, char symb, t_all *all) //check for \ in ""
+char	*cqpars(char **line, char *tmp, char symb, t_all *all)
 {
 	char	*finish;
 	int		finflag;
 
 	finflag = 0;
 	finish = tmp + 1;
-	//printf("finish is %s\n", finish);	
-	//printf("cqpars started\n");
 	while (*finish != symb && *finish != 0x0 && !finflag)
 	{
 		if (*finish == 0x24 && symb == 0x22)
 		{
-			finish = dollarpars(line, finish, all);// доллар надо заменить раскрытой переменной, если кавычки двойные
-			//printf("finish is %s\n", finish);
-			//printf("string after dollar insite quotes is %s\n", *line);
-			//printf("before finish is %s\n", finish - 1);
+			finish = dollarpars(line, finish, all);
 			finflag = 1;
 		}
 		finish++;
 	}
-	//if (*finish == 0x0 && !finflag)
-	//	command_error();
-	//printf("before first memmove finish is %s\n", finish);
 	if (finflag)
 		finish--;
 	return (finish + 1);	
@@ -70,26 +58,16 @@ char	*cqprocessor(char *item, char **cqptr, int dolflag, t_all all)
 	char	*quot;
 	char	*start;
 	char	*finish;
-	//char	*quotset;
 	char	*tmp;
-	//char	*result;
 
-	
-	//printf("in cqprocessor item is %s\n", item);
-	//printf("dolflag is %i\n", dolflag);
-	//quotset = "\"\'";
 	if (dolflag)
 	{
 		start = *cqptr;
-		quot = *cqptr; // фиксируем тип искомой кавычки
-		finish = cqpars(&tmp, quot, *quot, &all) - 1; // находим закрывающую кавычку. tmp  не играеит роли
-		finish = ft_memmove(finish, finish + 1, ft_strlen(finish + 1) + 1);//убираем закрывающую кавычку
-		start = (ft_memmove(start, start + 1, ft_strlen(start + 1) + 1)); //убираем открывающую кавычку
+		quot = *cqptr;
+		finish = cqpars(&tmp, quot, *quot, &all) - 1;
+		finish = ft_memmove(finish, finish + 1, ft_strlen(finish + 1) + 1);
+		start = (ft_memmove(start, start + 1, ft_strlen(start + 1) + 1));
 		*cqptr = finish - 1;
-	//	tmp = item;
 	}
 	return (item);
 }
-//
-	//printf("after first memmove finish is %s\n", finish);
-	//

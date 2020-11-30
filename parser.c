@@ -16,8 +16,8 @@ char	*cqpars(char *tmp, char symb)
 		finish++;
 	if (*finish == 0x0)
 		command_error();
-	finish = ft_memmove(finish, finish + 1, ft_strlen(finish + 1) + 1);//last
-	tmp = (ft_memmove(tmp, tmp + 1, ft_strlen(tmp + 1) + 1)); //first
+	finish = ft_memmove(finish, finish + 1, ft_strlen(finish + 1) + 1);
+	tmp = (ft_memmove(tmp, tmp + 1, ft_strlen(tmp + 1) + 1));
 	return (finish);	
 }
 
@@ -25,7 +25,7 @@ char	*textpars(char **line, char *tmp)
 {
 	char	*item;
 
-	if (!(item = ft_calloc(tmp - *line + 2, size0f(char))))
+	if (!(item = ft_calloc(tmp - *line + 2, sizeof(char))))
 		malloc_error;
 	item = ft_memmove(item, *line, tmp - *line + 1);
 	*line = tmp;
@@ -45,14 +45,13 @@ t_set	**parser(char *line)
 	{
 		if (*tmp == 0x5c)
 			tmp = backpars(tmp);
-		else if ((*tmp == 0x22 || *tmp == 0x27) && !cgflag)
-		{ 
+		else if ((*tmp == 0x22 || *tmp == 0x27) && !cqflag)
+		{
 			cqflag = 0x1;
 			tmp = cqpars(tmp, *tmp);
 		}
 		else
 			tmp++;
 	}
-	item = textpars(&line, tmp); // write this!
-	// check for space <>>> and ; | separately
+	item = textpars(&line, tmp);
 }

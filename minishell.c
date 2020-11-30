@@ -7,10 +7,10 @@ int     main()
 
     while ((ret = gnl(0, &line) > 0)
     {  
-        shell(parser(line));// line came back cause of \n
+        shell(parser(line));
 		free(line);
     }
-    if (ret == 0)// (it's if CTRL+D push)
+    if (ret == 0)
         exit(0);
     read_error();
     return (0);

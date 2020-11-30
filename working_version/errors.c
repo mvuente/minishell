@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   errors.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvuente <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/30 22:21:04 by mvuente           #+#    #+#             */
+/*   Updated: 2020/11/30 22:21:07 by mvuente          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	read_error(void)
@@ -15,7 +27,7 @@ void	malloc_error(void)
 int		delim_error(char *delim, int flag)
 {
 	errno = 258;
-	write(2, "e-bash: ", 8);
+	write(2, "bash_na_bash: ", 14);
 	write(2, "syntax error near unexpected token", 34);
 	write(2, "`", 1);
 	write(2, delim, 1);
@@ -30,7 +42,7 @@ int		empt_dir_error(void)
 {
 	errno = 258;
 	ft_putendl_fd(\
-	"bash: syntax error near unexpected token `newline'", 2);
+	"bash_na_bash: syntax error near unexpected token `newline'", 2);
 	return (1);
 }
 
@@ -38,6 +50,6 @@ char	*open_cq_error(void)
 {
 	errno = 258;
 	ft_putendl_fd(\
-	"bash: syntax error: opened quotation", 2);
+	"bash_na_bash: syntax error: opened quotation", 2);
 	return (NULL);
 }

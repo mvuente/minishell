@@ -76,7 +76,7 @@ char		*itemcrtr(char **line, char *finish, int dolflag, t_all all)
 	return (item);
 }
 
-int		*pipe_init(void)
+int			*pipe_init(void)
 {
 	int			fd[2];
 	int			*tmp;

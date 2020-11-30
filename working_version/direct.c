@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   direct.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvuente <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/30 22:21:56 by mvuente           #+#    #+#             */
+/*   Updated: 2020/11/30 22:21:59 by mvuente          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_dirlist	*dir_record(t_set *set, char *direct, char *operand)
@@ -13,7 +25,7 @@ t_dirlist	*dir_record(t_set *set, char *direct, char *operand)
 	return (set->direct);
 }
 
-char	*dirpars(char **line, char *start, t_set *set, t_all *all)
+char		*dirpars(char **line, char *start, t_set *set, t_all *all)
 {
 	char		*tmp;
 	char		*direct;

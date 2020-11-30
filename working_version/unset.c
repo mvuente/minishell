@@ -14,9 +14,9 @@
 
 void	ft_no_valid_word_unset(char *word)
 {
-	ft_putstr_fd("bash: unset: `", 1);
-	ft_putstr_fd(word, 1);
-	ft_putstr_fd("': not a valid identifier\n", 1);
+	ft_putstr_fd("bash_na_bash: unset: `", 2);
+	ft_putstr_fd(word, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
 }
 
 int		ft_delete_env(char *str, t_env *bufenv, int flag)

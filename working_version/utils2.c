@@ -94,7 +94,7 @@ int		ft_check_258(t_set *set, t_all *all)
 				ft_putendl_fd("bash: syntax error near unexpected token `)'"\
 						, 2);
 			all->error = 258;
-			return (258);
+			return (0);
 		}
 		tmp = tmp->next;
 	}

@@ -1,25 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hballaba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/30 11:17:45 by hballaba          #+#    #+#             */
+/*   Updated: 2020/11/30 11:17:47 by hballaba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-//int main()
-//{
-  //  minishell();
-   // printf("the end");
-    //return (0);
-//}
-
-int main(int argc, char *argv[],  char *env[])
+int		main(int argc, char *argv[], char *env[])
 {
-    t_env *bufenv;
-    t_all  all;
-    char **arr;
-    char **arv;
-    int num_comand;
-    char **arr_comand;
+	t_env	*bufenv;
+	t_all	all;
 
-    ft_init_all(&all, env, bufenv);
-    minishell(all);
-    //char *path = ft_strdup("");
-    //ft_cd(&all.myenv, NULL, 1); // если путь не указан думаю path = NULL
-    //ft_write_env(&all.myenv, 1);
-     return 0;
+	ft_init_all(&all, env, bufenv);
+	minishell(all);
+	return (0);
 }

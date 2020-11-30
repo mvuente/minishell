@@ -80,7 +80,8 @@ int		ft_check_word_export(char *word)
 			return (0);
 	}
 	c = word[0];
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_' && word[1]))
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || \
+	(c == '_' && word[1]))
 		c = word[0];
 	else if (c == '_' && !word[1])
 		return (2);
@@ -116,15 +117,10 @@ int		export_executer(t_set *set, t_all *all)
 			check = ft_check_word_export(tmp->word);
 			if (check == 1)
 				ft_add_env(tmp->word, all->myenv);
-			else if (check == 2)
-				check = 2;
-			else
-			{
+			else if (check != 2)
 				ft_no_valid_word(tmp->word);
-				return (1);
-			}
 			tmp = tmp->next;
 		}
 	}
-	return (0);
+	return (errno);
 }

@@ -49,7 +49,7 @@ char	*ft_check_syscall(t_env *bufenv, t_set *set, int fd, int flag)
 
 	comanda = NULL;
 	path = ft_get_value(bufenv, "PATH");
-	if (!path)
+	if (!path && ft_strncmp(set->builtin, "/", 1))
 		comanda = ft_strdup("PATH=NULL");
 	else if (set->builtin[0] == '/' && ft_strchr(set->builtin + 1, '/'))
 		comanda = ft_strdup(set->builtin);

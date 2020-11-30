@@ -1,28 +1,27 @@
-
 #include "minishell.h"
 
 t_env	*ft_lstnew_env(char *content)
 {
 	t_env	*newlist;
-    int 	i;
+	int		i;
 
-    i = 0;
+	i = 0;
 	if (!(newlist = (t_env*)malloc(sizeof(t_env))))
 		malloc_error();
-    if (ft_strchr(content, '='))
+	if (ft_strchr(content, '='))
 	{
 		if (!(newlist->data = ft_strdup((ft_strchr(content, '=') + 1))))
 			malloc_error();
 	}
-    else
-        newlist->data = NULL;
-    newlist->content = content;
-    while (content[i] != '=' && content[i])
-      i++;
-    if (!(newlist->name = ft_calloc(sizeof(char), i + 1)))
+	else
+		newlist->data = NULL;
+	newlist->content = content;
+	while (content[i] != '=' && content[i])
+		i++;
+	if (!(newlist->name = ft_calloc(sizeof(char), i + 1)))
 		malloc_error();
-    ft_strlcpy(newlist->name, content, i + 1);
-   	newlist->next = NULL;
+	ft_strlcpy(newlist->name, content, i + 1);
+	newlist->next = NULL;
 	return (newlist);
 }
 
@@ -36,7 +35,7 @@ void	ft_lstadd_back_env(t_env **lst, t_env *new)
 	{
 		buffer = *lst;
 		while (buffer->next)
-		    buffer = buffer->next;
+			buffer = buffer->next;
 		buffer->next = new;
 	}
 	else
@@ -53,7 +52,7 @@ void	genlstadd(char *delim, t_genlist **genlist)
 
 int		ft_lstsize_env(t_env *lst)
 {
-    int 	i;
+	int		i;
 
 	if (!lst)
 		return (0);
@@ -65,4 +64,3 @@ int		ft_lstsize_env(t_env *lst)
 	}
 	return (i);
 }
-

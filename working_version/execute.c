@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvuente <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/30 21:50:22 by mvuente           #+#    #+#             */
+/*   Updated: 2020/11/30 21:50:26 by mvuente          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void    ft_exe_function(t_genlist *pipes, t_all *all, int *fd)
+void		ft_exe_function(t_genlist *pipes, t_all *all, int *fd)
 {
     ft_syscall(all, pipes->set, all->myenv);
 }

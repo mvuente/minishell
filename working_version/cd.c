@@ -83,7 +83,7 @@ char	*ft_work_tilda(t_all *all, char *path, char *home)
 
 void	ft_write_cd(char *path, char *pwd)
 {
-	write(2, "cd: ", 4);
+	ft_putstr_fd("bash_na_bash: cd: ");
 	write(2, path, ft_strlen(path));
 	ft_putendl_fd(": No such file or directory", 2);
 	if (pwd)
@@ -95,7 +95,7 @@ int		ft_home_cd(char *pwd)
 	ft_putendl_fd("bash_na_bash: cd: HOME not set", 2);
 	if (pwd)
 		free(pwd);
-	return (1);
+	return (126);
 }
 
 int		ft_cd(t_all *all, t_set *set)

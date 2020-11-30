@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gnl.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvuente <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/30 21:49:26 by mvuente           #+#    #+#             */
+/*   Updated: 2020/11/30 21:49:32 by mvuente          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static	char	*bufrecorder(char *tmp, char buf)
@@ -9,11 +21,9 @@ static	char	*bufrecorder(char *tmp, char buf)
 	length = ft_strlen(old);
 	if (!(tmp = (char*)malloc(sizeof(char) * length + 2)))
 		malloc_error();
-	//printf("memory allocated in BUFRECORDER: %p\n", tmp);
 	ft_bzero(tmp, length + 2);
 	ft_memmove(tmp, old, length);
 	tmp[length] = buf;
-	//printf("allocated memory %p will be freed \n", old);
 	free(old);
 	return (tmp);
 }

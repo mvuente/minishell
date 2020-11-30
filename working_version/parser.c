@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvuente <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/30 21:45:34 by mvuente           #+#    #+#             */
+/*   Updated: 2020/11/30 21:45:38 by mvuente          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	pre_exec(char **line, t_genlist *genlist, t_all *all)
 {
-	int	pipecount;
+	int			pipecount;
 
 	if ((pipecount = pipefinder(genlist)))
-    	ft_pipe(all, genlist, pipecount);
+		ft_pipe(all, genlist, pipecount);
 	else if (**line == 0x0 && *(*line - 1) != 0x3b)
 		executer(genlist, all, 0);
 	return ;
@@ -27,7 +39,7 @@ char	*real_parser(char **line, char *tmp, t_all *all, t_genlist *genlist)
 
 void	reader(char **line, t_all *all)
 {
-    char		*tmp;
+	char		*tmp;
 	t_genlist	*genlist;
 
 	all->ptr_to_free = *line;
@@ -36,7 +48,7 @@ void	reader(char **line, t_all *all)
 	genlist = initial_genlist();
 	tmp = *line;
 	while (*tmp != 0x0)
-	{ 
+	{
 		if (!(tmp = real_parser(line, tmp, all, genlist)))
 		{
 			cleargenlist(genlist);

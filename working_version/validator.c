@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validator.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvuente <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/30 21:35:21 by mvuente           #+#    #+#             */
+/*   Updated: 2020/11/30 21:35:42 by mvuente          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int		no_operand_checker(char **line, char *delimiters)
@@ -31,10 +43,10 @@ int		empty_checker(char *line, char *ptr)
 	return (0);
 }
 
-int    empty_redirect_checker(char *line, char *delimiters)
+int		empty_redirect_checker(char *line, char *delimiters)
 {
 	char	*tmp;
-	
+
 	tmp = line;
 	while (*tmp != 0x0)
 	{
@@ -50,11 +62,11 @@ int    empty_redirect_checker(char *line, char *delimiters)
 	return (0);
 }
 
-int    delim_checker(char *line, char *quotset)
+int		delim_checker(char *line, char *quotset)
 {
 	char	*tmp;
 	char	*tempstring;
-	
+
 	tmp = line;
 	tempstring = line;
 	while (*tmp != 0x0)

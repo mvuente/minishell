@@ -76,6 +76,7 @@ typedef	struct			s_genlist
 }						t_genlist;
 
 int						g_flag;
+int						g_error;
 
 int						minishell(t_all all);
 int						*pipe_init(void);

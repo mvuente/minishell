@@ -1,9 +1,5 @@
 #include "minishell.h"
 
-
-
-
-
 t_dirlist	*dir_record(t_set *set, char *direct, char *operand)
 {
 	t_dirlist	*tmp;

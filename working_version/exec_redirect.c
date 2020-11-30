@@ -56,7 +56,7 @@ void	dir_exec(int *fd, t_dirlist *direct)
 			if ((fd[0] = open(tmp->fname, O_RDWR)) == -1)
 				{
 					fd[0] = 0;
-					write(1, "No such file or directory\n", 26); // нужен ошибка и minishell()
+					write(2, "No such file or directory\n", 26); // нужен ошибка и minishell()
 				}
 			//printf("opened file is %i\n", fd[0]);
 			//dup2(0, fd[0]);

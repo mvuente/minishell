@@ -6,15 +6,21 @@ char	*replace(char **line, char *start, char *finish, char *value)
 	char	*tmpline;
 	char	*newline;
 	
-	//printf("BEFORE *line is %p\n", *line);
+	printf("BEFORE start is %s\n", start);
+	printf("BEFORE start adress is %p\n", start);
+	printf("BEFORE *line adress is %p\n", *line);
 	if (value)
 		delta = ft_strlen(value) - (finish - start);
 	else
 		delta = start - finish;
+	printf("delta is %i\n", (int)delta);
 	if (!(newline = (char*)ft_calloc(ft_strlen(*line) + delta + 1, sizeof(char))))
 		malloc_error();
-	newline = ft_memmove(newline, *line, start + 1 - *line);
+	printf("before I make newline, *line is %s and # of symbols is %i\n", *line, (int)(start + 1 - *line));
+	newline = ft_memmove(newline, *line, start - *line);
 	tmpline = newline + ft_strlen(newline);
+	printf("I've JUST made newline and it is %s\n", newline);
+	printf("I've moved tmpline to and it is %s\n", tmpline);
 	if (value)
 	{
 		tmpline = ft_memmove(tmpline, value, ft_strlen(value));
@@ -25,6 +31,7 @@ char	*replace(char **line, char *start, char *finish, char *value)
 		printf("value adress is %p\n", value);
 		free(value);
 	}
+	printf("BEFORE FINAL tmpline is %s AND finish is %s\n", tmpline, finish);
 	tmpline = ft_memmove(tmpline, finish, ft_strlen(finish) + 1);
 	//printf("tmpline adress is %s\n", tmpline);
 	printf("newline adress is %p\n", newline);
@@ -70,7 +77,7 @@ char	*dollarpars(char **line, char *ptr, t_all *all)
 	{
 		if (!(value = ft_itoa(errno)))
 			malloc_error();
-		ptr--;
+		//ptr--;
 		tmp++;
 		errno = 0;
 		res = (replace(line, ptr, tmp, value));// заменить кусок строки от ptr до tmp на это значение
@@ -86,8 +93,9 @@ char	*dollarpars(char **line, char *ptr, t_all *all)
 			tmp++;
 		var = itemcrtr(&ptr, tmp, 0, *all); //получил имя перменной окружения
 		value = ft_get_value(all->myenv, var);//взять значение переменной
-	//	printf("value with env var is %s\n", value);
-		ptr = ptr - ft_strlen(var) - 1; // вернул указатель на место
+		//printf("PTR before restatemnet is %s\n", ptr);
+		ptr = ptr - ft_strlen(var); // вернул указатель на место
+		//printf("PTR after restatemnet is %s\n", ptr);
 		free(var);
 	}
 	res = (replace(line, ptr, tmp, value));// заменить кусок строки от ptr до tmp на это значение

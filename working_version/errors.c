@@ -45,3 +45,11 @@ int		empt_dir_error(void)
 	"bash: syntax error near unexpected token `newline'", 2);
 	return (1);
 }
+
+char	*open_cq_error(void)
+{
+	errno = 258;
+	ft_putendl_fd(\
+	"bash: syntax error: opened quotation", 2);
+	return (NULL);
+}

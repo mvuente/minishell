@@ -20,7 +20,13 @@ void	reader(char **line, t_all *all)
 	while (*tmp != 0x0)
 	{ 
 		if (ft_strchr(quot, *tmp))
-			tmp = cqpars(line, tmp, *tmp, all);
+		{
+			if (!(tmp = cqpars(line, tmp, *tmp, all)))
+				{
+					cleargenlist(genlist);
+					return ;
+				}
+		}
 		else if (*tmp == 0x24 && *(tmp + 1) != 0x0 && *(tmp + 1) != 0x20 &&
 				*(tmp + 1) != 0x3b && *(tmp + 1) != 0x7c)
 			tmp = dollarpars(line, tmp, all);

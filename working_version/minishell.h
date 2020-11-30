@@ -83,6 +83,7 @@ int						empty_redirect_checker(char *line, char *delimiters);
 int						delim_checker(char *line, char *quotset);
 int						delim_error(char *delim, int flag);
 int						empt_dir_error(void);
+char					*open_cq_error(void);
 void					read_error(void);
 void					malloc_error(void);
 void					command_error(void);

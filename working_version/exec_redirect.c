@@ -24,18 +24,12 @@ void	dir_exec(int *fd, t_dirlist *direct, t_all *all)
 					ft_putstr_fd(": No such file or directory\n", 2);
 					all->fdstat = 1;
 				}
-			//printf("opened file is %i\n", fd[0]);
-			//dup2(0, fd[0]);
 			dup2(fd[0], 0);
-			//printf("crazy %i\n", fd[0]);
-			//read(0, test, 1);
-			//printf("WTF? %s\n", test);
 		}
     	else if (!ft_memcmp(">", tmp->direct, 2))
 			fd[1] = open(tmp->fname, O_RDWR | O_CREAT, S_IRWXU);
     	else
 			fd[1] = open(tmp->fname, O_RDWR | O_CREAT| O_APPEND, S_IRWXU);
-		//printf(" new fd is %i\n", fd[1]);
 		dup2(fd[1], 1);
 		tmp = tmp->next;
 	}

@@ -48,6 +48,8 @@ char	*cqpars(char **line, char *tmp, char symb, t_all *all)
 		}
 		finish++;
 	}
+	if (*finish == 0x0)
+		return (open_cq_error());
 	if (finflag)
 		finish--;
 	return (finish + 1);	

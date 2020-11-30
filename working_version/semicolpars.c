@@ -41,49 +41,14 @@ char	*semicolparser(char **line, t_genlist **genlist, t_all *all)
 	t_genlist	*tmplist;
 	int			pipecount;		
 
-	//printf("or here?\n");
 	tmplist = *genlist;
-	//tmplist->set->consq = 0x3b;
 	while (tmplist->next)
 		tmplist = tmplist->next;
 	tmplist->set->consq = 0x3b;
-	// hereby I need to make a list of comand
 	if ((pipecount = pipefinder(*genlist)))
     	ft_pipe(all, *genlist, pipecount);
 	else
-	{	
-		//printf("last builtin is %s\n", (*genlist)->set->builtin);
 		executer(*genlist, all, 0);
-	}
-	//cleargenlist(*genlist);
-	//printf("I'm here?\n");
 	*genlist = initial_genlist();
 	return (*line += 1);
 }
-
-
-// below is for training
-
-//char	*pipeparser(char **line, char *delim, t_genlist *templist)
-//{
-//	templist->set->consq = *delim;
-	//приделать новый лист
-//	templist->next = initial_genlist();
-//	return (*line += 1);
-//}
-
-//int		pipefinder(t_genlist *genlist)
-//{
-//	t_genlist	*temp;
-//	int			pipecount;
-//
-//	temp = genlist;
-//	pipecount = 0;
-//	while (temp)
-//	{
-//		if (temp->set->consq == 0x7c)
-//			pipecount++;
-//		temp = temp->next;
-//	}
-//	return (pipecount);
-//}

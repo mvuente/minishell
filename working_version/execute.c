@@ -9,25 +9,18 @@ void	echo_executer(t_set *set, t_all *all)
 {
 	int 	descr;
     t_list  *tmp;
-    //int     tmpfd;
 
-    //printf("builtin is %s\n", set->builtin);
-    //printf("word is %s\n", set->word);
-    //printf("descrioptor is %i\n", *(*fd + 1));
     tmp = set->word;
-	//printf("word is %s\n", tmp->word);
     if (tmp)
 	{
 		write(1, tmp->word, ft_strlen(tmp->word));
 		tmp = tmp->next;
-		//write(1, "AA", 2);
 	}
 	while (tmp)
 	{
 		write(1, " ", 1);
 		write(1, tmp->word, ft_strlen(tmp->word));
-		tmp = tmp->next;  // echo 123>file    TO DO!!!
-		
+		tmp = tmp->next;
 	}
     if (!set->spec)
         write(1, "\n", 1);
@@ -43,8 +36,6 @@ void    executer(t_genlist *genlist, t_all *all, int pipe_flag)
     t_genlist   *tmp;
 
     tmp = genlist;
-    //printf("current command is %s\n", tmp->set->builtin);
-    //printf("current argument is %s\n", tmp->set->word->word);
 	if (tmp->set->direct)
 		{
 			dir_exec(pipe_init(), tmp->set->direct, all);

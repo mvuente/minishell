@@ -61,7 +61,12 @@ int		main(int argc, char *argv[], char *env[])
 {
 	t_env	*bufenv;
 	t_all	all;
+	int		i;
+	char	**str;
 
+	bufenv = NULL;
+	i = argc;
+	str = argv;
 	ft_init_all(&all, env, bufenv);
 	minishell(all);
 	return (0);

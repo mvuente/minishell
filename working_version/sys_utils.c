@@ -17,7 +17,9 @@ char	**ft_creat_arr_comanda(char *comanda, t_set *set, char *str)
 	char	*tmp;
 	char	**arr;
 	int		i;
+	t_set	*temp;
 
+	temp = set;
 	i = ft_strlen(comanda);
 	if (str)
 	{
@@ -36,6 +38,7 @@ char	*ft_for_syscall(char *path, int fd, int flag)
 	char	*comanda;
 
 	close(fd);
+	fd = flag;
 	comanda = ft_strdup(path);
 	return (comanda);
 }

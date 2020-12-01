@@ -14,7 +14,7 @@
 
 void		ft_free_arr(char **arr)
 {
-	int			i;
+	size_t		i;
 
 	i = -1;
 	while (arr[++i])
@@ -52,9 +52,7 @@ t_genlist	*initial_genlist(void)
 char		*itemcrtr(char **line, char *finish, int dolflag, t_all all)
 {
 	char		*item;
-	char		*dollar;
 	char		*cqptr;
-	char		*tmp;
 	char		*quotset;
 
 	quotset = "\"\'";

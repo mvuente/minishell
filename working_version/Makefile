@@ -12,17 +12,24 @@
 
 NAME = minishell
 LIBFT = libft.a
+LIBSHELL = libshell.a
 
 SRC =   direct.c errors.c gnl.c biglist_operations.c minishell.c \
 		parser.c process.c record.c token.c utils.c execute.c pwd.c \
 		exec_redirect.c dollar.c hballaba.c environ.c utils2.c \
 		list_operations.c export.c cd.c unset.c env.c exit.c syscall.c \
 		pipepars.c semicolpars.c pipe_exec.c lists.c cqprocessor.c \
-		sys_utils.c validator.c cd_utils.c
+		sys_utils.c validator.c cd_utils.c test.c
 
 SRC_LIB_DIR = libft/
 
 OBJ = $(SRC:.c=.o)
+
+MIN_H = minishell.h
+
+CC = gcc
+
+FLAGS = -Wall -Wextra -Werror 
 
 SHELL_H = minishell.h
 LIB_H = libft.h
@@ -32,22 +39,17 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	make -C $(SRC_LIB_DIR)
 	cp $(SRC_LIB_DIR)$(LIBFT) .
-	mv $(LIBFT) $(NAME)
-	ar rc $(NAME) $(OBJ)
-	ranlib $(NAME) 
+	$(CC) $(FLAGS) $(OBJ) -L. $(LIBFT) -o $(NAME)
 
-%.o: %.c  $(SHELL_H) $(LIB_H)
-	gcc -Wall -Wextra -Werror -c $< -o $@ -I .
-
+%.o: %.c  $(MIN_H)
+	$(CC) $(FLAGS) -c $< -o $@ -I $(MIN_H)
+ 
 clean:
-	rm -f $(OBJ)
-	@make -C $(SRC_LIB_DIR) clean
+	rm -f $(OBJ) 
 
 fclean: clean
-	rm -f $(NAME) bash
+	rm -f $(NAME)
+	rm -f $(LIBFT)
 	@make -C $(SRC_LIB_DIR) fclean
 
 re: fclean all
-
-bash: all
-	gcc test.c minishell -o bash

@@ -21,9 +21,8 @@ void	ft_no_valid_word_unset(char *word)
 
 int		ft_delete_env(char *str, t_env *bufenv, int flag)
 {
-	int		i;
+	size_t	i;
 	t_env	*tmp;
-	void	*ptr;
 
 	i = ft_strlen(str);
 	while (bufenv)

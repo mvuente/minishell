@@ -12,16 +12,12 @@
 
 #include "minishell.h"
 
-void		ft_exe_function(t_genlist *pipes, t_all *all, int *fd)
-{
-	ft_syscall(all, pipes->set, all->myenv);
-}
-
 void		echo_executer(t_set *set, t_all *all)
 {
 	int			descr;
 	t_list		*tmp;
 
+	descr = 0;
 	tmp = set->word;
 	if (tmp)
 	{

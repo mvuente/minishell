@@ -16,7 +16,7 @@ void	ft_add_env(char *str, t_env *bufenv)
 {
 	t_env	*tmp;
 	int		flag;
-	int		i;
+	size_t	i;
 	char	*name;
 
 	flag = 0;
@@ -48,7 +48,7 @@ void	ft_write_export(t_env *bufenv, int fd, int num)
 	char	**arr;
 
 	arr = ft_creat_arr_export(bufenv, num);
-	ft_sort(bufenv, arr, num - 1);
+	ft_sort(arr, num - 1);
 	i = -1;
 	while (arr[++i])
 	{

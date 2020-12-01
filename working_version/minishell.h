@@ -105,9 +105,9 @@ void					ft_init_all(t_all *all, char **env, t_env *bufenv);
 void					ft_creat_env(char *env[], t_env	**bufenv);
 void					ft_lstadd_back_env(t_env **lst, t_env *new);
 void					ft_change_data(t_env *tmp, int flag, char *str);
-void					ft_sort(t_env *bufenv, char **arr, int num);
+void					ft_sort(char **arr, int num);
 void					ft_change_oldpwd(t_env *myenv, char *pwd, \
-						char *oldpwd, char *path);
+						char *oldpwd);
 int						env_executer(t_set *set, t_all *all);
 int						unset_executer(t_set *set, t_all *all);
 int						ft_exit(t_all *all, t_set *set);
@@ -155,7 +155,6 @@ char					*ft_check_syscall(t_env *bufenv, t_set *set, int fd, \
 char					*ft_for_syscall(char *path, int fd, int flag);
 char					**ft_creat_arr_comanda(char *comanda, t_set *set, \
 						char *str);
-void					ft_change_oldpwd(t_env *myenv, char *pwd, char *tmp, \
-						char *path);
+void					ft_change_oldpwd(t_env *myenv, char *pwd, char *tmp);
 
 #endif

@@ -57,7 +57,6 @@ int		ft_work_pipe(t_all *all, t_genlist *pipes, int size, int pipefd[2])
 int		ft_pipe(t_all *all, t_genlist *pipes, int size)
 {
 	int		pipefd[2];
-	pid_t	cpid;
 
 	size--;
 	while (size >= 0)

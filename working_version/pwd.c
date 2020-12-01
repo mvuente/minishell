@@ -17,6 +17,7 @@ void	ft_pwd(t_all *all)
 	char	dir[500];
 	int		descr;
 
+	descr = 0;
 	getcwd(dir, 500);
 	ft_putendl_fd(dir, 1);
 	dup2(1, descr);

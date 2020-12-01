@@ -20,7 +20,6 @@ char	*textpars(char **line, char *tmp, t_set *set, t_all all)
 
 char	*tokencrtr(char **line, char *delim, t_genlist **genlist, t_all *all)
 {
-	char		*tmp;
 	t_genlist	*templist;
 
 	templist = *genlist;

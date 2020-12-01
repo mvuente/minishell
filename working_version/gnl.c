@@ -34,6 +34,7 @@ size_t			gnl(int fd, char **line)
 	char	buf[1];
 	char	*tmp;
 
+	fd = 0;
 	if (!(tmp = (char*)malloc(sizeof(char))))
 		malloc_error();
 	*tmp = '\0';

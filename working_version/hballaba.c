@@ -40,7 +40,7 @@ void	ft_creat_env(char *env[], t_env **bufenv)
 	return ;
 }
 
-void	ft_sort(t_env *bufenv, char **arr, int num)
+void	ft_sort(char **arr, int num)
 {
 	int		i;
 	int		j;

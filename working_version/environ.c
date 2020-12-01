@@ -16,11 +16,11 @@ char	*ft_get_value(t_env *myenv, char *name)
 {
 	int		i;
 
-	i = ft_strlen(name);
+	i = (int)ft_strlen(name);
 	while (myenv)
 	{
 		if (!ft_memcmp(myenv->name, name, i + 1) && \
-		i == ft_strlen(myenv->name))
+		i == (int)ft_strlen(myenv->name))
 		{
 			return (myenv->data);
 		}

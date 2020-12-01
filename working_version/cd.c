@@ -74,6 +74,6 @@ int		ft_cd(t_all *all, t_set *set)
 		return (1);
 	}
 	else
-		ft_change_oldpwd(all->myenv, pwd, NULL, path);
+		ft_change_oldpwd(all->myenv, pwd, NULL);
 	return (0);
 }

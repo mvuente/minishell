@@ -32,7 +32,7 @@ void	ft_add_oldpwd(char *pwd, t_env *myenv)
 	free(pwd);
 }
 
-void	ft_change_oldpwd(t_env *myenv, char *pwd, char *tmp, char *path)
+void	ft_change_oldpwd(t_env *myenv, char *pwd, char *tmp)
 {
 	t_env *tmpenv;
 

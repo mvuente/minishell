@@ -133,8 +133,8 @@ char					*ft_get_value(t_env *myenv, char *var);
 char					*dollarpars(char **line, char *ptr, t_all *all);
 char					*pipeparser(char **line, char *delim, \
 						t_genlist *templist);
-char					*semicolparser(char **line, t_genlist **genlist, \
-						t_all *all);
+char					*semicolparser(char **line, char *delimeter, \
+						t_genlist **genlist, t_all *all);
 char					*cqprocessor(char *item, char **cqptr, int dolflag, \
 						t_all all);
 char					*cqpars(char **line, char *tmp, char symb, t_all *all);

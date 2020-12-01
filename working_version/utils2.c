@@ -33,8 +33,8 @@ void	ft_free_set(t_set *set)
 	{
 		todie = tmp;
 		free(tmp->word);
-		free(todie);
 		tmp = tmp->next;
+		free(todie);
 	}
 	dirtmp = set->direct;
 	while (dirtmp)

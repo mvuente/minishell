@@ -83,7 +83,5 @@ void		executer(t_genlist *genlist, t_all *all, int pipe_flag)
 	if (!pipe_flag)
 		dup2(all->fd_0, 0);
 	dup2(all->fd_1, 1);
-	if (genlist->set->consq == 0x3b)
-		cleargenlist(genlist);
 	return ;
 }

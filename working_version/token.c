@@ -31,7 +31,7 @@ char	*tokencrtr(char **line, char *delim, t_genlist **genlist, t_all *all)
 	else if (*delim == 0x7c)
 		return (pipeparser(line, delim, templist));
 	else if (*delim == 0x3b)
-		return (semicolparser(line, genlist, all));
+		return (semicolparser(line, delim, genlist, all));
 	else if (*delim == 0x3c || *delim == 0x3e)
 		return (dirpars(line, delim, templist->set, all));
 	else if (*delim == 0x20)

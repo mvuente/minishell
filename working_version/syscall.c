@@ -22,7 +22,8 @@ char	*ft_add_str(t_list *word)
 	tmp = word;
 	if (tmp->word)
 	{
-		str = ft_strdup(word->word);
+		if (!(str = ft_strdup(word->word)))
+			malloc_error();
 		tmp = tmp->next;
 	}
 	while (tmp)

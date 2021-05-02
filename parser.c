@@ -1,57 +1,62 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvuente <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/30 21:45:34 by mvuente           #+#    #+#             */
+/*   Updated: 2020/11/30 21:45:38 by mvuente          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-char	*backpars(char *tmp)
+void	pre_exec(char **line, t_genlist *genlist, t_all *all)
 {
-	if (*(tmp + 1) == 0x0)
-		command_error();
-	return (ft_memmove(tmp, tmp + 1, ft_strlen(tmp + 1) + 1) + 1);
+	int			pipecount;
+
+	if ((pipecount = pipefinder(genlist)))
+		ft_pipe(all, genlist, pipecount);
+	else if (**line == 0x0 && *(*line - 1) != 0x3b)
+		executer(genlist, all, 0);
+	return ;
 }
 
-char	*cqpars(char *tmp, char symb)
+char	*real_parser(char **line, char *tmp, t_all *all, t_genlist **genlist)
 {
-	char	*finish;
-
-	finish = tmp;
-	while (*finish != symb || *finish != 0x0)
-		finish++;
-	if (*finish == 0x0)
-		command_error();
-	finish = ft_memmove(finish, finish + 1, ft_strlen(finish + 1) + 1);
-	tmp = (ft_memmove(tmp, tmp + 1, ft_strlen(tmp + 1) + 1));
-	return (finish);	
+	if (ft_strchr(all->quot, *tmp))
+		tmp = cqpars(line, tmp, *tmp, all);
+	else if (*tmp == 0x24 && *(tmp + 1) != 0x0 && *(tmp + 1) != 0x20 &&
+		*(tmp + 1) != 0x3b && *(tmp + 1) != 0x7c)
+		tmp = dollarpars(line, tmp, all);
+	else if (ft_strchr(all->delimiters, *tmp))
+		tmp = tokencrtr(line, tmp, genlist, all);
+	else
+		tmp++;
+	return (tmp);
 }
 
-char	*textpars(char **line, char *tmp)
+void	reader(char **line, t_all *all)
 {
-	char	*item;
+	char		*tmp;
+	t_genlist	*genlist;
 
-	if (!(item = ft_calloc(tmp - *line + 2, sizeof(char))))
-		malloc_error;
-	item = ft_memmove(item, *line, tmp - *line + 1);
-	*line = tmp;
-	return (item);
-}
-
-t_set	**parser(char *line)
-{
-    char	*tmp;
-	char	*item;
-	char	cqflag;
-
-	tmp = line;
-	cqflag = 0x0;
-	while (*tmp != 0x3c && *tmp != 0x3e && *tmp != 0x3b && *tmp != 0x7c &&
-		*tmp != 0x20)
+	all->ptr_to_free = *line;
+	if (validator(*line, all))
+		return ;
+	genlist = initial_genlist();
+	tmp = *line;
+	while (*tmp != 0x0)
 	{
-		if (*tmp == 0x5c)
-			tmp = backpars(tmp);
-		else if ((*tmp == 0x22 || *tmp == 0x27) && !cqflag)
+		if (!(tmp = real_parser(line, tmp, all, &genlist)))
 		{
-			cqflag = 0x1;
-			tmp = cqpars(tmp, *tmp);
+			cleargenlist(genlist);
+			return ;
 		}
-		else
-			tmp++;
 	}
-	item = textpars(&line, tmp);
+	tokencrtr(line, tmp, &genlist, all);
+	pre_exec(line, genlist, all);
+	cleargenlist(genlist);
+	return ;
 }

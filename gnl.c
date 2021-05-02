@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gnl.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvuente <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/30 21:49:26 by mvuente           #+#    #+#             */
+/*   Updated: 2020/11/30 21:49:32 by mvuente          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static	char	*bufrecorder(char *tmp, char buf)
@@ -22,10 +34,12 @@ size_t			gnl(int fd, char **line)
 	char	buf[1];
 	char	*tmp;
 
+	fd = 0;
 	if (!(tmp = (char*)malloc(sizeof(char))))
 		malloc_error();
 	*tmp = '\0';
 	*line = tmp;
+	write(1, "bash_na_bash! ", 14);
 	while ((ret = read(0, buf, 1) > 0))
 	{
 		if (buf[0] != '\n')
